@@ -1,0 +1,2102 @@
+store filePath: /Users/liushizhe/Downloads/store/CRIMES.binary_file
+file: 'CRIMES.binary_file' exists in disk, we clear the file content.
+Create schema successfully.
+Create 'FAST' index successfully.
+filter cost: 27.792ms
+scan cost: 0.001ms
+bucket sizes: [ 0 0 0 ]
+join cost: 1.220ms
+number of tuples: 0
+1-th query start...
+filter cost: 7.052ms
+scan cost: 0.001ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.062ms
+number of tuples: 0
+1-th query pattern time cost: 8.03ms
+2-th query start...
+filter cost: 28.911ms
+scan cost: 176.560ms
+bucket sizes: [ 5307 13339 3646 ]
+join cost: 15.979ms
+number of tuples: 13671
+2-th query pattern time cost: 222.65ms
+3-th query start...
+filter cost: 4.119ms
+scan cost: 0.001ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.044ms
+number of tuples: 0
+3-th query pattern time cost: 5.18ms
+4-th query start...
+filter cost: 7.115ms
+scan cost: 19.391ms
+bucket sizes: [ 1290 173 296 ]
+join cost: 0.375ms
+number of tuples: 95
+4-th query pattern time cost: 27.87ms
+5-th query start...
+filter cost: 22.572ms
+scan cost: 251.966ms
+bucket sizes: [ 9425 30140 7208 ]
+join cost: 26.113ms
+number of tuples: 48805
+5-th query pattern time cost: 302.07ms
+6-th query start...
+filter cost: 4.601ms
+scan cost: 0.009ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.038ms
+number of tuples: 0
+6-th query pattern time cost: 5.38ms
+7-th query start...
+filter cost: 4.078ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.046ms
+number of tuples: 0
+7-th query pattern time cost: 4.62ms
+8-th query start...
+filter cost: 7.292ms
+scan cost: 10.100ms
+bucket sizes: [ 476 147 152 ]
+join cost: 0.324ms
+number of tuples: 103
+8-th query pattern time cost: 18.26ms
+9-th query start...
+filter cost: 4.115ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.037ms
+number of tuples: 0
+9-th query pattern time cost: 4.64ms
+10-th query start...
+filter cost: 6.762ms
+scan cost: 18.063ms
+bucket sizes: [ 1031 303 265 ]
+join cost: 0.423ms
+number of tuples: 169
+10-th query pattern time cost: 25.69ms
+11-th query start...
+filter cost: 8.567ms
+scan cost: 50.772ms
+bucket sizes: [ 2589 1319 1207 ]
+join cost: 1.226ms
+number of tuples: 1035
+11-th query pattern time cost: 61.05ms
+12-th query start...
+filter cost: 3.833ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.034ms
+number of tuples: 0
+12-th query pattern time cost: 4.23ms
+13-th query start...
+filter cost: 6.587ms
+scan cost: 21.124ms
+bucket sizes: [ 1159 573 379 ]
+join cost: 0.559ms
+number of tuples: 370
+13-th query pattern time cost: 28.54ms
+14-th query start...
+filter cost: 9.103ms
+scan cost: 88.583ms
+bucket sizes: [ 2867 5735 2424 ]
+join cost: 2.857ms
+number of tuples: 6215
+14-th query pattern time cost: 101.01ms
+15-th query start...
+filter cost: 3.727ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.033ms
+number of tuples: 0
+15-th query pattern time cost: 4.03ms
+16-th query start...
+filter cost: 3.401ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.048ms
+number of tuples: 0
+16-th query pattern time cost: 3.72ms
+17-th query start...
+filter cost: 3.344ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.033ms
+number of tuples: 0
+17-th query pattern time cost: 3.63ms
+18-th query start...
+filter cost: 3.431ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.033ms
+number of tuples: 0
+18-th query pattern time cost: 3.76ms
+19-th query start...
+filter cost: 3.424ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.031ms
+number of tuples: 0
+19-th query pattern time cost: 3.71ms
+20-th query start...
+filter cost: 3.255ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.030ms
+number of tuples: 0
+20-th query pattern time cost: 3.52ms
+21-th query start...
+filter cost: 8.902ms
+scan cost: 57.643ms
+bucket sizes: [ 1973 3172 1784 ]
+join cost: 1.114ms
+number of tuples: 3144
+21-th query pattern time cost: 68.08ms
+22-th query start...
+filter cost: 3.311ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.032ms
+number of tuples: 0
+22-th query pattern time cost: 3.60ms
+23-th query start...
+filter cost: 13.729ms
+scan cost: 224.664ms
+bucket sizes: [ 6935 21814 9693 ]
+join cost: 17.692ms
+number of tuples: 55615
+23-th query pattern time cost: 256.57ms
+24-th query start...
+filter cost: 7.408ms
+scan cost: 42.350ms
+bucket sizes: [ 1990 1099 927 ]
+join cost: 0.519ms
+number of tuples: 806
+24-th query pattern time cost: 50.55ms
+25-th query start...
+filter cost: 3.378ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.032ms
+number of tuples: 0
+25-th query pattern time cost: 3.62ms
+26-th query start...
+filter cost: 7.018ms
+scan cost: 38.480ms
+bucket sizes: [ 2237 987 821 ]
+join cost: 0.418ms
+number of tuples: 715
+26-th query pattern time cost: 46.16ms
+27-th query start...
+filter cost: 3.267ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.036ms
+number of tuples: 0
+27-th query pattern time cost: 3.58ms
+28-th query start...
+filter cost: 21.277ms
+scan cost: 382.771ms
+bucket sizes: [ 18500 69090 23936 ]
+join cost: 61.271ms
+number of tuples: 592567
+28-th query pattern time cost: 465.73ms
+29-th query start...
+filter cost: 34.866ms
+scan cost: 47.300ms
+bucket sizes: [ 850 2948 1808 ]
+join cost: 0.600ms
+number of tuples: 2214
+29-th query pattern time cost: 83.02ms
+30-th query start...
+filter cost: 3.511ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.027ms
+number of tuples: 0
+30-th query pattern time cost: 3.72ms
+31-th query start...
+filter cost: 12.134ms
+scan cost: 207.772ms
+bucket sizes: [ 6650 22422 5119 ]
+join cost: 5.621ms
+number of tuples: 28312
+31-th query pattern time cost: 225.87ms
+32-th query start...
+filter cost: 3.526ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+32-th query pattern time cost: 3.72ms
+33-th query start...
+filter cost: 8.497ms
+scan cost: 141.279ms
+bucket sizes: [ 4678 13152 4230 ]
+join cost: 14.983ms
+number of tuples: 23354
+33-th query pattern time cost: 165.01ms
+34-th query start...
+filter cost: 4.867ms
+scan cost: 0.317ms
+bucket sizes: [ 19 0 0 ]
+join cost: 0.043ms
+number of tuples: 0
+34-th query pattern time cost: 5.42ms
+35-th query start...
+filter cost: 3.729ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+35-th query pattern time cost: 3.98ms
+36-th query start...
+filter cost: 3.547ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.024ms
+number of tuples: 0
+36-th query pattern time cost: 3.77ms
+37-th query start...
+filter cost: 3.431ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.025ms
+number of tuples: 0
+37-th query pattern time cost: 3.66ms
+38-th query start...
+filter cost: 12.444ms
+scan cost: 175.518ms
+bucket sizes: [ 5428 14337 7006 ]
+join cost: 5.712ms
+number of tuples: 28940
+38-th query pattern time cost: 194.02ms
+39-th query start...
+filter cost: 16.829ms
+scan cost: 271.822ms
+bucket sizes: [ 7239 36620 9122 ]
+join cost: 10.174ms
+number of tuples: 67574
+39-th query pattern time cost: 299.15ms
+40-th query start...
+filter cost: 17.799ms
+scan cost: 345.370ms
+bucket sizes: [ 12539 63686 13197 ]
+join cost: 33.630ms
+number of tuples: 227065
+40-th query pattern time cost: 397.15ms
+41-th query start...
+filter cost: 8.931ms
+scan cost: 61.512ms
+bucket sizes: [ 2318 2584 1831 ]
+join cost: 1.127ms
+number of tuples: 2496
+41-th query pattern time cost: 71.82ms
+42-th query start...
+filter cost: 11.582ms
+scan cost: 189.153ms
+bucket sizes: [ 4549 17874 6571 ]
+join cost: 4.246ms
+number of tuples: 22323
+42-th query pattern time cost: 205.25ms
+43-th query start...
+filter cost: 11.919ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.037ms
+number of tuples: 0
+43-th query pattern time cost: 12.20ms
+44-th query start...
+filter cost: 3.609ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.030ms
+number of tuples: 0
+44-th query pattern time cost: 3.82ms
+45-th query start...
+filter cost: 3.548ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.028ms
+number of tuples: 0
+45-th query pattern time cost: 3.79ms
+46-th query start...
+filter cost: 8.035ms
+scan cost: 37.719ms
+bucket sizes: [ 1914 1261 801 ]
+join cost: 0.522ms
+number of tuples: 927
+46-th query pattern time cost: 46.54ms
+47-th query start...
+filter cost: 3.429ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+47-th query pattern time cost: 3.68ms
+48-th query start...
+filter cost: 3.122ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.024ms
+number of tuples: 0
+48-th query pattern time cost: 3.36ms
+49-th query start...
+filter cost: 3.071ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+49-th query pattern time cost: 3.27ms
+50-th query start...
+filter cost: 10.356ms
+scan cost: 85.307ms
+bucket sizes: [ 2680 5633 2800 ]
+join cost: 1.675ms
+number of tuples: 7554
+50-th query pattern time cost: 97.60ms
+51-th query start...
+filter cost: 3.270ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.024ms
+number of tuples: 0
+51-th query pattern time cost: 3.46ms
+52-th query start...
+filter cost: 17.891ms
+scan cost: 346.193ms
+bucket sizes: [ 12539 63686 13197 ]
+join cost: 34.660ms
+number of tuples: 227065
+52-th query pattern time cost: 399.13ms
+53-th query start...
+filter cost: 7.826ms
+scan cost: 46.262ms
+bucket sizes: [ 2589 1319 1207 ]
+join cost: 0.535ms
+number of tuples: 1035
+53-th query pattern time cost: 54.84ms
+54-th query start...
+filter cost: 15.704ms
+scan cost: 140.993ms
+bucket sizes: [ 4678 13152 4230 ]
+join cost: 4.083ms
+number of tuples: 23354
+54-th query pattern time cost: 161.03ms
+55-th query start...
+filter cost: 13.373ms
+scan cost: 270.027ms
+bucket sizes: [ 9521 31026 7824 ]
+join cost: 8.076ms
+number of tuples: 50002
+55-th query pattern time cost: 291.76ms
+56-th query start...
+filter cost: 3.528ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+56-th query pattern time cost: 3.79ms
+57-th query start...
+filter cost: 10.772ms
+scan cost: 86.729ms
+bucket sizes: [ 3684 3753 2801 ]
+join cost: 1.482ms
+number of tuples: 4170
+57-th query pattern time cost: 99.22ms
+58-th query start...
+filter cost: 8.240ms
+scan cost: 129.123ms
+bucket sizes: [ 4157 11519 3719 ]
+join cost: 3.274ms
+number of tuples: 18332
+58-th query pattern time cost: 140.83ms
+59-th query start...
+filter cost: 3.269ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+59-th query pattern time cost: 3.48ms
+60-th query start...
+filter cost: 6.374ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+60-th query pattern time cost: 6.57ms
+61-th query start...
+filter cost: 11.963ms
+scan cost: 172.040ms
+bucket sizes: [ 6468 14422 6689 ]
+join cost: 4.923ms
+number of tuples: 24712
+61-th query pattern time cost: 189.25ms
+62-th query start...
+filter cost: 10.512ms
+scan cost: 86.443ms
+bucket sizes: [ 2680 5633 2800 ]
+join cost: 1.697ms
+number of tuples: 7554
+62-th query pattern time cost: 98.87ms
+63-th query start...
+filter cost: 10.638ms
+scan cost: 159.024ms
+bucket sizes: [ 4957 12179 6048 ]
+join cost: 4.061ms
+number of tuples: 21257
+63-th query pattern time cost: 173.91ms
+64-th query start...
+filter cost: 6.797ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.019ms
+number of tuples: 0
+64-th query pattern time cost: 7.06ms
+65-th query start...
+filter cost: 11.757ms
+scan cost: 182.162ms
+bucket sizes: [ 5977 15486 4922 ]
+join cost: 3.970ms
+number of tuples: 19302
+65-th query pattern time cost: 198.23ms
+66-th query start...
+filter cost: 3.381ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.026ms
+number of tuples: 0
+66-th query pattern time cost: 3.62ms
+67-th query start...
+filter cost: 3.117ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+67-th query pattern time cost: 3.31ms
+68-th query start...
+filter cost: 13.803ms
+scan cost: 155.044ms
+bucket sizes: [ 5307 13339 3646 ]
+join cost: 2.888ms
+number of tuples: 13671
+68-th query pattern time cost: 172.00ms
+69-th query start...
+filter cost: 11.452ms
+scan cost: 185.898ms
+bucket sizes: [ 3909 20182 6042 ]
+join cost: 8.672ms
+number of tuples: 25945
+69-th query pattern time cost: 206.30ms
+70-th query start...
+filter cost: 3.689ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.027ms
+number of tuples: 0
+70-th query pattern time cost: 3.89ms
+71-th query start...
+filter cost: 13.269ms
+scan cost: 207.127ms
+bucket sizes: [ 6379 19115 8894 ]
+join cost: 11.011ms
+number of tuples: 46899
+71-th query pattern time cost: 231.68ms
+72-th query start...
+filter cost: 12.334ms
+scan cost: 188.095ms
+bucket sizes: [ 6946 17096 4771 ]
+join cost: 4.320ms
+number of tuples: 22273
+72-th query pattern time cost: 205.01ms
+73-th query start...
+filter cost: 15.838ms
+scan cost: 185.834ms
+bucket sizes: [ 3909 20182 6042 ]
+join cost: 4.251ms
+number of tuples: 25945
+73-th query pattern time cost: 206.16ms
+74-th query start...
+filter cost: 3.366ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+74-th query pattern time cost: 3.56ms
+75-th query start...
+filter cost: 3.764ms
+scan cost: 0.246ms
+bucket sizes: [ 15 3 0 ]
+join cost: 0.020ms
+number of tuples: 0
+75-th query pattern time cost: 4.23ms
+76-th query start...
+filter cost: 11.765ms
+scan cost: 88.006ms
+bucket sizes: [ 3453 5147 1942 ]
+join cost: 1.109ms
+number of tuples: 4038
+76-th query pattern time cost: 101.12ms
+77-th query start...
+filter cost: 5.564ms
+scan cost: 29.728ms
+bucket sizes: [ 1437 1208 587 ]
+join cost: 0.377ms
+number of tuples: 945
+77-th query pattern time cost: 35.82ms
+78-th query start...
+filter cost: 3.122ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+78-th query pattern time cost: 3.26ms
+79-th query start...
+filter cost: 6.243ms
+scan cost: 48.051ms
+bucket sizes: [ 1988 2429 1076 ]
+join cost: 0.662ms
+number of tuples: 1943
+79-th query pattern time cost: 55.14ms
+80-th query start...
+filter cost: 14.016ms
+scan cost: 139.538ms
+bucket sizes: [ 4617 10348 4628 ]
+join cost: 3.107ms
+number of tuples: 14850
+80-th query pattern time cost: 156.92ms
+81-th query start...
+filter cost: 3.326ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.015ms
+number of tuples: 0
+81-th query pattern time cost: 3.48ms
+82-th query start...
+filter cost: 3.106ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.015ms
+number of tuples: 0
+82-th query pattern time cost: 3.28ms
+83-th query start...
+filter cost: 13.091ms
+scan cost: 183.301ms
+bucket sizes: [ 6130 18183 4072 ]
+join cost: 3.800ms
+number of tuples: 20187
+83-th query pattern time cost: 200.41ms
+84-th query start...
+filter cost: 6.164ms
+scan cost: 37.546ms
+bucket sizes: [ 1758 1708 816 ]
+join cost: 0.486ms
+number of tuples: 1262
+84-th query pattern time cost: 44.35ms
+85-th query start...
+filter cost: 3.198ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.014ms
+number of tuples: 0
+85-th query pattern time cost: 3.35ms
+86-th query start...
+filter cost: 16.851ms
+scan cost: 250.139ms
+bucket sizes: [ 8795 28702 6822 ]
+join cost: 7.330ms
+number of tuples: 45097
+86-th query pattern time cost: 274.61ms
+87-th query start...
+filter cost: 3.410ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.016ms
+number of tuples: 0
+87-th query pattern time cost: 3.57ms
+88-th query start...
+filter cost: 15.368ms
+scan cost: 175.211ms
+bucket sizes: [ 6468 14422 6689 ]
+join cost: 4.925ms
+number of tuples: 24712
+88-th query pattern time cost: 195.78ms
+89-th query start...
+filter cost: 14.067ms
+scan cost: 282.419ms
+bucket sizes: [ 7239 36620 9122 ]
+join cost: 8.339ms
+number of tuples: 67574
+89-th query pattern time cost: 305.08ms
+90-th query start...
+filter cost: 3.368ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.017ms
+number of tuples: 0
+90-th query pattern time cost: 3.54ms
+91-th query start...
+filter cost: 10.931ms
+scan cost: 165.764ms
+bucket sizes: [ 6375 13909 5076 ]
+join cost: 3.556ms
+number of tuples: 19047
+91-th query pattern time cost: 180.45ms
+92-th query start...
+filter cost: 16.956ms
+scan cost: 344.636ms
+bucket sizes: [ 11283 54234 12751 ]
+join cost: 17.653ms
+number of tuples: 160691
+92-th query pattern time cost: 379.52ms
+93-th query start...
+filter cost: 17.673ms
+scan cost: 333.924ms
+bucket sizes: [ 12632 58540 10820 ]
+join cost: 23.643ms
+number of tuples: 145542
+93-th query pattern time cost: 375.51ms
+94-th query start...
+filter cost: 3.566ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.017ms
+number of tuples: 0
+94-th query pattern time cost: 3.75ms
+95-th query start...
+filter cost: 4.279ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+95-th query pattern time cost: 4.47ms
+96-th query start...
+filter cost: 3.308ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.017ms
+number of tuples: 0
+96-th query pattern time cost: 3.55ms
+97-th query start...
+filter cost: 5.260ms
+scan cost: 12.871ms
+bucket sizes: [ 922 111 131 ]
+join cost: 0.088ms
+number of tuples: 72
+97-th query pattern time cost: 18.39ms
+98-th query start...
+filter cost: 3.305ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.016ms
+number of tuples: 0
+98-th query pattern time cost: 3.46ms
+99-th query start...
+filter cost: 15.378ms
+scan cost: 241.631ms
+bucket sizes: [ 8874 27855 10977 ]
+join cost: 10.785ms
+number of tuples: 74677
+99-th query pattern time cost: 268.07ms
+100-th query start...
+filter cost: 23.782ms
+scan cost: 268.867ms
+bucket sizes: [ 8960 31865 9397 ]
+join cost: 16.316ms
+number of tuples: 77100
+100-th query pattern time cost: 309.22ms
+101-th query start...
+filter cost: 24.023ms
+scan cost: 404.508ms
+bucket sizes: [ 17706 100544 23199 ]
+join cost: 98.806ms
+number of tuples: 681197
+101-th query pattern time cost: 527.72ms
+102-th query start...
+filter cost: 37.479ms
+scan cost: 528.760ms
+bucket sizes: [ 34604 157094 42180 ]
+join cost: 404.149ms
+number of tuples: 3219759
+102-th query pattern time cost: 970.73ms
+103-th query start...
+filter cost: 30.930ms
+scan cost: 436.443ms
+bucket sizes: [ 35357 170856 36870 ]
+join cost: 400.899ms
+number of tuples: 3152452
+103-th query pattern time cost: 868.66ms
+104-th query start...
+filter cost: 23.780ms
+scan cost: 435.786ms
+bucket sizes: [ 33684 156766 50012 ]
+join cost: 501.819ms
+number of tuples: 4291713
+104-th query pattern time cost: 961.69ms
+105-th query start...
+filter cost: 0.531ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.015ms
+number of tuples: 0
+105-th query pattern time cost: 0.63ms
+106-th query start...
+filter cost: 29.519ms
+scan cost: 420.813ms
+bucket sizes: [ 25445 112249 28964 ]
+join cost: 293.907ms
+number of tuples: 1381582
+106-th query pattern time cost: 744.57ms
+107-th query start...
+filter cost: 0.294ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.019ms
+number of tuples: 0
+107-th query pattern time cost: 0.42ms
+108-th query start...
+filter cost: 24.569ms
+scan cost: 442.132ms
+bucket sizes: [ 41103 201481 42384 ]
+join cost: 769.882ms
+number of tuples: 5529456
+108-th query pattern time cost: 1237.03ms
+109-th query start...
+filter cost: 0.456ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.015ms
+number of tuples: 0
+109-th query pattern time cost: 0.56ms
+110-th query start...
+filter cost: 0.165ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.016ms
+number of tuples: 0
+110-th query pattern time cost: 0.26ms
+111-th query start...
+filter cost: 18.312ms
+scan cost: 305.985ms
+bucket sizes: [ 8960 31866 9397 ]
+join cost: 10.683ms
+number of tuples: 77104
+111-th query pattern time cost: 335.22ms
+112-th query start...
+filter cost: 19.357ms
+scan cost: 438.052ms
+bucket sizes: [ 10916 56971 21672 ]
+join cost: 38.751ms
+number of tuples: 319735
+112-th query pattern time cost: 496.50ms
+113-th query start...
+filter cost: 42.377ms
+scan cost: 269.346ms
+bucket sizes: [ 8960 31865 9397 ]
+join cost: 10.685ms
+number of tuples: 77100
+113-th query pattern time cost: 322.64ms
+114-th query start...
+filter cost: 8.497ms
+scan cost: 110.817ms
+bucket sizes: [ 3927 7928 2628 ]
+join cost: 1.788ms
+number of tuples: 7355
+114-th query pattern time cost: 121.26ms
+115-th query start...
+filter cost: 16.153ms
+scan cost: 338.296ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 57.104ms
+number of tuples: 248502
+115-th query pattern time cost: 411.96ms
+116-th query start...
+filter cost: 29.715ms
+scan cost: 405.511ms
+bucket sizes: [ 17706 100544 23199 ]
+join cost: 70.805ms
+number of tuples: 681197
+116-th query pattern time cost: 506.34ms
+117-th query start...
+filter cost: 23.896ms
+scan cost: 417.186ms
+bucket sizes: [ 25445 112249 28964 ]
+join cost: 126.995ms
+number of tuples: 1381582
+117-th query pattern time cost: 568.32ms
+118-th query start...
+filter cost: 147.886ms
+scan cost: 430.181ms
+bucket sizes: [ 27467 141486 36742 ]
+join cost: 265.503ms
+number of tuples: 2235120
+118-th query pattern time cost: 843.89ms
+119-th query start...
+filter cost: 21.528ms
+scan cost: 380.268ms
+bucket sizes: [ 16932 70083 25819 ]
+join cost: 156.596ms
+number of tuples: 622354
+119-th query pattern time cost: 558.66ms
+120-th query start...
+filter cost: 54.068ms
+scan cost: 433.443ms
+bucket sizes: [ 34715 167582 39046 ]
+join cost: 298.553ms
+number of tuples: 3462757
+120-th query pattern time cost: 786.35ms
+121-th query start...
+filter cost: 12.792ms
+scan cost: 425.931ms
+bucket sizes: [ 8960 31865 9397 ]
+join cost: 10.315ms
+number of tuples: 77100
+121-th query pattern time cost: 449.28ms
+122-th query start...
+filter cost: 24.530ms
+scan cost: 420.386ms
+bucket sizes: [ 25943 113985 36379 ]
+join cost: 167.835ms
+number of tuples: 1878540
+122-th query pattern time cost: 612.99ms
+123-th query start...
+filter cost: 11.636ms
+scan cost: 376.912ms
+bucket sizes: [ 9011 26909 6798 ]
+join cost: 7.137ms
+number of tuples: 44724
+123-th query pattern time cost: 395.91ms
+124-th query start...
+filter cost: 18.806ms
+scan cost: 376.705ms
+bucket sizes: [ 16932 70083 25819 ]
+join cost: 99.792ms
+number of tuples: 622354
+124-th query pattern time cost: 495.55ms
+125-th query start...
+filter cost: 12.749ms
+scan cost: 262.394ms
+bucket sizes: [ 9011 26909 6798 ]
+join cost: 7.383ms
+number of tuples: 44724
+125-th query pattern time cost: 282.80ms
+126-th query start...
+filter cost: 0.261ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+126-th query pattern time cost: 0.37ms
+127-th query start...
+filter cost: 24.911ms
+scan cost: 433.103ms
+bucket sizes: [ 34312 157357 35864 ]
+join cost: 377.766ms
+number of tuples: 3232097
+127-th query pattern time cost: 836.07ms
+128-th query start...
+filter cost: 23.494ms
+scan cost: 437.237ms
+bucket sizes: [ 33684 156766 50012 ]
+join cost: 603.070ms
+number of tuples: 4291713
+128-th query pattern time cost: 1064.11ms
+129-th query start...
+filter cost: 25.296ms
+scan cost: 443.204ms
+bucket sizes: [ 34715 167582 39046 ]
+join cost: 387.359ms
+number of tuples: 3462757
+129-th query pattern time cost: 856.16ms
+130-th query start...
+filter cost: 0.239ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.022ms
+number of tuples: 0
+130-th query pattern time cost: 0.34ms
+131-th query start...
+filter cost: 132.183ms
+scan cost: 381.645ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 28.368ms
+number of tuples: 248502
+131-th query pattern time cost: 542.46ms
+132-th query start...
+filter cost: 25.384ms
+scan cost: 432.204ms
+bucket sizes: [ 34312 157357 35864 ]
+join cost: 479.777ms
+number of tuples: 3232097
+132-th query pattern time cost: 937.64ms
+133-th query start...
+filter cost: 23.819ms
+scan cost: 463.804ms
+bucket sizes: [ 17706 100544 23199 ]
+join cost: 66.918ms
+number of tuples: 681197
+133-th query pattern time cost: 554.84ms
+134-th query start...
+filter cost: 26.099ms
+scan cost: 423.423ms
+bucket sizes: [ 25943 113985 36379 ]
+join cost: 281.590ms
+number of tuples: 1878540
+134-th query pattern time cost: 731.45ms
+135-th query start...
+filter cost: 24.460ms
+scan cost: 448.538ms
+bucket sizes: [ 35010 175224 39494 ]
+join cost: 519.954ms
+number of tuples: 3757161
+135-th query pattern time cost: 993.25ms
+136-th query start...
+filter cost: 0.278ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.024ms
+number of tuples: 0
+136-th query pattern time cost: 0.41ms
+137-th query start...
+filter cost: 19.324ms
+scan cost: 377.998ms
+bucket sizes: [ 14911 58445 16901 ]
+join cost: 31.546ms
+number of tuples: 292112
+137-th query pattern time cost: 429.11ms
+138-th query start...
+filter cost: 0.221ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+138-th query pattern time cost: 0.32ms
+139-th query start...
+filter cost: 72.335ms
+scan cost: 385.966ms
+bucket sizes: [ 20404 81082 21809 ]
+join cost: 96.642ms
+number of tuples: 609927
+139-th query pattern time cost: 555.23ms
+140-th query start...
+filter cost: 19.775ms
+scan cost: 352.374ms
+bucket sizes: [ 10916 56971 21672 ]
+join cost: 33.552ms
+number of tuples: 319735
+140-th query pattern time cost: 405.95ms
+141-th query start...
+filter cost: 19.632ms
+scan cost: 370.394ms
+bucket sizes: [ 16349 70074 21809 ]
+join cost: 46.354ms
+number of tuples: 452187
+141-th query pattern time cost: 436.59ms
+142-th query start...
+filter cost: 26.503ms
+scan cost: 431.434ms
+bucket sizes: [ 34312 157357 35864 ]
+join cost: 403.774ms
+number of tuples: 3232097
+142-th query pattern time cost: 861.94ms
+143-th query start...
+filter cost: 14.713ms
+scan cost: 272.781ms
+bucket sizes: [ 9011 26909 6798 ]
+join cost: 7.206ms
+number of tuples: 44724
+143-th query pattern time cost: 294.91ms
+144-th query start...
+filter cost: 27.625ms
+scan cost: 440.315ms
+bucket sizes: [ 34715 167582 39046 ]
+join cost: 460.209ms
+number of tuples: 3462757
+144-th query pattern time cost: 928.39ms
+145-th query start...
+filter cost: 0.287ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.022ms
+number of tuples: 0
+145-th query pattern time cost: 0.39ms
+146-th query start...
+filter cost: 108.987ms
+scan cost: 462.174ms
+bucket sizes: [ 29457 164463 36644 ]
+join cost: 380.512ms
+number of tuples: 2786330
+146-th query pattern time cost: 952.09ms
+147-th query start...
+filter cost: 32.514ms
+scan cost: 469.915ms
+bucket sizes: [ 41103 201481 42384 ]
+join cost: 693.001ms
+number of tuples: 5529456
+147-th query pattern time cost: 1195.70ms
+148-th query start...
+filter cost: 73.045ms
+scan cost: 439.798ms
+bucket sizes: [ 25445 112249 28964 ]
+join cost: 109.566ms
+number of tuples: 1381582
+148-th query pattern time cost: 622.69ms
+149-th query start...
+filter cost: 23.359ms
+scan cost: 478.854ms
+bucket sizes: [ 20404 81082 21809 ]
+join cost: 114.001ms
+number of tuples: 609927
+149-th query pattern time cost: 616.60ms
+150-th query start...
+filter cost: 0.270ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.015ms
+number of tuples: 0
+150-th query pattern time cost: 0.36ms
+151-th query start...
+filter cost: 25.825ms
+scan cost: 457.792ms
+bucket sizes: [ 33684 156766 50012 ]
+join cost: 477.577ms
+number of tuples: 4291713
+151-th query pattern time cost: 961.54ms
+152-th query start...
+filter cost: 20.655ms
+scan cost: 357.201ms
+bucket sizes: [ 10916 56971 21672 ]
+join cost: 163.624ms
+number of tuples: 319735
+152-th query pattern time cost: 541.85ms
+153-th query start...
+filter cost: 51.845ms
+scan cost: 399.625ms
+bucket sizes: [ 17706 100544 23199 ]
+join cost: 89.065ms
+number of tuples: 681197
+153-th query pattern time cost: 540.86ms
+154-th query start...
+filter cost: 29.569ms
+scan cost: 447.888ms
+bucket sizes: [ 35357 170856 36870 ]
+join cost: 414.517ms
+number of tuples: 3152452
+154-th query pattern time cost: 892.33ms
+155-th query start...
+filter cost: 29.854ms
+scan cost: 472.856ms
+bucket sizes: [ 35010 175224 39494 ]
+join cost: 600.225ms
+number of tuples: 3757161
+155-th query pattern time cost: 1103.27ms
+156-th query start...
+filter cost: 20.457ms
+scan cost: 388.691ms
+bucket sizes: [ 14911 58445 16901 ]
+join cost: 33.582ms
+number of tuples: 292112
+156-th query pattern time cost: 443.05ms
+157-th query start...
+filter cost: 24.945ms
+scan cost: 445.958ms
+bucket sizes: [ 35010 175224 39494 ]
+join cost: 440.267ms
+number of tuples: 3757161
+157-th query pattern time cost: 911.57ms
+158-th query start...
+filter cost: 30.112ms
+scan cost: 562.956ms
+bucket sizes: [ 34715 167582 39046 ]
+join cost: 411.923ms
+number of tuples: 3462757
+158-th query pattern time cost: 1005.36ms
+159-th query start...
+filter cost: 17.029ms
+scan cost: 339.007ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 155.431ms
+number of tuples: 248502
+159-th query pattern time cost: 511.74ms
+160-th query start...
+filter cost: 18.567ms
+scan cost: 335.393ms
+bucket sizes: [ 10916 56971 21672 ]
+join cost: 85.153ms
+number of tuples: 319735
+160-th query pattern time cost: 439.55ms
+161-th query start...
+filter cost: 0.271ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.020ms
+number of tuples: 0
+161-th query pattern time cost: 0.41ms
+162-th query start...
+filter cost: 19.823ms
+scan cost: 396.519ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 29.137ms
+number of tuples: 248502
+162-th query pattern time cost: 445.74ms
+163-th query start...
+filter cost: 24.614ms
+scan cost: 444.059ms
+bucket sizes: [ 41103 201481 42384 ]
+join cost: 814.523ms
+number of tuples: 5529456
+163-th query pattern time cost: 1283.49ms
+164-th query start...
+filter cost: 28.598ms
+scan cost: 474.827ms
+bucket sizes: [ 41103 201481 42384 ]
+join cost: 665.951ms
+number of tuples: 5529456
+164-th query pattern time cost: 1169.68ms
+165-th query start...
+filter cost: 20.123ms
+scan cost: 355.312ms
+bucket sizes: [ 14911 58445 16901 ]
+join cost: 32.804ms
+number of tuples: 292112
+165-th query pattern time cost: 408.45ms
+166-th query start...
+filter cost: 125.343ms
+scan cost: 434.658ms
+bucket sizes: [ 29457 164463 36644 ]
+join cost: 405.702ms
+number of tuples: 2786330
+166-th query pattern time cost: 965.98ms
+167-th query start...
+filter cost: 23.377ms
+scan cost: 436.106ms
+bucket sizes: [ 33684 156766 50012 ]
+join cost: 674.391ms
+number of tuples: 4291713
+167-th query pattern time cost: 1134.18ms
+168-th query start...
+filter cost: 25.020ms
+scan cost: 448.340ms
+bucket sizes: [ 35357 170856 36870 ]
+join cost: 357.227ms
+number of tuples: 3152452
+168-th query pattern time cost: 830.97ms
+169-th query start...
+filter cost: 8.563ms
+scan cost: 109.773ms
+bucket sizes: [ 3927 7928 2628 ]
+join cost: 1.700ms
+number of tuples: 7355
+169-th query pattern time cost: 120.21ms
+170-th query start...
+filter cost: 17.309ms
+scan cost: 485.198ms
+bucket sizes: [ 14911 58445 16901 ]
+join cost: 30.693ms
+number of tuples: 292112
+170-th query pattern time cost: 533.49ms
+171-th query start...
+filter cost: 0.264ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.023ms
+number of tuples: 0
+171-th query pattern time cost: 0.37ms
+172-th query start...
+filter cost: 0.142ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+172-th query pattern time cost: 0.22ms
+173-th query start...
+filter cost: 54.799ms
+scan cost: 271.190ms
+bucket sizes: [ 8960 31866 9397 ]
+join cost: 11.380ms
+number of tuples: 77104
+173-th query pattern time cost: 337.64ms
+174-th query start...
+filter cost: 26.007ms
+scan cost: 471.879ms
+bucket sizes: [ 41103 201481 42384 ]
+join cost: 738.091ms
+number of tuples: 5529456
+174-th query pattern time cost: 1236.33ms
+175-th query start...
+filter cost: 25.865ms
+scan cost: 457.011ms
+bucket sizes: [ 35010 175224 39494 ]
+join cost: 581.523ms
+number of tuples: 3757161
+175-th query pattern time cost: 1064.72ms
+176-th query start...
+filter cost: 50.738ms
+scan cost: 454.101ms
+bucket sizes: [ 35010 175224 39494 ]
+join cost: 616.094ms
+number of tuples: 3757161
+176-th query pattern time cost: 1121.25ms
+177-th query start...
+filter cost: 23.598ms
+scan cost: 436.588ms
+bucket sizes: [ 34604 157094 42180 ]
+join cost: 439.983ms
+number of tuples: 3219759
+177-th query pattern time cost: 900.43ms
+178-th query start...
+filter cost: 55.740ms
+scan cost: 412.948ms
+bucket sizes: [ 24514 102434 25760 ]
+join cost: 102.845ms
+number of tuples: 1029316
+178-th query pattern time cost: 571.75ms
+179-th query start...
+filter cost: 24.033ms
+scan cost: 417.862ms
+bucket sizes: [ 25445 112249 28964 ]
+join cost: 128.360ms
+number of tuples: 1381582
+179-th query pattern time cost: 570.49ms
+180-th query start...
+filter cost: 22.755ms
+scan cost: 558.392ms
+bucket sizes: [ 34604 157094 42180 ]
+join cost: 462.210ms
+number of tuples: 3219759
+180-th query pattern time cost: 1043.75ms
+181-th query start...
+filter cost: 23.033ms
+scan cost: 278.477ms
+bucket sizes: [ 8960 31866 9397 ]
+join cost: 10.822ms
+number of tuples: 77104
+181-th query pattern time cost: 312.65ms
+182-th query start...
+filter cost: 12.514ms
+scan cost: 268.648ms
+bucket sizes: [ 8960 31866 9397 ]
+join cost: 10.912ms
+number of tuples: 77104
+182-th query pattern time cost: 292.26ms
+183-th query start...
+filter cost: 19.656ms
+scan cost: 372.665ms
+bucket sizes: [ 16349 70074 21809 ]
+join cost: 46.814ms
+number of tuples: 452187
+183-th query pattern time cost: 439.40ms
+184-th query start...
+filter cost: 0.228ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.155ms
+number of tuples: 0
+184-th query pattern time cost: 0.50ms
+185-th query start...
+filter cost: 25.207ms
+scan cost: 434.882ms
+bucket sizes: [ 34312 157357 35864 ]
+join cost: 466.996ms
+number of tuples: 3232097
+185-th query pattern time cost: 927.35ms
+186-th query start...
+filter cost: 24.841ms
+scan cost: 455.697ms
+bucket sizes: [ 24514 102434 25760 ]
+join cost: 185.726ms
+number of tuples: 1029316
+186-th query pattern time cost: 666.58ms
+187-th query start...
+filter cost: 13.015ms
+scan cost: 266.668ms
+bucket sizes: [ 8960 31865 9397 ]
+join cost: 10.749ms
+number of tuples: 77100
+187-th query pattern time cost: 290.64ms
+188-th query start...
+filter cost: 55.051ms
+scan cost: 435.802ms
+bucket sizes: [ 33684 156766 50012 ]
+join cost: 688.787ms
+number of tuples: 4291713
+188-th query pattern time cost: 1179.96ms
+189-th query start...
+filter cost: 19.482ms
+scan cost: 365.535ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 29.407ms
+number of tuples: 248502
+189-th query pattern time cost: 414.70ms
+190-th query start...
+filter cost: 0.251ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.020ms
+number of tuples: 0
+190-th query pattern time cost: 0.39ms
+191-th query start...
+filter cost: 13.750ms
+scan cost: 268.696ms
+bucket sizes: [ 8960 31865 9397 ]
+join cost: 10.917ms
+number of tuples: 77100
+191-th query pattern time cost: 293.56ms
+192-th query start...
+filter cost: 16.400ms
+scan cost: 340.313ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 82.225ms
+number of tuples: 248502
+192-th query pattern time cost: 439.28ms
+193-th query start...
+filter cost: 17.440ms
+scan cost: 340.467ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 28.836ms
+number of tuples: 248502
+193-th query pattern time cost: 386.99ms
+194-th query start...
+filter cost: 41.443ms
+scan cost: 334.051ms
+bucket sizes: [ 10916 56971 21672 ]
+join cost: 50.442ms
+number of tuples: 319735
+194-th query pattern time cost: 426.18ms
+195-th query start...
+filter cost: 24.085ms
+scan cost: 414.905ms
+bucket sizes: [ 20404 81082 21809 ]
+join cost: 60.454ms
+number of tuples: 609927
+195-th query pattern time cost: 499.70ms
+196-th query start...
+filter cost: 19.846ms
+scan cost: 340.745ms
+bucket sizes: [ 13205 49889 19051 ]
+join cost: 29.093ms
+number of tuples: 248502
+196-th query pattern time cost: 389.96ms
+197-th query start...
+filter cost: 16.977ms
+scan cost: 300.588ms
+bucket sizes: [ 11726 35779 14179 ]
+join cost: 21.194ms
+number of tuples: 169390
+197-th query pattern time cost: 338.96ms
+198-th query start...
+filter cost: 0.299ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+198-th query pattern time cost: 0.40ms
+199-th query start...
+filter cost: 16.689ms
+scan cost: 300.691ms
+bucket sizes: [ 11726 35779 14179 ]
+join cost: 21.832ms
+number of tuples: 169390
+199-th query pattern time cost: 339.40ms
+200-th query start...
+filter cost: 51.079ms
+scan cost: 0.077ms
+bucket sizes: [ 2 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+200-th query pattern time cost: 51.37ms
+201-th query start...
+filter cost: 30.670ms
+scan cost: 0.156ms
+bucket sizes: [ 0 0 8 ]
+join cost: 0.025ms
+number of tuples: 0
+201-th query pattern time cost: 31.05ms
+202-th query start...
+filter cost: 29.177ms
+scan cost: 64.956ms
+bucket sizes: [ 2746 3487 1268 ]
+join cost: 0.691ms
+number of tuples: 2498
+202-th query pattern time cost: 95.07ms
+203-th query start...
+filter cost: 33.485ms
+scan cost: 5.696ms
+bucket sizes: [ 429 22 51 ]
+join cost: 0.063ms
+number of tuples: 12
+203-th query pattern time cost: 39.45ms
+204-th query start...
+filter cost: 27.144ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.017ms
+number of tuples: 0
+204-th query pattern time cost: 27.36ms
+205-th query start...
+filter cost: 33.419ms
+scan cost: 17.903ms
+bucket sizes: [ 1118 314 296 ]
+join cost: 0.139ms
+number of tuples: 183
+205-th query pattern time cost: 51.66ms
+206-th query start...
+filter cost: 105.433ms
+scan cost: 265.618ms
+bucket sizes: [ 8097 26295 6917 ]
+join cost: 6.973ms
+number of tuples: 42051
+206-th query pattern time cost: 378.33ms
+207-th query start...
+filter cost: 29.954ms
+scan cost: 5.013ms
+bucket sizes: [ 381 12 35 ]
+join cost: 0.043ms
+number of tuples: 6
+207-th query pattern time cost: 35.23ms
+208-th query start...
+filter cost: 32.990ms
+scan cost: 3.034ms
+bucket sizes: [ 232 7 13 ]
+join cost: 0.037ms
+number of tuples: 6
+208-th query pattern time cost: 36.26ms
+209-th query start...
+filter cost: 30.163ms
+scan cost: 158.202ms
+bucket sizes: [ 5243 13382 3782 ]
+join cost: 3.154ms
+number of tuples: 14549
+209-th query pattern time cost: 191.86ms
+210-th query start...
+filter cost: 33.522ms
+scan cost: 7.086ms
+bucket sizes: [ 521 25 62 ]
+join cost: 0.056ms
+number of tuples: 19
+210-th query pattern time cost: 40.88ms
+211-th query start...
+filter cost: 31.450ms
+scan cost: 1.677ms
+bucket sizes: [ 130 1 6 ]
+join cost: 0.029ms
+number of tuples: 0
+211-th query pattern time cost: 33.33ms
+212-th query start...
+filter cost: 33.374ms
+scan cost: 31.917ms
+bucket sizes: [ 1830 857 591 ]
+join cost: 0.253ms
+number of tuples: 541
+212-th query pattern time cost: 65.76ms
+213-th query start...
+filter cost: 23.445ms
+scan cost: 12.348ms
+bucket sizes: [ 859 131 192 ]
+join cost: 0.100ms
+number of tuples: 88
+213-th query pattern time cost: 36.12ms
+214-th query start...
+filter cost: 28.304ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.024ms
+number of tuples: 0
+214-th query pattern time cost: 28.61ms
+215-th query start...
+filter cost: 26.881ms
+scan cost: 50.530ms
+bucket sizes: [ 2464 1906 1185 ]
+join cost: 0.528ms
+number of tuples: 1426
+215-th query pattern time cost: 78.19ms
+216-th query start...
+filter cost: 32.554ms
+scan cost: 20.690ms
+bucket sizes: [ 1347 291 357 ]
+join cost: 0.134ms
+number of tuples: 163
+216-th query pattern time cost: 53.59ms
+217-th query start...
+filter cost: 32.566ms
+scan cost: 10.534ms
+bucket sizes: [ 730 112 127 ]
+join cost: 0.075ms
+number of tuples: 63
+217-th query pattern time cost: 43.38ms
+218-th query start...
+filter cost: 30.478ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.016ms
+number of tuples: 0
+218-th query pattern time cost: 30.69ms
+219-th query start...
+filter cost: 31.133ms
+scan cost: 6.514ms
+bucket sizes: [ 499 15 57 ]
+join cost: 0.048ms
+number of tuples: 6
+219-th query pattern time cost: 37.88ms
+220-th query start...
+filter cost: 31.476ms
+scan cost: 249.293ms
+bucket sizes: [ 8260 27836 7342 ]
+join cost: 7.511ms
+number of tuples: 45889
+220-th query pattern time cost: 288.54ms
+221-th query start...
+filter cost: 32.733ms
+scan cost: 12.928ms
+bucket sizes: [ 896 136 183 ]
+join cost: 0.084ms
+number of tuples: 76
+221-th query pattern time cost: 45.96ms
+222-th query start...
+filter cost: 28.476ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.014ms
+number of tuples: 0
+222-th query pattern time cost: 28.71ms
+223-th query start...
+filter cost: 30.964ms
+scan cost: 2.473ms
+bucket sizes: [ 9 0 198 ]
+join cost: 0.026ms
+number of tuples: 0
+223-th query pattern time cost: 33.64ms
+224-th query start...
+filter cost: 40.819ms
+scan cost: 39.717ms
+bucket sizes: [ 1722 805 715 ]
+join cost: 0.407ms
+number of tuples: 573
+224-th query pattern time cost: 81.33ms
+225-th query start...
+filter cost: 33.143ms
+scan cost: 27.393ms
+bucket sizes: [ 1386 798 456 ]
+join cost: 0.308ms
+number of tuples: 557
+225-th query pattern time cost: 61.27ms
+226-th query start...
+filter cost: 39.078ms
+scan cost: 0.619ms
+bucket sizes: [ 36 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+226-th query pattern time cost: 40.03ms
+227-th query start...
+filter cost: 35.393ms
+scan cost: 8.930ms
+bucket sizes: [ 552 56 62 ]
+join cost: 0.081ms
+number of tuples: 30
+227-th query pattern time cost: 44.67ms
+228-th query start...
+filter cost: 31.581ms
+scan cost: 0.605ms
+bucket sizes: [ 36 1 1 ]
+join cost: 0.034ms
+number of tuples: 1
+228-th query pattern time cost: 32.44ms
+229-th query start...
+filter cost: 32.080ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.025ms
+number of tuples: 0
+229-th query pattern time cost: 32.34ms
+230-th query start...
+filter cost: 32.559ms
+scan cost: 271.732ms
+bucket sizes: [ 9486 34015 8504 ]
+join cost: 9.836ms
+number of tuples: 64064
+230-th query pattern time cost: 314.43ms
+231-th query start...
+filter cost: 23.304ms
+scan cost: 30.649ms
+bucket sizes: [ 1646 881 761 ]
+join cost: 0.289ms
+number of tuples: 639
+231-th query pattern time cost: 54.46ms
+232-th query start...
+filter cost: 27.525ms
+scan cost: 12.168ms
+bucket sizes: [ 816 165 161 ]
+join cost: 0.126ms
+number of tuples: 99
+232-th query pattern time cost: 40.07ms
+233-th query start...
+filter cost: 31.336ms
+scan cost: 4.165ms
+bucket sizes: [ 315 11 27 ]
+join cost: 0.043ms
+number of tuples: 8
+233-th query pattern time cost: 35.76ms
+234-th query start...
+filter cost: 32.038ms
+scan cost: 17.741ms
+bucket sizes: [ 1213 208 268 ]
+join cost: 0.100ms
+number of tuples: 106
+234-th query pattern time cost: 50.09ms
+235-th query start...
+filter cost: 30.629ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.031ms
+number of tuples: 0
+235-th query pattern time cost: 30.90ms
+236-th query start...
+filter cost: 31.652ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+236-th query pattern time cost: 31.87ms
+237-th query start...
+filter cost: 31.937ms
+scan cost: 12.472ms
+bucket sizes: [ 827 169 163 ]
+join cost: 0.091ms
+number of tuples: 94
+237-th query pattern time cost: 44.69ms
+238-th query start...
+filter cost: 32.769ms
+scan cost: 31.046ms
+bucket sizes: [ 1831 713 591 ]
+join cost: 0.211ms
+number of tuples: 425
+238-th query pattern time cost: 64.21ms
+239-th query start...
+filter cost: 29.739ms
+scan cost: 193.314ms
+bucket sizes: [ 6480 19965 5023 ]
+join cost: 4.815ms
+number of tuples: 26484
+239-th query pattern time cost: 228.10ms
+240-th query start...
+filter cost: 32.708ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.028ms
+number of tuples: 0
+240-th query pattern time cost: 32.94ms
+241-th query start...
+filter cost: 24.693ms
+scan cost: 75.903ms
+bucket sizes: [ 3316 3941 1903 ]
+join cost: 0.941ms
+number of tuples: 3385
+241-th query pattern time cost: 101.76ms
+242-th query start...
+filter cost: 31.345ms
+scan cost: 4.783ms
+bucket sizes: [ 371 6 33 ]
+join cost: 0.034ms
+number of tuples: 2
+242-th query pattern time cost: 36.36ms
+243-th query start...
+filter cost: 29.228ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.016ms
+number of tuples: 0
+243-th query pattern time cost: 29.44ms
+244-th query start...
+filter cost: 30.751ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.016ms
+number of tuples: 0
+244-th query pattern time cost: 30.96ms
+245-th query start...
+filter cost: 28.852ms
+scan cost: 126.276ms
+bucket sizes: [ 4578 9305 3027 ]
+join cost: 1.969ms
+number of tuples: 8672
+245-th query pattern time cost: 157.32ms
+246-th query start...
+filter cost: 47.677ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.019ms
+number of tuples: 0
+246-th query pattern time cost: 47.95ms
+247-th query start...
+filter cost: 35.233ms
+scan cost: 28.234ms
+bucket sizes: [ 1694 508 500 ]
+join cost: 0.185ms
+number of tuples: 282
+247-th query pattern time cost: 63.86ms
+248-th query start...
+filter cost: 29.044ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.017ms
+number of tuples: 0
+248-th query pattern time cost: 29.29ms
+249-th query start...
+filter cost: 36.214ms
+scan cost: 63.111ms
+bucket sizes: [ 2894 3149 1389 ]
+join cost: 0.705ms
+number of tuples: 2346
+249-th query pattern time cost: 100.27ms
+250-th query start...
+filter cost: 23.504ms
+scan cost: 37.707ms
+bucket sizes: [ 1977 1186 1003 ]
+join cost: 0.388ms
+number of tuples: 981
+250-th query pattern time cost: 61.82ms
+251-th query start...
+filter cost: 23.457ms
+scan cost: 35.396ms
+bucket sizes: [ 1858 1122 892 ]
+join cost: 0.353ms
+number of tuples: 873
+251-th query pattern time cost: 59.43ms
+252-th query start...
+filter cost: 22.549ms
+scan cost: 2.128ms
+bucket sizes: [ 162 3 12 ]
+join cost: 0.033ms
+number of tuples: 2
+252-th query pattern time cost: 24.90ms
+253-th query start...
+filter cost: 30.418ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+253-th query pattern time cost: 30.67ms
+254-th query start...
+filter cost: 32.200ms
+scan cost: 24.831ms
+bucket sizes: [ 1587 414 456 ]
+join cost: 0.159ms
+number of tuples: 239
+254-th query pattern time cost: 57.38ms
+255-th query start...
+filter cost: 27.736ms
+scan cost: 85.250ms
+bucket sizes: [ 3377 5247 1849 ]
+join cost: 0.994ms
+number of tuples: 4238
+255-th query pattern time cost: 114.19ms
+256-th query start...
+filter cost: 29.302ms
+scan cost: 152.257ms
+bucket sizes: [ 5284 12965 3594 ]
+join cost: 2.724ms
+number of tuples: 13611
+256-th query pattern time cost: 184.50ms
+257-th query start...
+filter cost: 25.825ms
+scan cost: 80.605ms
+bucket sizes: [ 3406 4424 2099 ]
+join cost: 1.021ms
+number of tuples: 3976
+257-th query pattern time cost: 107.67ms
+258-th query start...
+filter cost: 28.234ms
+scan cost: 75.486ms
+bucket sizes: [ 3126 3960 1885 ]
+join cost: 0.858ms
+number of tuples: 3171
+258-th query pattern time cost: 104.78ms
+259-th query start...
+filter cost: 31.142ms
+scan cost: 0.274ms
+bucket sizes: [ 16 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+259-th query pattern time cost: 31.63ms
+260-th query start...
+filter cost: 31.432ms
+scan cost: 0.390ms
+bucket sizes: [ 23 0 2 ]
+join cost: 0.026ms
+number of tuples: 0
+260-th query pattern time cost: 32.03ms
+261-th query start...
+filter cost: 30.200ms
+scan cost: 0.737ms
+bucket sizes: [ 3 0 53 ]
+join cost: 0.025ms
+number of tuples: 0
+261-th query pattern time cost: 31.14ms
+262-th query start...
+filter cost: 32.681ms
+scan cost: 1.324ms
+bucket sizes: [ 102 1 5 ]
+join cost: 0.029ms
+number of tuples: 0
+262-th query pattern time cost: 34.22ms
+263-th query start...
+filter cost: 32.713ms
+scan cost: 11.741ms
+bucket sizes: [ 777 165 169 ]
+join cost: 0.086ms
+number of tuples: 97
+263-th query pattern time cost: 44.75ms
+264-th query start...
+filter cost: 26.431ms
+scan cost: 83.867ms
+bucket sizes: [ 3505 4702 2199 ]
+join cost: 1.074ms
+number of tuples: 4228
+264-th query pattern time cost: 111.60ms
+265-th query start...
+filter cost: 30.997ms
+scan cost: 3.111ms
+bucket sizes: [ 236 6 25 ]
+join cost: 0.031ms
+number of tuples: 3
+265-th query pattern time cost: 34.33ms
+266-th query start...
+filter cost: 25.766ms
+scan cost: 18.371ms
+bucket sizes: [ 1193 271 313 ]
+join cost: 0.120ms
+number of tuples: 167
+266-th query pattern time cost: 44.47ms
+267-th query start...
+filter cost: 33.075ms
+scan cost: 22.448ms
+bucket sizes: [ 1318 495 395 ]
+join cost: 0.158ms
+number of tuples: 309
+267-th query pattern time cost: 55.88ms
+268-th query start...
+filter cost: 24.275ms
+scan cost: 73.757ms
+bucket sizes: [ 3260 3611 1717 ]
+join cost: 1.013ms
+number of tuples: 2977
+268-th query pattern time cost: 99.29ms
+269-th query start...
+filter cost: 33.091ms
+scan cost: 1.310ms
+bucket sizes: [ 102 0 2 ]
+join cost: 0.028ms
+number of tuples: 0
+269-th query pattern time cost: 34.71ms
+270-th query start...
+filter cost: 38.609ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.022ms
+number of tuples: 0
+270-th query pattern time cost: 38.85ms
+271-th query start...
+filter cost: 29.045ms
+scan cost: 40.763ms
+bucket sizes: [ 1759 914 818 ]
+join cost: 0.427ms
+number of tuples: 696
+271-th query pattern time cost: 70.49ms
+272-th query start...
+filter cost: 32.828ms
+scan cost: 0.001ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+272-th query pattern time cost: 33.08ms
+273-th query start...
+filter cost: 29.962ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.021ms
+number of tuples: 0
+273-th query pattern time cost: 30.18ms
+274-th query start...
+filter cost: 33.605ms
+scan cost: 0.000ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.018ms
+number of tuples: 0
+274-th query pattern time cost: 33.83ms
+275-th query start...
+filter cost: 31.453ms
+scan cost: 40.545ms
+bucket sizes: [ 1915 1613 790 ]
+join cost: 1.923ms
+number of tuples: 1149
+275-th query pattern time cost: 74.24ms
+276-th query start...
+filter cost: 35.234ms
+scan cost: 267.845ms
+bucket sizes: [ 8308 27455 7064 ]
+join cost: 7.399ms
+number of tuples: 44979
+276-th query pattern time cost: 310.78ms
+277-th query start...
+filter cost: 32.710ms
+scan cost: 0.580ms
+bucket sizes: [ 39 0 0 ]
+join cost: 0.039ms
+number of tuples: 0
+277-th query pattern time cost: 33.57ms
+278-th query start...
+filter cost: 29.782ms
+scan cost: 98.187ms
+bucket sizes: [ 3667 6587 2240 ]
+join cost: 1.335ms
+number of tuples: 5740
+278-th query pattern time cost: 129.58ms
+279-th query start...
+filter cost: 30.189ms
+scan cost: 0.060ms
+bucket sizes: [ 1 0 0 ]
+join cost: 0.020ms
+number of tuples: 0
+279-th query pattern time cost: 30.46ms
+280-th query start...
+filter cost: 28.733ms
+scan cost: 0.407ms
+bucket sizes: [ 28 1 1 ]
+join cost: 0.032ms
+number of tuples: 1
+280-th query pattern time cost: 29.37ms
+281-th query start...
+filter cost: 31.033ms
+scan cost: 0.521ms
+bucket sizes: [ 36 0 0 ]
+join cost: 0.022ms
+number of tuples: 0
+281-th query pattern time cost: 31.79ms
+282-th query start...
+filter cost: 32.759ms
+scan cost: 105.142ms
+bucket sizes: [ 3904 7288 2422 ]
+join cost: 1.559ms
+number of tuples: 6520
+282-th query pattern time cost: 139.69ms
+283-th query start...
+filter cost: 27.462ms
+scan cost: 66.072ms
+bucket sizes: [ 2576 2906 1166 ]
+join cost: 0.813ms
+number of tuples: 2002
+283-th query pattern time cost: 94.61ms
+284-th query start...
+filter cost: 33.680ms
+scan cost: 1.432ms
+bucket sizes: [ 105 0 3 ]
+join cost: 0.060ms
+number of tuples: 0
+284-th query pattern time cost: 35.42ms
+285-th query start...
+filter cost: 39.736ms
+scan cost: 0.001ms
+bucket sizes: [ 0 0 0 ]
+join cost: 0.020ms
+number of tuples: 0
+285-th query pattern time cost: 40.04ms
+286-th query start...
+filter cost: 32.336ms
+scan cost: 219.446ms
+bucket sizes: [ 7240 22425 5973 ]
+join cost: 5.720ms
+number of tuples: 32113
+286-th query pattern time cost: 257.85ms
+287-th query start...
+filter cost: 32.854ms
+scan cost: 12.339ms
+bucket sizes: [ 813 199 167 ]
+join cost: 0.109ms
+number of tuples: 116
+287-th query pattern time cost: 45.52ms
+288-th query start...
+filter cost: 32.295ms
+scan cost: 12.882ms
+bucket sizes: [ 876 161 185 ]
+join cost: 0.109ms
+number of tuples: 115
+288-th query pattern time cost: 45.49ms
+289-th query start...
+filter cost: 31.421ms
+scan cost: 3.074ms
+bucket sizes: [ 242 5 19 ]
+join cost: 0.030ms
+number of tuples: 2
+289-th query pattern time cost: 34.71ms
+290-th query start...
+filter cost: 26.064ms
+scan cost: 14.442ms
+bucket sizes: [ 1009 143 199 ]
+join cost: 0.090ms
+number of tuples: 93
+290-th query pattern time cost: 40.79ms
+291-th query start...
+filter cost: 25.193ms
+scan cost: 3.798ms
+bucket sizes: [ 284 7 32 ]
+join cost: 0.036ms
+number of tuples: 5
+291-th query pattern time cost: 29.23ms
+292-th query start...
+filter cost: 29.447ms
+scan cost: 121.999ms
+bucket sizes: [ 4338 9279 2871 ]
+join cost: 1.966ms
+number of tuples: 8607
+292-th query pattern time cost: 153.66ms
+293-th query start...
+filter cost: 28.007ms
+scan cost: 104.046ms
+bucket sizes: [ 4148 6405 2551 ]
+join cost: 1.521ms
+number of tuples: 5609
+293-th query pattern time cost: 133.82ms
+294-th query start...
+filter cost: 29.354ms
+scan cost: 43.171ms
+bucket sizes: [ 2111 1679 800 ]
+join cost: 0.471ms
+number of tuples: 1097
+294-th query pattern time cost: 73.23ms
+295-th query start...
+filter cost: 31.719ms
+scan cost: 12.384ms
+bucket sizes: [ 868 90 176 ]
+join cost: 0.070ms
+number of tuples: 32
+295-th query pattern time cost: 44.40ms
+296-th query start...
+filter cost: 34.106ms
+scan cost: 55.157ms
+bucket sizes: [ 2593 2491 1139 ]
+join cost: 0.665ms
+number of tuples: 1813
+296-th query pattern time cost: 90.14ms
+297-th query start...
+filter cost: 53.413ms
+scan cost: 194.969ms
+bucket sizes: [ 6243 17438 4750 ]
+join cost: 4.217ms
+number of tuples: 21452
+297-th query pattern time cost: 252.91ms
+298-th query start...
+filter cost: 30.297ms
+scan cost: 0.283ms
+bucket sizes: [ 0 0 17 ]
+join cost: 0.049ms
+number of tuples: 0
+298-th query pattern time cost: 30.82ms
+299-th query start...
+filter cost: 33.362ms
+scan cost: 3.132ms
+bucket sizes: [ 245 6 12 ]
+join cost: 0.045ms
+number of tuples: 5
+299-th query pattern time cost: 36.81ms

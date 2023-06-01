@@ -1,0 +1,108 @@
+
+SQL语句定义模式的写法"
+
+PATTERN (A B)
+PATTERN (A (B | C))
+PATTERN SEQ(E_1 v1, AND(E_2 v2, E_3, v3), E_4 v4)
+
+目前支持的语句：
+1.创建schema语句
+2.确定值的范围语句
+3.指定索引语句
+4.模式查询语句
+
+
+定义新的标准查询语法
+=============================================================================
+                       查询语句1：输出模式的数量
+-----------------------------------------------------------------------------
+PATTERN SEQ(IBM a, Oracle b, IBM c, Oracle d)
+FROM stock
+WHERE 90 <= a.open <= 110 AND 90 <= b.open <= 110 AND c.open >= 125 AND d.open <= 75
+WITHIN 10 mins
+RETURN COUNT(*)
+
+=============================================================================
+1.创建表语句
+-----------------------------------------------------------------------------
+CREATE TABLE stock (ticker TYPE, open FLOAT.2, volume INT, time TIMESTAMP)
+-----------------------------------------------------------------------------
+
+
+=============================================================================
+2.定义属性范围语句（最好实现定义一下，不然bitmap不好创建）
+-----------------------------------------------------------------------------
+ALTER TABLE stock ADD CONSTRAINT ticker IN RANGE [1,5000]
+-----------------------------------------------------------------------------
+ALTER TABLE stock ADD CONSTRAINT open IN RANGE [0,1000]
+-----------------------------------------------------------------------------
+ALTER TABLE stock ADD CONSTRAINT volume IN RANGE [0,100000]
+-----------------------------------------------------------------------------
+
+
+=============================================================================
+3.创建索引语句(目前支持的索引类型：FAST、R_TREE、SKIP_LIST、B_PLUS_TREE)
+-----------------------------------------------------------------------------
+CREATE INDEX index_name1 USING FAST ON stock(open, volume)
+-----------------------------------------------------------------------------
+CREATE INDEX index_name2 USING R_TREE ON stock(open, volume)
+-----------------------------------------------------------------------------
+CREATE INDEX index_name3 USING SKIP_LIST ON stock(open, volume)
+-----------------------------------------------------------------------------
+CREATE INDEX index_name3 USING B_PLUS_TREE ON stock(open, volume)
+=============================================================================
+
+
+=============================================================================
+4.查询语句：输出模式的数量
+-----------------------------------------------------------------------------
+PATTERN SEQ(IBM a, Oracle b, IBM c, Oracle d)
+FROM stock
+WHERE 90 <= a.open <= 110 AND 90 <= b.open <= 110 AND c.open >= 125 AND d.open <= 75
+WITHIN 10 mins
+RETURN COUNT(*)
+-----------------------------------------------------------------------------
+
+请注意：规定范围必须是
+const op var.attrName op const (此时op只能为小于或者小于等于)
+var.attrName op const
+
+=============================================================================
+5.查询语句：输出元组
+-----------------------------------------------------------------------------
+PATTERN IBM a; Oracle b; IBM c; Oracle d
+FROM stock
+WHERE 90 <= a.open <= 110 AND 90 <= b.open <= 110 AND c.open >= 125 AND d.open <= 75
+WITHIN 10 mins
+RETURN a, b, c
+-----------------------------------------------------------------------------
+
+
+目前实验用的查询语句如下：
+
+PATTERN SEQ(IBM a, SUN b, APPLE c)
+FROM stock
+WHERE 50<= a.open <= 70 AND 60<= b.open <= 80 AND b.volume >= 100 AND c.open >= 40 AND 80 <= c.volume <= 120
+WITHIN 10 mins
+RETURN COUNT(*)
+
+
+
+
+
+
+
+
+String q = "PATTERN SEQ(IBM a, SUN b, APPLE c)\n" +
+         "FROM stock\n" +
+         "WHERE 50<= a.open <= 70 AND 60<= b.open <= 80 AND b.volume >= 100 AND c.open >= 40 AND 80 <= c.volume <= 120\n" +
+         "WITHIN 10 mins\n" +
+         "RETURN COUNT(*)";
+
+
+String q = "PATTERN SEQ(IBM a, SUN b, APPLE c)\n" +
+                "FROM stock\n" +
+                "WHERE 50<= a.open <= 70 AND a.open < b.open AND b.volume >= 100 AND " +
+                "c.open >= 40 AND 80 <= c.volume <= 120 AND b.open + 10 < c.open * 20\n" +
+                "WITHIN 10 mins\n" +
+                "RETURN COUNT(*)";
