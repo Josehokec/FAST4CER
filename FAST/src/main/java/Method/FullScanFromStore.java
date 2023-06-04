@@ -18,9 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 从数据流中full scan
- * 第一步骤：读取字符串
- * 第二步：转换成字节文件
+ * We found that reading records from the store is faster than reading data from strings file.
+ * In order to make the comparison more fair,
+ * we used this method in our experiment
+ *
+ * Step 1: read file from string file
+ * Step 2: store record binary file
  */
 public class FullScanFromStore {
     public static boolean debug = true;
@@ -126,7 +129,9 @@ public class FullScanFromStore {
             map.put(curType, map.getOrDefault(curType,0) + 1);
 
             for(int j = 0; j < patternLen; ++j) {
-                // 首先就要事件类型相等，相等了看谓词是不是满足约束条件，如果满足了就把它放在第i个桶里面
+                // Firstly, the event types must be equal.
+                // Once equal, check if the predicate satisfies the constraint conditions.
+                // If so, place it in the i-th bucket
                 if (curType.equals(seqEventTypes[j])) {
                     String varName = seqVarNames[j];
                     List<IndependentConstraint> icList = pattern.getICListUsingVarName(varName);
@@ -137,7 +142,7 @@ public class FullScanFromStore {
                             String name = ic.getAttrName();
                             long min = ic.getMinValue();
                             long max = ic.getMaxValue();
-                            // 根据属性名字得到其存储时候对应的列
+                            // obtain the corresponding column for storage based on the attribute name
                             int col = schema.getAttrNameIdx(name);
                             long value = schema.getValueFromBytesRecord(record, col);
                             if (value < min || value > max) {

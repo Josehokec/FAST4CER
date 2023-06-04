@@ -6,19 +6,19 @@ import Condition.IndependentConstraint;
 import java.util.*;
 
 /**
- * 这里假设就是顺序的
- * 没有Conjunction('&') 和 Disjunction('|')算子
+ * here we only support SEQ operator
+ * We will support other operators (e.g., CON, DIS, NEQ and Kleene Operator) in the future
  */
 public class EventPattern {
-    private String[] seqEventTypes;                                     // 顺序事件类型
-    private String[] seqVarNames;                                       // 顺序变量名字
-    private String schemaName;                                          // schema名字
-    private long tau;                                                   // 时间窗口
-    private MatchStrategy strategy;                                     // 匹配策略
-    private String returnStr;                                           // 返回语句
-    private final Map<String, Integer> varMap;                          // 这个本来是多余的 但是为了加快后续某些操作这里加了这个变量
-    private final HashMap<String, List<IndependentConstraint>> icMap;   //每个变量名字对应的独立谓词约束
-    private List<DependentConstraint> dcList;                     //对应的依赖谓词约束 这里按照变量名字排序
+    private String[] seqEventTypes;                                     // sequential event types
+    private String[] seqVarNames;                                       // sequential event variable name
+    private String schemaName;                                          // schema name
+    private long tau;                                                   // query time window
+    private MatchStrategy strategy;                                     // match strategy
+    private String returnStr;                                           // return statement
+    private final Map<String, Integer> varMap;                          // <varName, position>
+    private final HashMap<String, List<IndependentConstraint>> icMap;   // independent predicate constraints bound by each variable
+    private List<DependentConstraint> dcList;                           // dependent predicate constraints list
 
     public EventPattern() {
         icMap = new HashMap<>();
@@ -39,10 +39,6 @@ public class EventPattern {
         return seqVarNames;
     }
 
-    /**
-     * 设置顺序变量的时候同时更新一下varMap
-     * @param seqVarNames 顺序变量
-     */
     public void setSeqVarNames(String[] seqVarNames) {
         this.seqVarNames = seqVarNames;
         for(int i = 0; i < seqVarNames.length; ++i){
@@ -64,9 +60,9 @@ public class EventPattern {
     }
 
     /**
-     * 根据变量名字得到对应的依赖谓词约束
-     * @param varName 变量名字
-     * @return 根据变量名字得到对应的icList
+     * get $varName$ independent predicate constraints
+     * @param varName variable name
+     * @return independent predicate constraints list
      */
     public List<IndependentConstraint> getICListUsingVarName(String varName){
         if(icMap.containsKey(varName)){
@@ -82,7 +78,7 @@ public class EventPattern {
 
     /**
      * 是否含有依赖谓词
-     * @return 含有的话是true，不含是false
+     * @return if pattern has dependent predicate constraints, then we return true; otherwise, return false
      */
     public boolean existDC(){
         return dcList.size() > 0;
@@ -119,8 +115,8 @@ public class EventPattern {
     }
 
     /**
-     * 得到依赖谓词所包含的全部属性名字
-     * @return 属性名字
+     * Obtain all attribute names contained in the dependent predicate constraints
+     * @return attribute name list
      */
     public List<String> getDCAllAttrNames(){
         if(dcList.size() == 0){
@@ -135,10 +131,7 @@ public class EventPattern {
     }
 
     /**
-     * 根据变量名字的位置进行排序
-     * 假设Pattern是(a, b, c)
-     * DC的格式是a.open <= b.open
-     * 我们根据变量名字的顺序排序 -> 最大的变量位置按照降序排序
+     * sort the dependent predicate constraint
      */
     public void sortDC(){
         Comparator<DependentConstraint> cmp = (o1, o2) -> {
@@ -150,11 +143,11 @@ public class EventPattern {
     }
 
     /**
-     * 根据模式变量名字返回模式的位置<br>
-     * 假设Pattern是(A a, B b, C c)<br>
-     * 则getVarNamePos(a) = 0; getVarNamePos(b) = 1; getVarNamePos(c) = 2;
-     * @param varName 模式变量名字
-     * @return 所在的位置
+     * get variable idx <br>
+     * suppose pattern is (A a, B b, C c)<br>
+     * then getVarNamePos(a) = 0; getVarNamePos(b) = 1; getVarNamePos(c) = 2;
+     * @param varName variable name
+     * @return position
      */
     public int getVarNamePos(String varName){
         Integer pos = varMap.get(varName);
@@ -165,31 +158,31 @@ public class EventPattern {
     }
 
     /**
-     * 得到DC的变量名字的最大索引
-     * 假设查询的模式是(A a, B b, C c)
-     * DC 是 a.attr < b.attr
+     * get max variable name idx
+     * suppose the pattern is (A a, B b, C c)
+     * DependentConstraint $dc$ only have:  a.attr < b.attr
      * idx(a) = 0, idx(b) = 1, idx(c) = 2
      * getDCMaxNum(dc) = 1
-     * @param dc 依赖约束
-     * @return 最大的索引
+     * @param dc dependent predicate constraint
+     * @return max value
      */
     public int getDCMaxNum(DependentConstraint dc){
         return maxVarIdx(dc.getVarName1(), dc.getVarName2());
     }
 
     /**
-     * 得到包含第i个变量的依赖谓词列表，假设DC已经排序好了
-     * @param ith i-th变量名字
-     * @return 依赖谓词列表
+     * get the DependentConstraint that contain i, the list of DependentConstraint is sorted
+     * @param ith i-th variable name
+     * @return dependent predicate constraint list
      */
     public List<DependentConstraint> getContainIthVarDCList(int ith){
         List<DependentConstraint> ans = new ArrayList<>();
-        // 这种方式效率复杂度是O(N)可以改进
+        // complexity is O(N), maybe we can optimize this process
         for(DependentConstraint dc : dcList){
             if(getDCMaxNum(dc) == ith){
                 ans.add(dc);
             }else if(getDCMaxNum(dc) > ith){
-                // 由于dcList已经排序，因此可以break出来
+                // early break
                 break;
             }
         }
@@ -206,44 +199,10 @@ public class EventPattern {
     }
 
     /**
-     * 这个函数代价太大了 舍弃
-     * @return 独立约束map
-     */
-    public HashMap<String, List<DependentConstraint>> getDCListHashMap(){
-        if(dcList == null){
-            return null;
-        }else{
-            HashMap<String, List<DependentConstraint>> ans = new HashMap<>();
-
-            for(DependentConstraint dc : dcList){
-                String varName1 = dc.getVarName1();
-                String varName2 = dc.getVarName2();
-
-                if(ans.containsKey(varName1)){
-                    ans.get(varName1).add(dc);
-                }else{
-                    List<DependentConstraint> list = new ArrayList<>();
-                    list.add(dc);
-                    ans.put(varName1, list);
-                }
-
-                if(ans.containsKey(varName2)){
-                    ans.get(varName2).add(dc);
-                }else{
-                    List<DependentConstraint> list = new ArrayList<>();
-                    list.add(dc);
-                    ans.put(varName2, list);
-                }
-            }
-            return ans;
-        }
-    }
-
-    /**
-     * 得到join需要使用的依赖谓词
-     * @param hasJoinPos 已经join的列表
-     * @param waitJoinPos 等待join的位置
-     * @return 依赖谓词列表
+     * get dependent predicate constraints that need to join
+     * @param hasJoinPos hasJoinPositionList
+     * @param waitJoinPos wait join position
+     * @return dependent predicate constraint list
      */
     public List<DependentConstraint> getDCListToJoin(List<Integer> hasJoinPos, int waitJoinPos){
         List<DependentConstraint> ans = new ArrayList<>();

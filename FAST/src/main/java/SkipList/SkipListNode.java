@@ -1,15 +1,14 @@
 package SkipList;
 
 /**
- * 跳跃表的节点,包括key-value和上下左右4个指针
- * 参考：<a href="https://www.freesion.com/article/4513366377/">SkipList</a>
+ * ref：<a href="https://www.freesion.com/article/4513366377/">SkipList</a>
  * */
 public class SkipListNode <T>{
     public long key;
     public T value;
-    public SkipListNode<T> up, down, left, right; // 上下左右 四个指针
-    public static final long HEAD_KEY = Long.MIN_VALUE; // 负无穷
-    public static final long  TAIL_KEY = Long.MAX_VALUE; // 正无穷
+    public SkipListNode<T> up, down, left, right; // four pointers
+    public static final long HEAD_KEY = Long.MIN_VALUE;
+    public static final long  TAIL_KEY = Long.MAX_VALUE;
     public SkipListNode(long k,T v) {
         // TODO Auto-generated constructor stub
         key = k;
@@ -44,7 +43,7 @@ public class SkipListNode <T>{
         }
         SkipListNode<T> ent;
         try {
-            ent = (SkipListNode<T>)  o; // 检测类型
+            ent = (SkipListNode<T>)  o;
         } catch (ClassCastException ex) {
             return false;
         }

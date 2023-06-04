@@ -6,8 +6,8 @@ import java.util.List;
 public class FastSingleBuffer {
     private int indexAttrNum;                       // number of index attributes
     private final int partitionRecordNum;           // optimal record number store in a partition
-    private List<Long> minValues;                   // Attribute synopsis 每个属性对应的最小值
-    private List<Long> maxValues;                   // Attribute synopsis 每个属性对应的最大值
+    private List<Long> minValues;                   // Attribute synopsis -> minimum values
+    private List<Long> maxValues;                   // Attribute synopsis -> maximum values
     private final List<FastTemporaryTriple> triples;  // Temporary Triple
 
     public FastSingleBuffer(int indexAttrNum, int partitionRecordNum){

@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * 目前这个类没有实现
+ * BPlusTree, store in Disk
  */
 public class DiskBPlusTree implements BPlusTreeInterface{
 

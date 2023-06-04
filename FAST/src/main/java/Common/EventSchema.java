@@ -8,27 +8,27 @@ import java.util.List;
 
 
 /**
- * attNameMap用来找到属性名字是存在哪个位置
- * 比如: ticker TYPE, open FLOAT.2, volume INT, time TIMESTAMP
- * attNameMap.get(ticker) = 0; attNameMap.get(volume) = 2;attNameMap.get(time) = 3;
- * typeMap是用来把字符串类型的event type转换成整型的
- * 注意最大最小值是转换过的
+ * The attNameMap is used to find where the attribute name exists
+ * For example: ticker TYPE, open FLOAT. 2, volume INT, time TIMESTAMP
+ * AttNameMap. get (ticker)=0; AttNameMap. get (volume)=2; AttNameMap.get (time)=3;
+ * TypeMap is used to convert event types of string types into integers
+ * Note that the maximum and minimum values are converted
  */
 public class EventSchema {
-    private int hasAssignedId;                          // 给事件类型分配的ID
-    private int maxEventTypeBitLen;                     // 事件类型所需要的bit数量
-    private int storeRecordSize;                        // 存储一条记录所需要的字节数量
-    private String schemaName;                          // schema名字
-    private String[] attrNames;                         // 属性名字
-    private String[] attrTypes;                         // 属性类型
-    private int[] decimalLens;                          // 标记保留几位小数点
-    private StorePos[] positions;                       // 保存存储的位置
-    private long[] attrMinValues;                       // 每个属性的最小值
-    private long[] attrMaxValues;                       // 每个属性的最大值
-    private final List<String> allEventTypes;           // typeId 对于的属性事件类型
-    private EventStore store;                           // 这个事件的存储
-    private final HashMap<String, Integer> attrNameMap; // attNameMap用来找到属性名字是存在哪个位置
-    private final HashMap<String, Integer> typeMap;     //event type映射map，把字符串变成整型
+    private int hasAssignedId;                          // event type is String, so we assign a integer id to a event type
+    private int maxEventTypeBitLen;                     // number of bits required for event types
+    private int storeRecordSize;                        // number of bytes required to store a record
+    private String schemaName;                          // schema name
+    private String[] attrNames;                         // attribute name
+    private String[] attrTypes;                         // attribute type, like INT, DOUBLE, LONG, TIMESTAMP
+    private int[] decimalLens;                          // decimal lengths
+    private StorePos[] positions;                       // type store position
+    private long[] attrMinValues;                       // minimum value for each attribute
+    private long[] attrMaxValues;                       // maximum value for each attribute
+    private final List<String> allEventTypes;           // typeId  corresponding to event type
+    private EventStore store;                           // stored file
+    private final HashMap<String, Integer> attrNameMap; // attNameMap is used to find where the attribute name exists
+    private final HashMap<String, Integer> typeMap;     //event type map
 
     public EventSchema() {
         attrNameMap = new HashMap<>();
@@ -72,10 +72,6 @@ public class EventSchema {
         return attrTypes;
     }
 
-    /**
-     * 设置属性名字之后 更新存储位置 以及存储记录占用的字节数量
-     * @param attrTypes 属性类型名字
-     */
     public void setAttrTypes(String[] attrTypes) {
         this.attrTypes = attrTypes;
         // 设置存储时候属性所占用的字节位置
@@ -142,9 +138,10 @@ public class EventSchema {
     }
 
     /**
-     * 如果这个事件类型之前存储过，那么就直接返回，否则需要分配一个id
-     * @param eventType 字符串类型的事件类型
-     * @return 分配的id
+     * If this event type has been stored before,
+     * it will be returned directly, otherwise an ID needs to be assigned
+     * @param eventType event type
+     * @return assigned id
      */
     public int getTypeId(String eventType){
         if(typeMap.containsKey(eventType)){
@@ -202,10 +199,7 @@ public class EventSchema {
         throw new IllegalStateException("This schema is missing the timestamp attribute.");
     }
 
-    /**
-     * 得到schema中事件类型所在的位置
-     * @return 位置
-     */
+
     public int getTypeIdx(){
         for(int i = 0; i < attrTypes.length; ++i){
             String attrType = attrTypes[i];
@@ -217,8 +211,7 @@ public class EventSchema {
     }
 
     /**
-     * 把字符串类型的记录转换成字节类型的数组
-     * 方便存储在文件中
+     * convert string type records to byte type arrays
      */
     public byte[] convertToBytes(String[] attrValues){
 
@@ -270,10 +263,10 @@ public class EventSchema {
     }
 
     /**
-     * 从字节记录中拿到事件类型
-     * @param record    字节记录
-     * @param typeIdx   类型所在的列编号
-     * @return          该条记录对应事件类型
+     * obtaining event types from byte records
+     * @param record    byte record
+     * @param typeIdx   column number where the type is located
+     * @return          event type
      */
     public final String getTypeFromBytesRecord(byte[] record, int typeIdx){
         int start = positions[typeIdx].startPos();
@@ -294,9 +287,9 @@ public class EventSchema {
     }
 
     /**
-     * 将字节数组转化成字符串记录
-     * @param record 字节数组记录
-     * @return 字符串记录
+     * convert byte arrays into string records
+     * @param record byte array record
+     * @return record string
      */
     public String bytesToRecord(byte[] record){
         String ans = "";
@@ -348,10 +341,11 @@ public class EventSchema {
     }
 
     /**
-     * 得到第i个属性对应的字节数组，后续根据类型转换成对应的变量
-     * @param record 记录的字节数组
-     * @param i 要查询的第i个属性
-     * @return 第i个属性的字节数组
+     * obtain the byte array corresponding to the i-th attribute,
+     * and then convert it to the corresponding variable based on the type
+     * @param record byte array record
+     * @param i      query i-th attribute
+     * @return       i-th attribute byte array
      */
     public byte[] getIthAttrBytes(byte[] record, int i){
         int start = positions[i].startPos();

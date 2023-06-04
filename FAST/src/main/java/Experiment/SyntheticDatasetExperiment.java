@@ -303,21 +303,21 @@ public class SyntheticDatasetExperiment {
 
     public static void main(String[] args){
         // please first run testFullScan method to generate arrival rate json file
-        Experiment.printFlag = true;
+        SyntheticDatasetExperiment.printFlag = true;
         SyntheticDatasetExperiment e = new SyntheticDatasetExperiment();
         // create table and add constraints
         e.initial();
 
-        String[] filenames = {"synthetic_2M.csv", "synthetic_4M.csv", "synthetic_6M.csv", "synthetic_8M.csv", "synthetic_10M.csv"};
+        String[] filenames = {"synthetic_2M.csv", "synthetic_6M.csv", "synthetic_10M.csv"};
         // default dataset size is 10M
-        String filename = filenames[4];
+        String filename = filenames[0];
         System.out.println("dataset name: " + filename);
 
         String dir = System.getProperty("user.dir");
         String filePrefix = dir + File.separator + "src" + File.separator + "main" + File.separator;
         String filePath = filePrefix + "dataset" + File.separator + filename;
 
-        // please change the json file: three_synthetic_query.json | synthetic_query.json
+        // query json file
         String jsonFilePath = filePrefix + "java" + File.separator + "Query" + File.separator + "synthetic_query.json";
         String jsonStr = JsonReader.getJson(jsonFilePath);
         JSONArray jsonArray = JSONArray.fromObject(jsonStr);
@@ -325,10 +325,9 @@ public class SyntheticDatasetExperiment {
         // joinMethod = 1 -> Order Join | joinMethod = 2 -> Greedy Join (exist bug)
         int joinMethod = 1;
 
-        // 1.testFullScan (baseline) 2.testFast (ours) 3.testIntervalScan (advanced) testNaiveRTree
+        // 1.testFullScan (baseline) 2.testFast (ours) 3.testIntervalScan (advanced) 3.testNaiveRTree
         // 4.testNaiveIndexUsingRTree (naive1) 5.testNaiveIndexUsingBPlusTree (naive2) 6.testNaiveIndexUsingSkipList (naive3)
 
-        //  testNaiveRTree 44418ms, fast 18007ms
-        e.testNaiveSkipListPlus(filePath, jsonArray, joinMethod);
+        e.testFast(filePath, jsonArray, joinMethod);
     }
 }

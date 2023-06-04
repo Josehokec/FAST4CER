@@ -262,7 +262,7 @@ public class ClusterDatasetExperiment {
 
     public static void main(String[] args){
         // please first run testFullScan method to generate arrival rate json file
-        Experiment.printFlag = true;
+        ClusterDatasetExperiment.printFlag = true;
         ClusterDatasetExperiment e = new ClusterDatasetExperiment();
         // create table and add constraints
         e.initial();

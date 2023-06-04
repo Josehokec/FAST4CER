@@ -265,7 +265,7 @@ public class CrimesDatasetExperiment {
 
     public static void main(String[] args){
         // please first run testFullScan method to generate arrival rate json file
-        Experiment.printFlag = true;
+        CrimesDatasetExperiment.printFlag = true;
         CrimesDatasetExperiment e = new CrimesDatasetExperiment();
         // create table and add constraints
         e.initial();

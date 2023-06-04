@@ -1,16 +1,16 @@
 package Common;
 
 /**
- * Converter是转换器，可以：
- * 1.把字节数组转换成long类型
- * 2.把Long类型数据转换成字节数组
+ * Converter can
+ * 1.convert byte array to long type
+ * 2.convert Long type data into byte arrays
  */
 public class Converter {
     /**
-     * 把字节数组转换成Long类型
-     * 注意高位存在高位，低位存低位
-     * @param bytes 字节数组
-     * @return 转换后的值
+     * convert byte array to Long type
+     * low bits in the presence of low bits
+     * @param bytes byte array
+     * @return long data
      */
     public static long bytesToLong(byte[] bytes){
         int len = bytes.length;
@@ -58,10 +58,10 @@ public class Converter {
     }
 
     /**
-     * 把timestamp的低bitLen位转换成字节数组
-     * @param timestamp long类型的值
-     * @param bitLen 时间戳低位的比特长度
-     * @return 字节数组
+     * convert the low bitLen bits of timestamp into byte arrays
+     * @param timestamp timestamp
+     * @param bitLen the length of the low bit of the timestamp
+     * @return byte array
      */
     public static byte[] longToBytes(long timestamp, int bitLen){
         int byteLen;

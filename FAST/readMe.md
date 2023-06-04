@@ -1,25 +1,76 @@
 # An index Framework for Accelerating Sequential paTtern recognition (FAST)
 
-### run
-### method1: .sh
-We have writen a shell ```run.sh``` to support automaticlly run the program.
+## About running
+
+### Run Method1: use shell script
+
+We have written a shell script ```run.sh``` to let the program run automatically.
+
+You can run the program using the command:
 
 ```
-./run.sh start > test.log
+./run.sh start test.log
 ```
 
-### IDEA
+If you want to track the output in real-time, you can enter the following command:
+
+```
+tail -f test.log
+```
+
+#### Result explainations
+
+```
+14-th query start...                      // 14-th query pattern
+filter cost: 8.602ms											// index filtering cost
+scan cost: 1.782ms	                      // disk accessing cost
+bucket sizes: [ 4 1441 39 ]								// each bucket size in bucket joining stage
+join cost: 0.374ms                        // bucket joining cost
+number of tuples: 3                       // number of matched tuples
+14-th query pattern time cost: 11.13ms    // sum cost
+```
+
+
+
+### Run Method2: use IDEA or Esclipes
+
+You can open ```FAST``` folder with IDEA or Esclipes. Notice that you need to delete part of pom.xml code lines to make it work.
+
+```xml
+    <!-->If you want to use IDEA or Eclipse to run code, please delete below content<-->
+    <build>
+        //....
+    </build>
+```
+
+Then you can run the target java file.
 
 
 
 
-### Base-2 Bit Sliced Range Encoded Bitmap
+## About Base-2 Bit Sliced Range Encoded Bitmap
+
 blog url: https://richardstartin.github.io/posts/range-bitmap-index#implementing-a-range-index
 
 Chee Yong Chan, Yannis E. Ioannidis. Bitmap Index Design and Evaluation. SIGMOD. 1998, p355-366.
 
-### Dataset
-#### synthetic dataset
+## About Datasets
+
+Our paper used both synthetic and real datasets.
+
+We provided the download URLs for the real dataset.
+
+You can also choose to send an email to the author to inquire about the real datasets.
+
+We will be very happy to receive your emails and will respond promptly.
+
+#### Synthetic dataset
+
+We have written a synthetic data generator to automatically generate synthetic data of a specified size.
+
+Generator folder has SyntheticQueryGenerator.java file can generate synthetic dataset.
+
+Some details:
 
 event schema:```String type, int attribute1, int attribute2, double.2 attribute3, double.2 attribute4, long timestamp```
 
@@ -35,10 +86,11 @@ Suppose the probability of occurrence of event types follows a Zipf distribution
 
 The difference in timestamp for each adjacent record is 1.
 
-We generate 5 synthetic datasets, they contain 2_000_000 (2M), 4_000_000 (4M), 
-8_000_000 (8M), 16_000_000 (16M), 32_000_000 (32M) records, respectively.
+We generated 3 synthetic datasets, they contain 2_000_000 (2M), 6_000_000 (6M), and 10_000_000 (10M) records, respectively.
 
-#### real dataset1: the stock market dataset
+
+
+#### Real dataset1: Stock Market
 
 download URL: https://davis.wpi.edu/datasets/Stock_Trace_Data/stock_data/
 
@@ -50,12 +102,17 @@ number of records: 224_473 (0.224M)
 
 number of types: 2 (Sell or Buy)
 
-### real dataset2: Google cluster
+
+
+### Real dataset2: Google cluster
 
 download URL: https://davis.wpi.edu/datasets/Stock_Trace_Data/stock_data/
 we choose four attributes from job table: event type,job ID,scheduling class,time
 index attribute: scheduling class (when using tree index, we need to index type)
-#### real dataset3: crimes dataset
+
+
+
+#### Real dataset3: Crimes
 
 download URL: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present-Dashboard/5cd6-ry5g
 

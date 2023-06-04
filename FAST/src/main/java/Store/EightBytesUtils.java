@@ -3,7 +3,6 @@ package Store;
 import java.nio.ByteBuffer;
 
 public class EightBytesUtils {
-    // 所有数据类型的长度不会超过8个字节
     private static ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
     public static byte[] longToBytes(long x){
         buffer.putLong(0, x);

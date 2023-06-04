@@ -1,8 +1,5 @@
 package Common;
 
-/*
-目前暂时不支持等值查询
- */
 public enum ComparedOperator {
     /*
     GT: '>'
