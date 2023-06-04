@@ -13,12 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * recordNum是必须要的
- * 有多少个要索引的列就要new多少个B+树
- * 这里为了图方便统一使用Long类型的
- * 为了支持事件类型查询，这里使用了RoaringBitmap
- */
 public class NaiveIndexUsingBPlusTree extends Index {
     public static boolean debug = true;                 // print
     public static boolean testCost = false;             // whether we need to test cost const value

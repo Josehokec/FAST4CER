@@ -5,22 +5,21 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * 不固定层级的跳跃表，默认key就是long类型的，T是值类型
- * 参考：<a href="https://www.freesion.com/article/4513366377/">SkipList</a>
+ * ref：<a href="https://www.freesion.com/article/4513366377/">SkipList</a>
  * */
 public class SkipList <T>{
-    private int nodes;                                  //节点总数
-    private int listLevel;                              //层数
-    private SkipListNode<T> head,tail;                  // 头尾指针
-    private final Random random;                        // 用于投掷硬币
-    private static final double PROBABILITY = 0.42;     //向上提升一个的概率
+    private int nodes;                                  // node number
+    private int listLevel;                              // level
+    private SkipListNode<T> head,tail;                  // head or tail pointer
+    private final Random random;                        // random
+    private static final double PROBABILITY = 0.42;     //prob
     public SkipList() {
         random=new Random();
         initial();
     }
 
     /**
-     * 初始化跳表
+     * initial skip list
      **/
     public void initial(){
         head=new SkipListNode<T>(SkipListNode.HEAD_KEY, null);
@@ -38,7 +37,7 @@ public class SkipList <T>{
     }
 
     /**
-     * 在最下面一层，找到要插入的位置前面的那个key
+     * on the bottom layer, locate the key in front of the position you want to insert
      * */
     private SkipListNode<T> findNode(long key){
         SkipListNode<T> p=head;
@@ -57,8 +56,8 @@ public class SkipList <T>{
     }
 
     /**
-     * 该函数适用于等值查询
-     * 查找是否存储key，存在则返回该节点，否则返回null
+     * This function is applicable to equivalence queries
+     * Find if the key is stored, return the node if it exists, otherwise return null
      * */
     public SkipListNode<T> search(long key){
         SkipListNode<T> p=findNode(key);
@@ -70,14 +69,14 @@ public class SkipList <T>{
     }
 
     /**
-     * 查找key的范围在[min, max]之间的值列列表
-     * @param min 最小值
-     * @param max 最大值
-     * @return 满足条件的值列表
+     * rangeQuery
+     * @param min minimum
+     * @param max maximum
+     * @return value list
      */
     public List<T> rangeQuery(long min, long max){
         List<T> ans = new ArrayList<>();
-        // 开始节点，注意开始节点的值是小于min的
+        // Start node, note that the value of the start node is less than min
         SkipListNode<T> node;
         if(min == Long.MIN_VALUE){
             node= findNode(min);
@@ -99,18 +98,18 @@ public class SkipList <T>{
     }
 
     /**
-     * 向跳跃表中添加key-value
-     * 之前的版本不允许插入重复的key 这里做了修改
+     * add key-value
+     * we can insert duplicate tuples
      * */
     public void put(long k,T v){
         SkipListNode<T> p=findNode(k);
 
         SkipListNode<T> q=new SkipListNode<T>(k, v);
         backLink(p, q);
-        int currentLevel = 0;//当前所在的层级是0
-        //抛硬币
+        int currentLevel = 0;
+
         while (random.nextDouble() < PROBABILITY) {
-            //如果超出了高度，需要重新建一个顶层
+
             if (currentLevel>=listLevel) {
                 listLevel++;
                 SkipListNode<T> p1=new SkipListNode<T>(SkipListNode.HEAD_KEY, null);
@@ -121,22 +120,21 @@ public class SkipList <T>{
                 head=p1;
                 tail=p2;
             }
-            //将p移动到上一层
+
             while (p.up == null) {
                 p = p.left;
             }
             p = p.up;
 
-            SkipListNode<T> e=new SkipListNode<T>(k, null);//只保存key就ok
-            backLink(p, e);//将e插入到p的后面
-            verticalLink(e, q);//将e和q上下连接
+            SkipListNode<T> e=new SkipListNode<T>(k, null);
+            backLink(p, e);
+            verticalLink(e, q);
             q=e;
             currentLevel++;
         }
-        nodes++;//层数递增
+        nodes++;
     }
 
-    //node1后面插入node2
     private void backLink(SkipListNode<T> node1,SkipListNode<T> node2){
         node2.left=node1;
         node2.right=node1.right;
@@ -144,24 +142,20 @@ public class SkipList <T>{
         node1.right=node2;
     }
 
-    /**
-     * 水平双向连接
-     * */
+
     private void horizontalLink(SkipListNode<T> node1,SkipListNode<T> node2){
         node1.right=node2;
         node2.left=node1;
     }
 
-    /**
-     * 垂直双向连接
-     * */
+
     private void verticalLink(SkipListNode<T> node1, SkipListNode<T> node2){
         node1.down=node2;
         node2.up=node1;
     }
 
     /**
-     * 打印出原始数据
+     * print SkipList
      * */
     @Override
     public String toString() {

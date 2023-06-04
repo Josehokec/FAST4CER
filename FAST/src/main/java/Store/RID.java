@@ -1,7 +1,7 @@
 package Store;
 
 /**
- * 记录事件的存储位置
+ * RID = <page, offset>
  */
 public record RID(int page, int offset) implements Comparable<RID> {
 

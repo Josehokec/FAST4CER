@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 新版的key
+ * discard content
+ *
  * key = typeId + dataPartitionId
  * to accelerate query, we store the attribute synopsis in FastKey
  * attribute synopsis contains startTime, endTime, minValues and maxValues

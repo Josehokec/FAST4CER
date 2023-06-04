@@ -1,26 +1,15 @@
 package Common;
 
 import java.util.Arrays;
-/**
- * [0,split) 是teLeft
- */
+
 public class FastKeyV1 {
     private final byte[] key;
     private final int split;
 
-    /**
-     * 这里把这两个部分都设置成了8的倍数<br>
-     * 比如tsLeftLen=10时，本来之需要10bit来存的，但实际存储用了16bit<br>
-     * 如果希望更省空间则可以使用HashKey，但是其在译码效率上不如FastKey
-     * @param tsLeft 时间戳高位
-     * @param tsLeftLen 时间戳高位bit长度
-     * @param typeId 类型编号
-     * @param typeIdLen 类型长度
-     */
     public FastKeyV1(long tsLeft, int tsLeftLen, int typeId, int typeIdLen){
-        //需要的总的字节数
+
         int sumByte;
-        // 最后三位如果都是0，说明是8的倍数
+
         if((tsLeftLen & 0x07) == 0){
             split = (tsLeftLen >> 3);
         }else{

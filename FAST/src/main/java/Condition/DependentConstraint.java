@@ -5,16 +5,14 @@ import Common.ComparedOperator;
 import Common.EventSchema;
 
 /**
- * 一共12个变量，统一格式如下：
+ * a unified format as follows：
  * varName1.attrName ao1 m1 ao2 a1 LE varName2.attrName ao3 m2 ao4 a2
- * 由于RangeBitmap原因，a1 & a2 会统一成long格式
- * 目前支持的依赖谓词形式如下:
+ * we can support:
  * a.open * 3 + 5 <= b.open * 4 - 5
  * a.open + 3 <= b.open
  * a.open <= b.open
  * a.open + 4 >= b.open * 5.0
- * 不支持格式: a.open <= b.open + c.open | a.open <= b.open <= c.open | 2 * a.open + 4 <= 4 * b.open + 9
- * a.open 一定要写在前面 不然程序会炸
+ * we cannot support format: a.open <= b.open + c.open | a.open <= b.open <= c.open | 2 * a.open + 4 <= 4 * b.open + 9
  */
 public class DependentConstraint extends Constraint{
     private String attrName;            // 属性名字

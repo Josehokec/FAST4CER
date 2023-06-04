@@ -8,21 +8,21 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- * 事件存储类
- * 存储字节类型的记录
- * 文件名字=schemaName.store
- * 没有实现缓存功能
+ * Event Storage Class
+ * Storing Byte Type Records
+ * filename=schemaName.store
+ * Caching function not implemented
  */
 public class EventStore {
-    private final int recordSize;                   // 一条记录所占字节大小
-    private int curPage;                            // 当前缓冲的页
-    private final int pageSize;                     // 页大小 越大查询开销越小
-    private int pageNum;                            // 上次插入的记录所在页号
-    private int offset;                             // 偏移
-    private final String schemaName;                // 模式名字
-    private File file;                              // 存储文件
-    private final ByteBuffer buf;                   // 字节缓存
-    private MappedByteBuffer readMappedBuffer;      // 只读取一页存放在内存中
+    private final int recordSize;                   // Byte size of a record
+    private int curPage;                            // Current buffered pages
+    private final int pageSize;                     // page size
+    private int pageNum;                            // page number of the last inserted record
+    private int offset;                             // offset
+    private final String schemaName;                // schema name
+    private File file;                              // file
+    private final ByteBuffer buf;                   // byte buffer
+    private MappedByteBuffer readMappedBuffer;      // mapped buffer
 
     public EventStore(String schemaName, int recordSize){
         String dir = System.getProperty("user.dir");
@@ -31,7 +31,7 @@ public class EventStore {
         String filePath = storePath + File.separator + filename;
         System.out.println("store filePath: " + filePath);
         file = new File(filePath);
-        // 之前存在过这个文件 要把内容清了
+        // If this file has existed before, we clear the content
         if(file.exists()){
             if(file.delete()){
                 System.out.println("file: '"+ filename + "' exists in disk, we clear the file content.");
@@ -40,7 +40,7 @@ public class EventStore {
 
         this.recordSize = recordSize;
         this.schemaName = schemaName;
-        // 申请一个页面8K
+        // page size is set to 8K
         pageSize = 8 * 1024;
         buf = ByteBuffer.allocate(pageSize);
         curPage = -1;
@@ -49,10 +49,6 @@ public class EventStore {
         readMappedBuffer = null;
     }
 
-    /**
-     * 得到一个页面的大小
-     * @return  页面的大小
-     */
     public final int getPageSize(){
         return pageSize;
     }
@@ -62,20 +58,20 @@ public class EventStore {
     }
 
     /**
-     * 插入一条记录的到文件中
+     * insert a record to file
      * byte[] content = new byte[len];
      * System.arraycopy(array, 0, content, 0, len);
-     * @param record 字节数组类型的记录
-     * @return RID值
+     * @param record byte array record
+     * @return RID pointer
      */
     public final RID insertByteRecord(byte[] record){
         RID rid;
-        // 缓存再也放不下数据了，则将数据刷到文件中
+        // If the cache can no longer hold data, it will be flushed to a file
         if(offset + recordSize > pageSize){
-            // 把内容锁住，然后将数据刷到文件中，
+            // Lock the content and then flush the data into the file
             buf.flip();
             try(BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file, true))){
-                //注意到这个页面可能没有满，但是无所谓
+                // note that this page may not be full, but it doesn't matter
                 byte[] array = buf.array();
                 out.write(array);
                 out.flush();
@@ -92,14 +88,14 @@ public class EventStore {
     }
 
     /**
-     * 根据rid的值去读字节
-     * 有可能当前页之前读取过，那么就没必要再次映射了
-     * if rid.page = curPage 直接读取就行了
-     * @param rid RID值
-     * @return 读取到的记录
+     * Read bytes based on the value of rid
+     * It is possible that the current page has been read before, so there is no need to map again
+     * if rid.page = curPage, then direct read
+     * @param rid RID pointer
+     * @return record
      */
     public final byte[] readByteRecord(RID rid){
-        // 读之前必须保证缓冲里面的数据全写在文件里了
+        // Before reading, it is necessary to ensure that all data in the buffer is written in the file
         if(buf.hasRemaining()){
             buf.flip();
             int len = buf.limit();
@@ -115,7 +111,7 @@ public class EventStore {
         }
         // System.out.println(file.getAbsoluteFile());
         byte[] byteRecord = new byte[recordSize];
-        // 这个页面已经在内存中了 直接读取然后返回
+        // This page is already in memory and can be directly read and returned
         if(curPage == rid.page()){
             readMappedBuffer.get(rid.offset(), byteRecord);
             return byteRecord;
@@ -128,14 +124,14 @@ public class EventStore {
             long startPos = (long) queryPage * pageSize;
 
             //long readStart = System.nanoTime();
-            // 获取文件通道，然后将指定位置的数据送到内存中
+            // Obtain the file channel and then send the data from the specified location to memory
             FileChannel fileChannel = raf.getChannel();
             readMappedBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, startPos, pageSize);
             curPage = queryPage;
             //long readEnd = System.nanoTime();
             readMappedBuffer.get(rid.offset(), byteRecord);
             //System.out.println("read a page cost: " + (readEnd - readStart) / 1000 + "us");
-            // 如果不close可能导致异常
+            // If not closed, it may cause exceptions
             raf.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,7 +164,6 @@ public class EventStore {
     }
 
     public static void main(String[] args){
-        // 测试读取一个64KB页面开销是多大
         System.out.println("hello world.");
         EventStore store = new EventStore("debug", 4);
         int[] items = {0,1,2,3,4,5,6,7,8,9};

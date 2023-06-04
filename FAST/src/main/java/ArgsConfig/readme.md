@@ -1,15 +1,12 @@
-这个文件主要是设置事件达到率的
-假设一个事件数据文件开始时间戳是$t_{start}$.结束时间戳是t_{end}.
+This file is mainly used to set the event achievement rate
 
-对于一个事件类型type来说，其总数是num，则其达到率为
+Assuming that the start timestamp of an event data file is $t_ {start} $. The end timestamp is t_ {end}
+
+For an event type, if its total number is num, then its achievement rate is
 
 $$
 \frac{num}{t_{end} - t_{start}
 $$
 
-虽然这种设计也很蠢，但是还说这么搞了，之后可以优化哈
-
-反正测试的时候会先测试full scan方法
-
-事件的到达率会以json格式的文件存储
+The arrival rate of events will be stored in JSON format files
 

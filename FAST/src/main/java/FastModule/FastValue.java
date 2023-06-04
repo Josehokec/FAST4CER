@@ -110,11 +110,6 @@ public class FastValue {
         return ans;
     }
 
-    /*
-    第一步是使用贪心来寻找选择率最低的那个事件
-    然后根据最低的那个事件生成回放间隙
-     */
-
     public final List<BitmapQueryTriple> getQueryTriples(RoaringBitmap rb, int varId){
         final int len = rb.getCardinality();
         List<BitmapQueryTriple> ans = new ArrayList<>(len);

@@ -2,10 +2,6 @@ package Common;
 
 import Store.RID;
 
-/**
- * 时间戳
- * 记录存储的位置
- */
 public class FastValuePair {
     private long timestamp;
     private RID rid;

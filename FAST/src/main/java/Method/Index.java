@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * =
+ *
  * indexNUm存储了有多少列要创建索引
  * indexName 索引的名字
  * schema 该索引对应的schema

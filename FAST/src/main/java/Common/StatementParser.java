@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * 一个简单版本的查询语言解释器
- * 语句目前支持这四种：
+ * A Simple Version of Query Language Interpreter
+ * We support four statements as following：
  * 1. CREATE TABLE
  * 2. CREATE INDEX
  * 3. ALTER
@@ -32,8 +32,8 @@ public class StatementParser {
      * 根据创建表语句new Schema和Store
      * CREATE TABLE stock (ticker TYPE, open FLOAT.2, volume INT, time TIMESTAMP)
      * 假设只支持float+int+double类型的数据
-     * 当类型是float和double时候需要指定保留小数点后几位
-     * @param statement 创建表的语句
+     * When the types are float and double, it is necessary to specify the number of decimal places to be retained
+     * @param statement create table statement
      */
     public static void createTable(String statement){
         EventSchema schema = new EventSchema();
@@ -156,8 +156,8 @@ public class StatementParser {
 
         Index index;
         switch (indexType) {
-            case "FAST_V2" -> index = new DiscardFast(indexName);
-            case "FAST" -> index = new OptimalFastIndex(indexName);
+            case "FAST_V2" -> index = new DiscardFast(indexName);           // discard
+            case "FAST" -> index = new FASTIndex(indexName);
             case "B_PLUS_TREE" -> index = new NaiveIndexUsingBPlusTree(indexName);
             case "B_PLUS_TREE_PLUS" -> index = new NaiveBPlusTreePlus(indexName);
             case "SKIP_LIST" -> index = new NaiveIndexUsingSkipList(indexName);
@@ -168,7 +168,7 @@ public class StatementParser {
             case "TWO_RTREE_PLUS" -> index = new NaiveTwoRTreesPLus(indexName);
             default -> {
                 System.out.println("Can not support " + indexType + " index.");
-                index = new OptimalFastIndex(indexName);
+                index = new FASTIndex(indexName);
             }
         }
 
@@ -200,19 +200,19 @@ public class StatementParser {
      */
     public static EventPattern queryPattern(String statement){
         EventPattern p = new EventPattern();
-        // 一共有6行，每行每行处理
+        // There are a total of 6 rows, each row is processed
         String[] sentences = statement.split("\n");
-        // 第一行是顺序模式 先转成大写
+        // first line is seq pattern
         readFirstSentence(p, sentences[0].toUpperCase());
-        // 第2行指定第是表名字
+        // second line is table/schema name
         String schemaName = sentences[1].toUpperCase().split(" ")[1];
         p.setSchemaName(schemaName);
-        // 第3行是匹配策略
+        // third line is match strategy
         String matchStrategy = sentences[2].toUpperCase().split(" ")[1];
         p.setStrategy(matchStrategy);
-        // 第4行是谓词约束，比较难处理
+        // fourth line is predicate constraints
         readFourthSentence(p, sentences[3].toUpperCase(), schemaName);
-        // 第5行是WITHIN语句(WITHIN 10 min)，默认的事件单位是毫秒
+        // fifth line is query time window
         long tau;
         String[] withinStatement = sentences[4].toUpperCase().split(" ");
         if(withinStatement[2].contains("HOUR")){
@@ -225,7 +225,7 @@ public class StatementParser {
             tau = Integer.parseInt(withinStatement[1]);
         }
         p.setTau(tau);
-        //第6行是RETURN语句 RETURN COUNT(*)
+        //sixth lien is return statement
         String returnStr = sentences[5].toUpperCase().substring(6);
         p.setReturnStr(returnStr);
 
@@ -233,7 +233,7 @@ public class StatementParser {
     }
 
     private static void readFirstSentence(EventPattern p, String firstSentence){
-        // 第一行是SEQ语句 PATTERN SEQ(IBM a, Oracle b, IBM c, Oracle d)
+        // e.g., PATTERN SEQ(IBM a, Oracle b, IBM c, Oracle d)
         String[] seqStatement = firstSentence.split("[()]");
         // seqEvent = "IBM a, Oracle b, IBM c, Oracle d"
 
@@ -252,12 +252,12 @@ public class StatementParser {
     }
 
     /**
-     * 第3行是where语句<br>
+     * where + predicate constraints<br>
      * 谓词约束支持三种格式的regex1和regex2和regex3<br>
      * 把变量名字、属性名字、操作算子和值读取到，然后以变量名字作为key去存储这个变量的相关谓词约束
-     * @param p 事件模式
-     * @param thirdSentence 事件模式查询语句第三行
-     * @param schemaName 事件schema
+     * @param p pattern
+     * @param thirdSentence string
+     * @param schemaName schemaName
      */
     private static void readFourthSentence(EventPattern p, String thirdSentence, String schemaName){
         // 90 <= a.open <= 110 AND 90.1 <= b.open <= 110.1 AND c.open >= 125 AND d.open <= 75
@@ -270,7 +270,7 @@ public class StatementParser {
         EventSchema schema = metadata.getEventSchema(schemaName);
 
         for (String predicate : predicates) {
-            // 把前后空格去掉
+            // delete blank
             String curPredicate = predicate.trim();
             if(Pattern.matches(regex1, curPredicate)){
                 // number <=? varName.attrName <=? number
@@ -289,9 +289,9 @@ public class StatementParser {
     }
 
     /**
-     * 处理number <=? varName.attrName <=? number这种格式的谓词
-     * @param pattern           查询的模式
-     * @param curPredicate      当前的谓词
+     * predicate format: number <=? varName.attrName <=? number
+     * @param pattern           event pattern
+     * @param curPredicate      current predicate
      * @param schema            schema
      */
     private static void parseIndependentConstraint1(EventPattern pattern, String curPredicate, EventSchema schema){
@@ -347,13 +347,13 @@ public class StatementParser {
     }
 
     /**
-     * 处理varName.attrName [><]=? number这种格式的谓词
-     * @param pattern           查询的模式
-     * @param curPredicate      当前的谓词
+     * predicate format: varName.attrName [><]=? number
+     * @param pattern           pattern
+     * @param curPredicate      current predicate
      * @param schema            schema
      */
     private static void parseIndependentConstraint2(EventPattern pattern, String curPredicate, EventSchema schema){
-        // 找到小于号或者大于号的位置
+        // Find the position of the less than or greater than sign
         int aoPos = -1;
         ComparedOperator cmp;
         for(int k = 0; k < curPredicate.length(); ++k) {
@@ -399,17 +399,18 @@ public class StatementParser {
     }
 
     /**
-     * 目前只处理两种形式的依赖谓词<br>
-     * 注意：由于不支持浮点数，const1和const2会自动转换<br>
+     * Currently, only two forms of dependency predicates are processed<br>
+     * Note: Since floating point numbers are not supported, const1 and const2 will be automatically converted<br>
      * case 1: a.open <= b.open<br>
      * case 2: a.open * 3 - 5 >= b.open / 2 + 3<br>
-     * @param pattern           查询的事件模式
-     * @param curPredicate      当前谓词
-     * @param schema            模式
+     * @param pattern           event pattern
+     * @param curPredicate      current predicate
+     * @param schema            schema
      */
     public static void parseDependentConstraint(EventPattern pattern, String curPredicate, EventSchema schema){
 
-        // 如果flag是true说明是case 2, 如果flag是false说明是case 1
+        // If flag is true, it indicates case 2;
+        // if flag is false, it indicates case 1
         boolean flag = curPredicate.contains("+") || curPredicate.contains("-") ||
                 curPredicate.contains("*") || curPredicate.contains("/");
 
@@ -442,18 +443,18 @@ public class StatementParser {
         }
         else{
             // format: a.open <= b.open
-            // 记录第一个点和第二个点的位置
+            // Record the positions of the first and second dots
             int firstDot = -1;
             int secondDot = -1;
-            //记录比较符号的位置
+            // Record the position of comparison symbols
             int opPos = -1;
-            //记录第一个变量名字和第二个变量名字
+            // Record the first variable name and the second variable name
             String firstVarName =null;
             String secondVarName = null;
             ComparedOperator op = null;
             for(int i = 0; i < curPredicate.length(); ++i){
                 char ch = curPredicate.charAt(i);
-                // 第一个点的位置
+                // first dot position
                 if(ch == '.' && firstDot == -1){
                     firstDot = i;
                     // [0,i)
@@ -487,7 +488,8 @@ public class StatementParser {
                 DependentConstraint dc = new DependentConstraint(attrName1, firstVarName, secondVarName, op);
                 pattern.getDcList().add(dc);
             }else{
-                // 两个属性名字不一样 出现错误了
+                // If the names of two attributes are different
+                // it indicates an error has occurred
                 throw new RuntimeException("Dependent Constraint has error.");
             }
         }

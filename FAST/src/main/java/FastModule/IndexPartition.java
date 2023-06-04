@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-/**
- * 需要一个HashMap存储这个事件类型对应的分区Id
- */
 public class IndexPartition {
     private HashMap<String, SegmentInfo> infoMap;   // synopsis information
     private List<RangeBitmap> rangeBitmapList;      // range bitmap list

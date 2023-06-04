@@ -16,19 +16,18 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+
 /**
- * 新版fast 要存储的事件数量是 16 * 1024 性能会非常好
- * 实际上，32 * 1024会更好，但是考虑到这样做会导致驻留在缓存中的数据会非常多
- * key = event type + data partition id
- * 这个版本的FAST已经废弃
+ * this is old fast version
+ * we have discarded the version
  */
 
 public class DiscardFast extends Index{
     public static boolean debug = true;
     private int partitionRecordNum;                         // optimal record number store in a partition
-    private List<Long> attrMinValues;                       // 被索引属性的最小值
-    private List<Long> attrMaxRange;                        // 被索引属性的最大值
-    HashMap <String, Integer> partitionTable;               // 分区id表
+    private List<Long> attrMinValues;                       // index attribute minimum values
+    private List<Long> attrMaxRange;                        // index attribute maximum values
+    HashMap <String, Integer> partitionTable;               // partitionTable
     HashMap<String, List<FastKey>> keyTable;                // Key Table
     HashMap<FastKey, FastValue> hashTable;                  // Hash Table
     HashMap<String, FastSingleBuffer> buffers;              // Buffer
@@ -89,7 +88,7 @@ public class DiscardFast extends Index{
         long timestamp = 0;
         long[] attrValArray = new long[indexAttrNum];
 
-        // 只有是索引的属性才会被放入到attrValArray中
+        // Only indexed attributes will be placed in attrValArray
         for(int i = 0; i < splits.length; ++i){
             if(attrTypes[i].equals("TYPE")){
                 eventType = splits[i];
@@ -111,7 +110,7 @@ public class DiscardFast extends Index{
             }
         }
 
-        // 蓄水池存储的是没有变换过的值
+        // The reservoir stores unchanged long values
         reservoir.sampling(attrValArray, autoIndices);
 
         // 由于RangeBitmap只能存储非负数整数，因此需要变换变换后的值是: y = x - min
@@ -131,7 +130,7 @@ public class DiscardFast extends Index{
                 //if(debug){System.out.println("buffer of type '" + eventType + "' full, it will construct range bitmap");}
                 FastKey key = buildIndex(eventType, buffer);
                 buffer.clearBuffer();
-                // 更新key table
+                // update key table
                 if(keyTable.containsKey(eventType)){
                     keyTable.get(eventType).add(key);
                 }else{
@@ -229,7 +228,7 @@ public class DiscardFast extends Index{
             long startTime = System.nanoTime();
             String eventType = seqEventTypes[i];
             String varName = seqVarNames[i];
-            // 得到这个变量的所有独立谓词约束
+            // obtain all independent predicate constraints
             List<IndependentConstraint> icList = pattern.getICListUsingVarName(varName);
             List<IthRID> curIthRID = getIthRIDList(eventType, icList, i);
             queryRIDList = mergeRID(queryRIDList, curIthRID);
@@ -252,7 +251,7 @@ public class DiscardFast extends Index{
         String[] seqVarNames = pattern.getSeqVarNames();
         int patternLen = seqEventTypes.length;
 
-        // 计算选择率最低的那个变量
+        // Calculate the variable with the lowest selection rate
         double minSel = Double.MAX_VALUE;
         int minIdx = -1;
 
@@ -263,7 +262,7 @@ public class DiscardFast extends Index{
 
         for(int i = 0; i < patternLen; ++i){
             String varName = seqVarNames[i];
-            // 得到这个变量的所有独立谓词约束
+            //  obtain all independent predicate constraints for variable $varName$
             List<IndependentConstraint> icList = pattern.getICListUsingVarName(varName);
             double sel = arrivals.get(seqEventTypes[i]) / sumArrival;
             for(IndependentConstraint ic : icList){
@@ -278,7 +277,7 @@ public class DiscardFast extends Index{
             }
         }
 
-        // 先去找选择率最小的那个变量位置
+        // First, find the variable with the lowest selectivity
         long startOffset;
         long endOffset;
         if(minIdx == 0){
@@ -308,14 +307,14 @@ public class DiscardFast extends Index{
             finalIthRIDList.add(new IthRID(pair.rid(), minIdx));
         }
 
-        // 然后再去找其他的buckets
+
         for(int i = 0; i < patternLen; ++i){
             if(i != minIdx){
                 String eventType = seqEventTypes[i];
                 String varName = seqVarNames[i];
-                // 得到这个变量的所有独立谓词约束
+
                 List<IndependentConstraint> icList = pattern.getICListUsingVarName(varName);
-                // 没有命中replay间隙的话 置成0
+
                 List<IthRID> ithRIDList = getRIDList(eventType, icList, i, replayIntervals);
                 finalIthRIDList = mergeRID(finalIthRIDList, ithRIDList);
             }

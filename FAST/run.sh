@@ -1,19 +1,22 @@
-#mainclass=Experiemnt/TradeDatasetExperiment
-#mvn package
-#cd target
+# shell script
+# for different datasets, we have written different class to run
 
-#echo "java -cp .;FAST-1.0-SNAPSHOT-jar-with-dependencies.jar ${mainclass}"
-#java -cp .;FAST-1.0-jar-with-dependencies.jar ${mainclass}
-
-# Main class: including CrimesDatasetExperiment, SyntheticDatasetExperiment, and ClusterDatasetExperiment
-MAIN_CLASS=Experiment/CrimesDatasetExperiment
+# Main class: including SyntheticDatasetExperiment, CrimesDatasetExperiment,
+# ClusterDatasetExperiment, and TradeDatasetExperiment
+# we only upload a 2M synthetic dataset in open source code
+# if you want to run more experiments, please download others datasets
+# our readMe.md has given the download URL, or you can choose send email to us to obtain the dataset
+MAIN_CLASS=Experiment/SyntheticDatasetExperiment
 
 JAVAHOME=/usr
-MAVEN_HOME=/Users/liushizhe/Downloads/apache-maven-3.9.2
+
+MAVEN_HOME=$MAVEN_HOME
 BASEPATH=$(cd `dirname $0`; pwd)
+
 JAR_PATH=$BASEPATH/target/FAST-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 psid=0
+
 initPsid(){
     javaps=`$JAVAHOME/bin/jps -l | grep $MAIN_CLASS`
     

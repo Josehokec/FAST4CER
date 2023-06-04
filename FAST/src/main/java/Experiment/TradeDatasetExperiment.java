@@ -265,7 +265,7 @@ public class TradeDatasetExperiment {
 
     public static void main(String[] args){
         // please first run testFullScan method to generate arrival rate json file
-        Experiment.printFlag = true;
+        TradeDatasetExperiment.printFlag = true;
         TradeDatasetExperiment e = new TradeDatasetExperiment();
         // create table and add constraints
         e.initial();
