@@ -22,9 +22,9 @@ tail -f test.log
 
 ```
 14-th query start...                      // 14-th query pattern
-filter cost: 8.602ms											// index filtering cost
+filter cost: 8.602ms                      // index filtering cost
 scan cost: 1.782ms	                      // disk accessing cost
-bucket sizes: [ 4 1441 39 ]								// each bucket size in bucket joining stage
+bucket sizes: [ 4 1441 39 ]               // each bucket size in bucket joining stage
 join cost: 0.374ms                        // bucket joining cost
 number of tuples: 3                       // number of matched tuples
 14-th query pattern time cost: 11.13ms    // sum cost
