@@ -15,14 +15,14 @@ import Common.EventSchema;
  * we cannot support format: a.open <= b.open + c.open | a.open <= b.open <= c.open | 2 * a.open + 4 <= 4 * b.open + 9
  */
 public class DependentConstraint extends Constraint{
-    private String attrName;            // 属性名字
-    private ComparedOperator cmp;       // 比较符号
-    private String varName1;            // 变量名字1
-    private String varName2;            // 变量名字2
-    private double m1;              // 倍数
-    private long a1;
-    private double m2;              // 倍数2
-    private long a2;
+    private String attrName;            // attribute name
+    private ComparedOperator cmp;       // comparison operator
+    private String varName1;            // variable name 1
+    private String varName2;            // variable name 2
+    private double m1;                  // multiple 1
+    private long a1;                    // addend number1
+    private double m2;                  // multiple 2
+    private long a2;                    // addend number2
     ArithmeticOperator ao1, ao2, ao3, ao4;
 
     public DependentConstraint(){
@@ -37,12 +37,11 @@ public class DependentConstraint extends Constraint{
     }
 
     /**
-     * 形式为a.open < b.open的构造函数<br>
-     * 如果是a.open + 3 < b.open + 4这种形式的话 推荐传入字符串来构造
-     * @param attrName 属性名字
-     * @param varName1 变量名字1
-     * @param varName2 变量名字2
-     * @param cmp 比较算子
+     * String format: a.open < b.open<br>
+     * @param attrName attribute name
+     * @param varName1 variable name 1
+     * @param varName2 variable name 2
+     * @param cmp comparison operator
      */
     public DependentConstraint(String attrName, String varName1, String varName2, ComparedOperator cmp){
         this.attrName = attrName;
@@ -72,16 +71,14 @@ public class DependentConstraint extends Constraint{
     }
 
     /**
-     * 构造左边的表达式 <br>
-     * 即把attrName varName1 ao1 m1 ao2 a1赋值<br>
-     * 支持的格式有：a.open * 3 + 3 ｜ a.open + 4 ｜ a.open * 3 <br>
-     * 不支持 3 * a.open + 4 和 4 + a.open
-     * 也就是说varName.attrName必须写在前面
-     * @param left 四则运算
-     * @param s 事件模式
+     * Construct the expression on the left <br>
+     * format: attrName.varName1 ao1 m1 ao2 a1<br>
+     * supported format：a.open * 3 + 3 ｜ a.open + 4 ｜ a.open * 3 <br>
+     * we cannot support 3 * a.open + 4 和 4 + a.open
+     * @param left left string
+     * @param s event schema
      */
     public void constructLeft(String left, EventSchema s){
-        //点的位置
         int dotPos = -1;
         boolean readAttrName = false;
         int hasMulOrDiv = -1;
@@ -125,7 +122,7 @@ public class DependentConstraint extends Constraint{
             attrName = left.substring(dotPos + 1).trim();
         }
 
-        //注意之前没有把m1赋值 默认是1
+        // If m1 is not assigned a value, it defaults to 1
         if(hasMulOrDiv != -1){
             String m1Str;
             if(hasAddOrSub == -1){
@@ -138,13 +135,12 @@ public class DependentConstraint extends Constraint{
     }
 
     /**
-     * 构造右边的表达式 <br>
-     * 即把attrName varName2 ao3 m2 ao4 a2赋值<br>
-     * 支持的格式有：b.open * 3 + 3 ｜ b.open + 4 ｜ b.open * 3 <br>
-     * 不支持 3 * b.open + 4 和 4 + b.open<br>
-     * 也就是说varName.attrName必须写在前面
-     * @param right 四则运算
-     * @param s 事件模式
+     * Construct the expression on the right <br>
+     * format: attrName.varName2 ao3 m2 ao4 a2赋值<br>
+     * supported format example: b.open * 3 + 3 ｜ b.open + 4 ｜ b.open * 3 <br>
+     * we cannot support 3 * b.open + 4 和 4 + b.open<br>
+     * @param right right string
+     * @param s event schema
      */
     public void constructRight(String right, EventSchema s){
         //点的位置
@@ -195,7 +191,7 @@ public class DependentConstraint extends Constraint{
                 break;
             }
         }
-        //注意之前没有把m1赋值 默认是1
+        // If m1 was not previously assigned a value, it defaults to 1
         if(hasMulOrDiv != -1){
             String m2Str;
             if(hasAddOrSub == -1){
@@ -208,96 +204,80 @@ public class DependentConstraint extends Constraint{
     }
 
     /**
-     * 一定要按照顺序传过来 否则正确性无法保证
-     * @param value1 varName1的值
-     * @param value2 varName2的值
-     * @return 是不是满足依赖谓词约束
+     * Be sure to pass it in order, otherwise accuracy cannot be guaranteed
+     * @param value1 value of varName1
+     * @param value2 value of varName2
+     * @return return true if satisfied, otherwise return false
      */
     public boolean satisfy(long value1, long value2){
         double leftValue = getLeftValue(value1);
         double rightValue = getRightValue(value2);
-        switch(cmp){
-            case LT:
+        switch (cmp) {
+            case LT -> {
                 return (leftValue < rightValue);
-            case GE:
+            }
+            case GE -> {
                 return (leftValue >= rightValue);
-            case GT:
+            }
+            case GT -> {
                 return (leftValue > rightValue);
-            case LE:
+            }
+            case LE -> {
                 return (leftValue <= rightValue);
-            case EQ:
+            }
+            case EQ -> {
                 return (leftValue == rightValue);
-            default:
-                System.out.println("undefine compared operator");
+            }
+            default -> System.out.println("undefine compared operator");
         }
         return false;
     }
 
     /**
-     * 得到左边表达式的值
-     * @param value1 传入的参数
-     * @return 表达式值
+     * obtain the value on the left side of the expression
+     * @param value1 incoming parameters
+     * @return left value
      */
     public double getLeftValue(long value1){
-        double ans = 0;
-        switch(ao1){
-            case MUL:
-                ans = value1 * m1;
-                break;
-            case DIV:
-                ans = value1 / m1;
-        }
+        double ans = switch (ao1) {
+            case MUL -> value1 * m1;
+            case DIV -> value1 / m1;
+            default -> 0;
+        };
 
-        switch(ao2){
-            case ADD:
-                ans += a1;
-                break;
-            case SUB:
-                ans -= a1;
+        switch (ao2) {
+            case ADD -> ans += a1;
+            case SUB -> ans -= a1;
         }
         return ans;
     }
 
     /**
-     * 得到表达式右边的值
-     * @param value2 传入的参数
-     * @return 右值
+     * obtain the value on the right side of the expression
+     * @param value2 incoming parameters
+     * @return right value
      */
     public double getRightValue(long value2){
-        double ans = 0;
-        switch(ao3){
-            case MUL:
-                ans = value2 * m2;
-                break;
-            case DIV:
-                ans = value2 / m2;
-        }
+        double ans = switch (ao3) {
+            case MUL -> value2 * m2;
+            case DIV -> value2 / m2;
+            default -> 0;
+        };
 
-        switch(ao4){
-            case ADD:
-                ans += a2;
-                break;
-            case SUB:
-                ans -= a2;
+        switch (ao4) {
+            case ADD -> ans += a2;
+            case SUB -> ans -= a2;
         }
         return ans;
     }
 
     @Override
     public void print() {
-        switch(cmp){
-            case GT:
-                System.out.println(leftPart() + " > " + rightPart());
-                break;
-            case GE:
-                System.out.println(leftPart() + " >= " + rightPart());
-                break;
-            case LE:
-                System.out.println(leftPart() + " <= " + rightPart());
-                break;
-            case LT:
-                System.out.println(leftPart() + " < " + rightPart());
-                break;
+        switch (cmp) {
+            case GT -> System.out.println(leftPart() + " > " + rightPart());
+            case GE -> System.out.println(leftPart() + " >= " + rightPart());
+            case LE -> System.out.println(leftPart() + " <= " + rightPart());
+            case LT -> System.out.println(leftPart() + " < " + rightPart());
         }
     }
 
@@ -349,10 +329,7 @@ public class DependentConstraint extends Constraint{
         return buff.toString();
     }
 
-    /**
-     * 测试这个类的正确性
-     * @param args 空
-     */
+
     public static void main(String[] args){
         DependentConstraint dc0= new DependentConstraint("open", "a", "b", ComparedOperator.LE);
         dc0.print();

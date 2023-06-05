@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 匹配的元组
- * 一个事件是字符串
+ * Matched String tuple
  */
 public class Tuple {
     private final List<String> fullMatch;

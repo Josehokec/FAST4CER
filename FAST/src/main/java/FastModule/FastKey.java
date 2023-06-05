@@ -14,8 +14,8 @@ public class FastKey {
     private final int[] key;
     private final long startTime;
     private final long endTime;
-    private List<Long> minValues;               // Attribute synopsis 每个属性对应的最小值
-    private List<Long> maxValues;               // Attribute synopsis 每个属性对应的最大值
+    private List<Long> minValues;
+    private List<Long> maxValues;
 
     public FastKey(int typeId, int partitionId, long startTime, long endTime,
                    List<Long> minValues, List<Long> maxValues) {

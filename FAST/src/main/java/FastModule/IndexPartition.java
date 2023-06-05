@@ -49,7 +49,7 @@ public class IndexPartition {
         SegmentInfo info = infoMap.get(eventType);
 
         if(info == null){
-            throw new RuntimeException("program has bug");
+            throw new RuntimeException("Runtime Exception in IndexPartition");
         }
 
         List<Long> minValues = info.minValues();

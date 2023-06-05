@@ -4,12 +4,14 @@ import Common.ComparedOperator;
 import Common.EventSchema;
 
 /**
- * 独立约束条件：
+ * Independent predicate constraints
+ * format: minValue <= value(attrName) <= maxValue
+ * we can support formats have
  * 100 <= a.open <= 165
  * b.volume > 80
- * 默认是 minValue <= value(attrName) <= maxValue
- * 假设全部都用了long类型来存
- * 注意由于RangeBitmap不支持浮点类型的存储，因此这里要做变换
+ * assuming all are stored using long types
+ * Note that since RangeBitmap does not support storage of floating-point types,
+ * transformations need to be made here
  */
 public class IndependentConstraint extends Constraint{
 
@@ -114,21 +116,21 @@ public class IndependentConstraint extends Constraint{
     }
 
     /**
-     * 判断这个独立约束是否有最大最小值
-     * @return 如果没有最大值和最小值则返回0；
-     *         如果有最小值，没有最大值返回1；
-     *         如果没有最小值，有最大值返回2；
-     *         如果有最小值和最大值返回3；
+     * Determine if this independent constraint has a maximum and minimum value
+     * @return   if there are no maximum and minimum values, return 0;
+     *           if there is a minimum value and no maximum value, return 1;
+     *           if there is no minimum value, return 2 if there is a maximum value;
+     *           if there are minimum and maximum values, return 3;
      */
     public int hasMinMaxValue(){
         //ans = 0011
         int ans = 0x03;
         if(minValue == Long.MIN_VALUE){
-            //把最后一位 置0
+            //set last bit value to 0
             ans &= 0xfe;
         }
         if(maxValue == Long.MAX_VALUE){
-            //把倒数第二位 置0
+            // Set the second to last bit value to 0
             ans &= 0xfd;
         }
         return ans;

@@ -27,9 +27,9 @@ public class FASTIndex extends Index {
     public static boolean debug = true;
     private List<Long> attrMinValues;                       // minimum values for indexed attribute
     private List<Long> attrMaxRange;                        // maximum values for indexed attribute
-    private HashMap<String, List<Integer>> partitionTable;  //
-    private List<IndexPartition> indexPartitions;           // all data partition
-    private EventBuffers buffers;                           // buffers
+    private HashMap<String, List<Integer>> partitionTable;  // PartitionTable
+    private List<IndexPartition> indexPartitions;           // all data partition -> IndexPartitionList
+    private EventBuffers buffers;                           // BufferPool
 
     public FASTIndex(String schemaName){
         super(schemaName);
@@ -110,7 +110,8 @@ public class FASTIndex extends Index {
         // The reservoir stores unchanged values
         reservoir.sampling(attrValArray, autoIndices);
 
-        // 由于RangeBitmap只能存储非负数整数，因此需要变换变换后的值是: y = x - min
+        // Since RangeBitmap can only store non-negative integers,
+        // it is necessary to transform the transformed value to: y = x - min
         for(int i = 0; i < indexAttrNum; ++i){
             attrValArray[i] -= attrMinValues.get(i);
         }

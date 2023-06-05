@@ -41,7 +41,7 @@ public class EventBuffers {
         attrSplitPoint = setSplitPoint(minValues, attrMaxRange);
     }
 
-    // 最后需要根据数据分区的事件类型，加到partitionTable里面
+    // Add to the partitionTable based on the event type of the data partition
     public final IndexPartition insertRecord(String eventType, FastTemporaryTriple triple){
         IndexPartition partition = null;
         if(buffers.containsKey(eventType)){

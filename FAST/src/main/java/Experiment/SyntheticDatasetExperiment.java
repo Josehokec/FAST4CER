@@ -56,7 +56,7 @@ public class SyntheticDatasetExperiment {
         indexBatchQuery(index, jsonArray, joinMethod);
     }
 
-    public void testNaiveRTree(String filePath, JSONArray jsonArray, int joinMethod){
+    public void testNaiveRTreePlus(String filePath, JSONArray jsonArray, int joinMethod){
         // create index
         String createIndexStr = "CREATE INDEX rtree USING R_Tree_Plus ON synthetic(a1, a2, a3, a4)";
         String str = StatementParser.convert(createIndexStr);
@@ -302,17 +302,15 @@ public class SyntheticDatasetExperiment {
     }
 
     public static void main(String[] args){
-        // please first run testFullScan method to generate arrival rate json file
+
         SyntheticDatasetExperiment.printFlag = true;
         SyntheticDatasetExperiment e = new SyntheticDatasetExperiment();
         // create table and add constraints
         e.initial();
 
         String[] filenames = {"synthetic_2M.csv", "synthetic_6M.csv", "synthetic_10M.csv"};
-        // default dataset size is 10M
         String filename = filenames[0];
         System.out.println("dataset name: " + filename);
-
         String dir = System.getProperty("user.dir");
         String filePrefix = dir + File.separator + "src" + File.separator + "main" + File.separator;
         String filePath = filePrefix + "dataset" + File.separator + filename;
@@ -322,11 +320,17 @@ public class SyntheticDatasetExperiment {
         String jsonStr = JsonReader.getJson(jsonFilePath);
         JSONArray jsonArray = JSONArray.fromObject(jsonStr);
 
-        // joinMethod = 1 -> Order Join | joinMethod = 2 -> Greedy Join (exist bug)
+        // joinMethod = 1 -> Order Join
+        // joinMethod = 2 -> Greedy Join
         int joinMethod = 1;
 
-        // 1.testFullScan (baseline) 2.testFast (ours) 3.testIntervalScan (advanced) 3.testNaiveRTree
-        // 4.testNaiveIndexUsingRTree (naive1) 5.testNaiveIndexUsingBPlusTree (naive2) 6.testNaiveIndexUsingSkipList (naive3)
+        // You can change function name to test different methods
+        // 1.testFullScan (baseline -> VLDB'23 High Performance Row Pattern Recognition Using Joins)
+        // 2.testFast (ours -> FAST for CER)
+        // 3.testIntervalScan (advanced -> SIGMOD'21 Index-accelerated Pattern Matching in event stores)
+        // 4.testNaiveIndexUsingRTree (naive1) or testNaiveRTreePlus (it means using interval filtering algorithm)
+        // 5.testNaiveIndexUsingBPlusTree (naive2) or testNaiveBPlusTreePlus (it means using interval filtering algorithm)
+        // 6.testNaiveIndexUsingSkipList (naive3) or testNaiveSkipListPlus (it means using interval filtering algorithm)
 
         e.testFast(filePath, jsonArray, joinMethod);
     }
