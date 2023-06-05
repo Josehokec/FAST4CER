@@ -24,9 +24,9 @@ tail -f test.log
 
 ```
 14-th query start...                      // 14-th query pattern
-filter cost: 8.602ms											// index filtering cost
+filter cost: 8.602ms					  // index filtering cost
 scan cost: 1.782ms	                      // disk accessing cost
-bucket sizes: [ 4 1441 39 ]								// each bucket size in bucket joining stage
+bucket sizes: [ 4 1441 39 ]				  // each bucket size in bucket joining stage
 join cost: 0.374ms                        // bucket joining cost
 number of tuples: 3                       // number of matched tuples
 14-th query pattern time cost: 11.13ms    // sum cost
@@ -123,8 +123,6 @@ Finally, it executes a specific method for querying.
 | Experiment   | SyntheticDatasetExperiment | Main class for running synthesis experiments |
 | Method       | FASTIndex                  | Our FAST index structure for CER             |
 | JoinStrategy | OrderJoin                  | order join for generating matched tuple      |
-
-Run tips: 
 
 In our paper, *skip-till-any-match* strategy is referred to as S1, but in the code, we use S3 to refer to it, in order to follow the usual usage of other papers.
 
