@@ -12,19 +12,16 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * 按照定义的事件类型顺序
- * 有序进行Join
- * 这里要用到GreedyJoin定义的record
+ * Join with the order of defined sequence in event patterns
  * record PartialResultWithTime(List<Long> timeList, List<String> matchList){}
  */
 public class OrderJoin extends AbstractJoinStrategy {
     public static boolean debug = true;
     /**
-     * 如果没有依赖谓词的话，之需要传时间戳即可
      * count using skip till next match(follow by) without dependent constraint
-     * @param pattern 查询的模式
-     * @param buckets 顺序桶，存储的是元组
-     * @return 满足模式的元组数量
+     * @param pattern event pattern
+     * @param buckets buckets
+     * @return count(*)
      */
     @Override
     public int countUsingS2WithoutDC(EventPattern pattern, List<List<Long>> buckets) {
@@ -45,15 +42,15 @@ public class OrderJoin extends AbstractJoinStrategy {
             return 0;
         }
 
-        // 接下来需要做Join操作 list用于存储匹配元组的时间戳
+        // Next, we need to perform the Join operation list to store the timestamp of the matching tuple
         List<long[]> fullMatchTimestamps = new ArrayList<>();
 
         long tau = pattern.getTau();
-        // 指针加速
+        // Pointer acceleration
         int[] startPos = new int[patternLen];
 
         for (int i = 0; i < buckets.get(0).size(); ++i) {
-            // 事件模式的第一个事件，桶中的第i个元素
+            // The first event in the event pattern, the i-th element in the bucket
             long preTime = buckets.get(0).get(i);
             long[] tupleTimestamps = new long[patternLen];
             tupleTimestamps[0] = preTime;
@@ -63,7 +60,7 @@ public class OrderJoin extends AbstractJoinStrategy {
 
             for (int j = 1; j < patternLen; ++j) {
                 long curTime = buckets.get(j).get(startPos[j]);
-                // 保证SEQ关系成立
+                // Ensure the establishment of the SEQ relationship
                 while (curTime < preTime) {
                     if (startPos[j] < buckets.get(j).size() - 1) {
                         startPos[j]++;
@@ -72,7 +69,7 @@ public class OrderJoin extends AbstractJoinStrategy {
                         break;
                     }
                 }
-                // 保证WITHIN关系成立
+                // Ensure the establishment of WITHIN relationship
                 long delta = curTime - preTime;
                 if (delta <= remainingTime && delta >= 0) {
                     tupleTimestamps[j] = curTime;
@@ -88,7 +85,7 @@ public class OrderJoin extends AbstractJoinStrategy {
                 fullMatchTimestamps.add(tupleTimestamps);
             }
         }
-        // 输出信息
+        // output information
 
         for (long[] ts : fullMatchTimestamps) {
             System.out.print("[");
@@ -703,42 +700,43 @@ public class OrderJoin extends AbstractJoinStrategy {
     }
 
     /**
-     * 这个用于处理RID的情况，因为存储在文件的是字节数组
-     * @param pattern 查询的模式
-     * @param partialMatches 部分匹配结果
-     * @param bucket 桶
-     * @return 新的部分匹配结果
+     * join -> byte array record
+     * @param pattern query pattern
+     * @param partialMatches previous partial results
+     * @param bucket bucket
+     * @return new partial results
      */
     public final List<PartialBytesResultWithTime> joinWithBytesRecord(EventPattern pattern, List<PartialBytesResultWithTime> partialMatches, List<byte[]> bucket){
-        // 要返回的结果
+        // ans
         List<PartialBytesResultWithTime> ans = new ArrayList<>();
-        // 加载schema
+        // load schema
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+        // Load the index corresponding to the timestamp of the attribute type array and sequence variable array
         String[] attrTypes = schema.getAttrTypes();
         String[] seqVarNames = pattern.getSeqVarNames();
         int timeIdx = schema.getTimestampIdx();
-        // tau是查询模式的最大时间约束 单位是ms
+        // tau is the maximum time constraint for query patterns
         long tau = pattern.getTau();
-        // 部分匹配已经匹配的数量
+        // Number of partially matched matches that have already been matched
         int len = partialMatches.get(0).timeList().size();
 
-        // 得到要处理的dcList
+        // dcList
         List<DependentConstraint> dcList = pattern.getContainIthVarDCList(len);
 
         int curPtr = 0;
         for (PartialBytesResultWithTime partialMatch : partialMatches) {
-            //SEQ要用到上一条记录的时间戳 WITHIN要用到第一条记录的时间戳
+            // SEQ needs to use the timestamp of the previous record WITH needs to use the timestamp of the first record
             int curBucketSize = bucket.size();
             for (int i = curPtr; i < curBucketSize; ++i) {
                 byte[] curRecord = bucket.get(i);
                 long curTime = Converter.bytesToLong(schema.getIthAttrBytes(curRecord, timeIdx));
-                //WITHIN和DependentConstraint视情况而定
+
                 if (curTime < partialMatch.timeList().get(0)) {
                     curPtr++;
                 } else if (curTime - partialMatch.timeList().get(0) > tau) {
-                    // 不满足within条件，后面的也肯定不满足
+                    // If the within condition is not met,
+                    // the following ones will definitely not be met either
                     break;
                 } else if (curTime >= partialMatch.timeList().get(len - 1)) {
 
@@ -750,8 +748,9 @@ public class OrderJoin extends AbstractJoinStrategy {
                         if (dcList != null && dcList.size() != 0) {
                             for (DependentConstraint dc : dcList) {
                                 String attrName = dc.getAttrName();
-                                // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
-                                int idx = schema.getAttrNameIdx(attrName);;
+                                // Find the index corresponding to the attribute name,
+                                // and then determine whether the type is passed into DC for comparison to meet the conditions
+                                int idx = schema.getAttrNameIdx(attrName);
                                 boolean isVarName1 = seqVarNames[len].equals(dc.getVarName1());
                                 String cmpVarName = isVarName1 ? dc.getVarName2() : dc.getVarName1();
                                 int cmpVarIdx = pattern.getVarNamePos(cmpVarName);
@@ -764,7 +763,8 @@ public class OrderJoin extends AbstractJoinStrategy {
                                     curValue = Converter.bytesToInt(schema.getIthAttrBytes(curRecord, idx));
                                     cmpValue = Converter.bytesToInt(schema.getIthAttrBytes(cmpRecord, idx));
                                 } else if (attrTypes[idx].contains("FLOAT") || attrTypes[idx].contains("DOUBLE")) {
-                                    // 因为存储的时候已经放大了倍数了 因此这里不需要放大倍数了
+                                    // Because the magnification has already been increased during storage,
+                                    // there is no need to increase the magnification here
                                     curValue = Converter.bytesToLong(schema.getIthAttrBytes(curRecord, idx));
                                     cmpValue = Converter.bytesToLong(schema.getIthAttrBytes(cmpRecord, idx));
                                 } else {

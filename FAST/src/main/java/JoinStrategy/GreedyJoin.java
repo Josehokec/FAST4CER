@@ -37,15 +37,15 @@ public class GreedyJoin extends AbstractJoinStrategy{
      * bucket store byte record
      * @param pattern 查询模式
      * @param buckets 满足独立谓词的用
-     * @return 满足的元组数量
+     * @return count(*)
      */
     @Override
     public int countUsingS2WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
-        // 首先根据桶的元组数量进行排序
+        // First, sort based on the number of events in the bucket
         int patternLen = buckets.size();
         record Pair(int bucketSize, int index) { }
         List<Pair> pairs = new ArrayList<>(patternLen);
-        // 是否需要早停
+        // early flag
         boolean earlyStop = false;
 
         StringBuilder output = new StringBuilder(64);
@@ -68,7 +68,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
         String schemaName = pattern.getSchemaName();
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(schemaName);
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+        // Load the index corresponding to the timestamp of the attribute type array and sequence variable array
         int timeIdx = schema.getTimestampIdx();
 
         // greedy choose
@@ -88,7 +88,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
         List<Integer> marks = new ArrayList<>(1);
         marks.add(index0);
 
-        // 开始进行join操作
+        // start join
         for(int i = 1; i < patternLen; ++i){
             int curIndex = pairs.get(i).index();
             partialMatches = joinWithBytesRecord(pattern, partialMatches, marks, buckets.get(curIndex), curIndex);

@@ -30,18 +30,18 @@ public class IntervalScan extends Index {
     public static boolean debug = true;                 // print
     public static boolean testCost = false;             // whether we need to test cost const value
     private double sumArrival;                          // arrival rate of all events
-    private SkipList<RID> primaryIndex;                 // 主索引的key是时间戳，value是RID
-    private List<MemoryBPlusTree> secondaryIndexes;     // 二级索引的key是属性值，value是三元组
+    private SkipList<RID> primaryIndex;                 // the key of the primary index is the timestamp, and the value is the RID
+    private List<MemoryBPlusTree> secondaryIndexes;     // the key of the secondary index is the timestamp
     public IntervalScan(String indexName) {
         super(indexName);
     }
 
     /**
-     * 需要构造二级索引（属性类型也在里面）
-     * 主索引
-     * 蓄水池抽样
-     * 计算总的到达率
-     * 初始化各种开销
+     * construct secondary indexes (event type attribute are also included)
+     * construct primary index
+     * reservoir Sampling
+     * calculate the total arrival rate
+     * initialize various expenses
      */
     @Override
     public void initial() {
@@ -146,12 +146,13 @@ public class IntervalScan extends Index {
 
     @Override
     public int countQuery(EventPattern pattern, AbstractJoinStrategy join) {
-        // 选择一个变量还是选择两个变量，只有一个变量的话需要算出每个变量的的代价，从而选最小代价，两个变量的话没实现
+
         String[] seqVarNames = pattern.getSeqVarNames();
         String[] seqEventTypes = pattern.getSeqEventTypes();
         final int patternLen = seqVarNames.length;
 
-        // 注意属性类型被视为第0个属性， 索引下标就是-1
+        // Note that the attribute type is considered the 0th attribute,
+        // and the index index index is -1
         List<List<SelectivityPair>> alphas = new ArrayList<>(patternLen);
         for (int i = 0; i < patternLen; ++i) {
             List<SelectivityPair> selPairs = new ArrayList<>();
