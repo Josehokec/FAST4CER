@@ -795,7 +795,7 @@ public class IntervalScan extends Index {
                 String curType = schema.getTypeFromBytesRecord(record, typeIdx);
                 // scan to filter
                 for (int j = 0; j < patternLen; ++j) {
-                    // 首先就要事件类型相等，相等了看谓词是不是满足约束条件，如果满足了就把它放在第i个桶里面
+
                     if (curType.equals(seqEventTypes[j])) {
                         String varName = seqVarNames[j];
                         List<IndependentConstraint> icList = pattern.getICListUsingVarName(varName);

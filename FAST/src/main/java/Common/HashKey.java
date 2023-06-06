@@ -10,7 +10,7 @@ public class HashKey {
     /*
     tsLeft:     0001 1010 0100 0111 -> 13
     eventType:  0000 1110           -> 5
-    传入的参数是  0000 0011 0100 1000 1110 1110
+     0000 0011 0100 1000 1110 1110
     */
     public HashKey(long tsLeft, int bitLen1, int eventType, int bitLen2){
         splitPos = (short) bitLen2;
@@ -84,13 +84,6 @@ public class HashKey {
 
     @Override
     public int hashCode() {
-        /*
-        假设tsLeftCode是: 0101 0001 1100 1001
-        eventTypeCode是: 1011 1111
-
-        如果key的长度小于32bit，则直接用其值作为hashCode
-        否则取低32位作为hashCode
-         */
         int hashValue = 0;
 
         int byteStart = combineKey.length <= 4 ? combineKey.length - 1 : 3;

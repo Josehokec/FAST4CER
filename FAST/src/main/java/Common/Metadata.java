@@ -5,13 +5,6 @@ import Method.Index;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 存储元信息，单例模式
- * 根据schema名字得到EventSchema对象
- * 根据schema名字得到Index对象
- * 由于一个schema可能不止一个Index
- * 为了实现方便，这里假设一个schema就一个Index对象
- */
 public class Metadata {
     private static HashMap<String, EventSchema> schemaMap;
     private static HashMap<String, Index> indexMap;

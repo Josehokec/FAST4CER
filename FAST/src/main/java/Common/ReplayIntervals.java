@@ -6,14 +6,14 @@ import java.util.List;
 /**
  * ReplayIntervals <br>
  * interval [start, end] <br>
- * Note that each replay interval cannot intersect<br>
+ * Note that each replay interval cannot overlap<br>
  * here we use a trick to filter more events<br>
  * for example, suppose variable a generates 10 intervals: 1-10<br>
  * however, variable b only can be find in interval 4, 5, and 6<br>
  * then next we find variable c we can only visit 4,5 and 6<br>
  */
 public class ReplayIntervals {
-    private int intervalNum;                    // 间隙数量
+    private int intervalNum;                    // interval number
     private int  ptr;                           // pointer to i-th interval
     private final List<Long> intervals;         // i-th interval = (intervals[2 * i], intervals[2 * i + 1])
     private List<Boolean> preHits;              // (accelerate trick) whether other variables hit the interval

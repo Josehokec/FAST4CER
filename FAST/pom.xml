@@ -33,7 +33,7 @@
             <artifactId>rtree-multi</artifactId>
             <version>0.1</version>
         </dependency>
-        <!-->JSON类 一定要加jdk15这个字 不然出错<-->
+        <!-->JSON class, need to add jdk15<-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>

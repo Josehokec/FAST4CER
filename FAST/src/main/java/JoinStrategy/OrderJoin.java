@@ -97,12 +97,7 @@ public class OrderJoin extends AbstractJoinStrategy {
         return fullMatchTimestamps.size();
     }
 
-    /**
-     * 新版的count函数 用空间换时间
-     * @param pattern   查询的模式
-     * @param buckets   满足独立谓词的各个变量对应的事件
-     * @return          满足条件的元组数量
-     */
+
     @Override
     public int countUsingS2WithDC(EventPattern pattern, List<List<String>> buckets){
         boolean earlyStop = false;
@@ -125,18 +120,16 @@ public class OrderJoin extends AbstractJoinStrategy {
             return 0;
         }
 
-        // 先排序
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<String> bucket0 = buckets.get(0);
         List<PartialResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
         for(String s : bucket0){
             long timestamp = Long.parseLong(s.split(",")[timeIdx]);
             List<Long> timestamps = new ArrayList<>(1);
@@ -184,18 +177,16 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         if(earlyStop){ return new ArrayList<>(); }
 
-        // 先排序
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<String> bucket0 = buckets.get(0);
         List<PartialResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
         for(String s : bucket0){
             long timestamp = Long.parseLong(s.split(",")[timeIdx]);
             List<Long> timestamps = new ArrayList<>(1);
@@ -205,7 +196,7 @@ public class OrderJoin extends AbstractJoinStrategy {
             partialMatches.add(new PartialResultWithTime(timestamps, partialMatch));
         }
 
-        // 用循环做Join
+
         int len = buckets.size();
         for(int i = 1; i < len; ++i){
             partialMatches = joinWithRecord(pattern, partialMatches, buckets.get(i));
@@ -213,7 +204,7 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         HashSet<Long> timeSet = new HashSet<>();
         List<Tuple> ans = new ArrayList<>(partialMatches.size());
-        // 最终的答案 用时间戳可能会更快
+
         for(PartialResultWithTime tuple : partialMatches){
             long timestamp = tuple.timeList().get(0);
             if(!timeSet.contains(timestamp)){
@@ -226,11 +217,7 @@ public class OrderJoin extends AbstractJoinStrategy {
         return ans;
     }
 
-    /**
-     * @param pattern   查询模式
-     * @param buckets   满足独立谓词的各个变量对应的事件
-     * @return          满足条件的元组数量
-     */
+
     @Override
     public int countUsingS2WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
         boolean earlyStop = false;
@@ -252,18 +239,17 @@ public class OrderJoin extends AbstractJoinStrategy {
         }
 
         int patternLen = buckets.size();
-        // 先排序
+
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<byte[]> bucket0 = buckets.get(0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
         for(byte[] record : bucket0){
             long timestamp = Converter.bytesToLong(schema.getIthAttrBytes(record, timeIdx));
             List<Long> timestamps = new ArrayList<>(1);
@@ -273,7 +259,6 @@ public class OrderJoin extends AbstractJoinStrategy {
             partialMatches.add(new PartialBytesResultWithTime(timestamps, partialMatch));
         }
 
-        // 用循环做Join
         for(int i = 1; i < patternLen; ++i){
             partialMatches = joinWithBytesRecord(pattern, partialMatches, buckets.get(i));
             if(partialMatches.size() == 0){
@@ -284,31 +269,17 @@ public class OrderJoin extends AbstractJoinStrategy {
         HashSet<Long> timeSet = new HashSet<>();
         int ans = 0;
 
-        // 最终的答案 用时间戳可能会更快
         for(PartialBytesResultWithTime tuple : partialMatches){
             long timestamp = tuple.timeList().get(0);
             if(!timeSet.contains(timestamp)){
                 ans++;
                 timeSet.add(timestamp);
-                /**
-                System.out.print("[ ");
-                for(byte[] record : tuple.matchList()){
-                    System.out.print(schema.bytesToRecord(record) + " ");
-                }
-                System.out.println("]");
-                */
             }
         }
 
         return ans;
     }
 
-    /**
-     * 得到匹配的元组使用skip-till-next-match，记录是字节
-     * @param pattern   查询模式
-     * @param buckets   满足独立谓词的各个变量对应的事件
-     * @return          满足条件的元组
-     */
     @Override
     public List<Tuple> getTupleUsingS2WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
         boolean earlyStop = false;
@@ -327,18 +298,18 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         if(earlyStop){ return new ArrayList<>(); }
 
-        // 先排序
+
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<byte[]> bucket0 = buckets.get(0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
+
         for(byte[] record : bucket0){
             long timestamp = Converter.bytesToLong(schema.getIthAttrBytes(record, timeIdx));
             List<Long> timestamps = new ArrayList<>(1);
@@ -349,7 +320,7 @@ public class OrderJoin extends AbstractJoinStrategy {
         }
 
         List<Tuple> ans = new ArrayList<>();
-        // 用循环做Join
+
         for(int i = 1; i <buckets.size(); ++i){
             partialMatches = joinWithBytesRecord(pattern, partialMatches, buckets.get(i));
             if(partialMatches.size() == 0){
@@ -391,18 +362,17 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         if(earlyStop){ return 0; }
 
-        // 先排序
+
         pattern.sortDC();
-        // 得到事件
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<String> bucket0 = buckets.get(0);
         List<PartialResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
+
         for(String s : bucket0){
             long timestamp = Long.parseLong(s.split(",")[timeIdx]);
             List<Long> timestamps = new ArrayList<>(1);
@@ -412,23 +382,13 @@ public class OrderJoin extends AbstractJoinStrategy {
             partialMatches.add(new PartialResultWithTime(timestamps, partialMatch));
         }
 
-        // 用循环做Join
+
         for(int i = 1; i <buckets.size(); ++i){
             partialMatches = joinWithRecord(pattern, partialMatches, buckets.get(i));
             if(partialMatches.size() == 0){
                 return 0;
             }
         }
-
-        /*
-        for(PartialResultWithTime tuple : partialMatches){
-            System.out.print("[ ");
-            for(String record : tuple.matchList()){
-                System.out.print(record + " ");
-            }
-            System.out.println("]");
-        }
-         */
 
         return partialMatches.size();
     }
@@ -448,18 +408,18 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         if(earlyStop){ return new ArrayList<>(); }
 
-        // 先排序
+
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<String> bucket0 = buckets.get(0);
         List<PartialResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
+
         for(String s : bucket0){
             long timestamp = Long.parseLong(s.split(",")[timeIdx]);
             List<Long> timestamps = new ArrayList<>(1);
@@ -469,14 +429,13 @@ public class OrderJoin extends AbstractJoinStrategy {
             partialMatches.add(new PartialResultWithTime(timestamps, partialMatch));
         }
 
-        // 用循环做Join
         int len = buckets.size();
         for(int i = 1; i < len; ++i){
             partialMatches = joinWithRecord(pattern, partialMatches, buckets.get(i));
         }
 
         List<Tuple> ans = new ArrayList<>(partialMatches.size());
-        // 最终的答案
+
         for(PartialResultWithTime tuple : partialMatches){
             Tuple t = new Tuple(len);
             t.addAllEvents(tuple.matchList());
@@ -502,18 +461,16 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         if(earlyStop){ return 0; }
 
-        // 先排序
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<byte[]> bucket0 = buckets.get(0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
         for(byte[] record : bucket0){
             long timestamp = Converter.bytesToLong(schema.getIthAttrBytes(record, timeIdx));
             List<Long> timestamps = new ArrayList<>(1);
@@ -523,7 +480,6 @@ public class OrderJoin extends AbstractJoinStrategy {
             partialMatches.add(new PartialBytesResultWithTime(timestamps, partialMatch));
         }
 
-        // 用循环做Join
         for(int i = 1; i <buckets.size(); ++i){
             partialMatches = joinWithBytesRecord(pattern, partialMatches, buckets.get(i));
             if(partialMatches.size() == 0){
@@ -531,24 +487,9 @@ public class OrderJoin extends AbstractJoinStrategy {
             }
         }
 
-        /*
-        for(PartialBytesResultWithTime tuple : partialMatches){
-            System.out.print("[ ");
-            for(byte[] record : tuple.matchList()){
-                System.out.print(schema.bytesToRecord(record) + " ");
-            }
-            System.out.println("]");
-        }
-        */
         return partialMatches.size();
     }
 
-    /**
-     * 得到匹配的元组使用skip-till-any-match，记录是字节
-     * @param pattern   查询模式
-     * @param buckets   满足独立谓词的各个变量对应的事件
-     * @return          满足条件的元组
-     */
     @Override
     public List<Tuple> getTupleUsingS3WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
         boolean earlyStop = false;
@@ -567,18 +508,18 @@ public class OrderJoin extends AbstractJoinStrategy {
 
         if(earlyStop){ return new ArrayList<>(); }
 
-        // 先排序
+
         pattern.sortDC();
-        // 得到事件
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
         List<byte[]> bucket0 = buckets.get(0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
 
-        // 把第一个事件加入进去
+
         for(byte[] record : bucket0){
             long timestamp = Converter.bytesToLong(schema.getIthAttrBytes(record, timeIdx));
             List<Long> timestamps = new ArrayList<>(1);
@@ -588,14 +529,14 @@ public class OrderJoin extends AbstractJoinStrategy {
             partialMatches.add(new PartialBytesResultWithTime(timestamps, partialMatch));
         }
         List<Tuple> ans = new ArrayList<>();
-        // 用循环做Join
+
         for(int i = 1; i <buckets.size(); ++i){
             partialMatches = joinWithBytesRecord(pattern, partialMatches, buckets.get(i));
             if(partialMatches.size() == 0){
                 return ans;
             }
         }
-        // 最终的答案 用时间戳可能会更快
+
         for(PartialBytesResultWithTime tuple : partialMatches){
             Tuple t = new Tuple(buckets.size());
             for(byte[] record : tuple.matchList()){
@@ -607,55 +548,42 @@ public class OrderJoin extends AbstractJoinStrategy {
         return ans;
     }
 
-    /**
-     * 假设事件模式是(A a, B b, C c)
-     * 所有的部分匹配是(A a) (A a, B b) (A a, B b, C c)
-     * 假设之前匹配的到的部分匹配是(A a, B b) 现在要和事件C做Join操作
-     * 由于我们用索引已经过滤出了独立谓词约束，这里我们之需要检查SEQ、WITHIN和DependentConstraint即可
-     * @param pattern 查询的模式
-     * @param partialMatches 部分匹配结果
-     * @param bucket 要被join的桶
-     * @return 新的部分匹配的结果
-     */
+
     public final List<PartialResultWithTime> joinWithRecord(EventPattern pattern, List<PartialResultWithTime> partialMatches, List<String> bucket){
-        // 要返回的结果
         List<PartialResultWithTime> ans = new ArrayList<>();
-        // 加载schema
+
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         String[] attrTypes = schema.getAttrTypes();
         String[] seqVarNames = pattern.getSeqVarNames();
         int timeIdx = schema.getTimestampIdx();
-        // tau是查询模式的最大时间约束 单位是ms
+
         long tau = pattern.getTau();
-        // 部分匹配已经匹配的数量
+
         int len = partialMatches.get(0).timeList().size();
 
-        // 得到要处理的dcList
         List<DependentConstraint> dcList = pattern.getContainIthVarDCList(len);
 
-        // 指针用于加速
         int curPtr = 0;
         for (PartialResultWithTime partialMatch : partialMatches) {
-            //SEQ要用到上一条记录的时间戳 WITHIN要用到第一条记录的时间戳
+
             int curBucketSize = bucket.size();
             for(int i = curPtr; i < curBucketSize; ++i){
                 String curRecord = bucket.get(i);
                 String[] curAttrValues = curRecord.split(",");
                 long curTime = Long.parseLong(curAttrValues[timeIdx]);
-                //WITHIN和DependentConstraint视情况而定
+
                 if(curTime < partialMatch.timeList().get(0)){
                     curPtr++;
                 }else if(curTime - partialMatch.timeList().get(0) > tau){
-                    // 不满足within条件，后面的也肯定不满足
                     break;
                 }else if(curTime > partialMatch.timeList().get(len - 1)){
                     boolean satisfy = true;
                     if(dcList != null && dcList.size() != 0){
                         for(DependentConstraint dc : dcList){
                             String attrName = dc.getAttrName();
-                            // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                             int idx = schema.getAttrNameIdx(attrName);
                             boolean isVarName1 = seqVarNames[len].equals(dc.getVarName1());
                             String cmpVarName = isVarName1 ? dc.getVarName2() : dc.getVarName1();

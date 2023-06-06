@@ -1,8 +1,6 @@
 package Common;
 
-/**
- * ts_right 占
- */
+
 public class ValueTransformer {
     public static int tsRightByteNum;
     public static int tsRightBitLen;
@@ -29,12 +27,6 @@ public class ValueTransformer {
         ValueTransformer.tsRightBitLen = tsRightBitLen;
     }
 
-    /**
-     *
-     * @param tsR 传过来的时候已经分割好了
-     * @param fpVector
-     * @return
-     */
     public byte[] generateValue(long tsR, byte[] fpVector){
         if(tsRightBitLen % 8 == 0){
             tsRightByteNum = tsRightBitLen / 8;
@@ -54,10 +46,6 @@ public class ValueTransformer {
         return ans;
     }
 
-    /**
-     *  根据value得到ts_right
-     *  注意数组低位是ts_right 高位是属性向量
-     */
     public long getTsRight(byte[] value){
         long ans = 0;
         for(int i = tsRightByteNum - 1; i >= 0; --i){
@@ -67,12 +55,6 @@ public class ValueTransformer {
         return ans;
     }
 
-    /**
-     *
-     * perAttrUsedBit 取值为4，8，12，16
-     * @param value: HashValue = Fingerprint vector + Ts_right
-     * @return
-     */
     public int[] getAttributeFPValue(byte[] value){
         int[] ans = new int[attrNum];
         int len = value.length;
@@ -112,7 +94,6 @@ public class ValueTransformer {
                 ans[(i - tsRightByteNum) / 2] = (value[i + 1] << 8) + value[i];
             }
         }else if(value.length - tsRightByteNum <= 8){
-            // 如果属性向量的长度小于8的字节的话，我们可以直接将其转换成long类型，然后通过移位获得属性值
             long convertNum = 0;
             for(int i = value.length - 1; i >= tsRightByteNum; --i){
                 convertNum <<= 8;
@@ -128,13 +109,6 @@ public class ValueTransformer {
         return ans;
     }
 
-    /**
-     * 查看第i个指纹属性的值范围是不是在min<= value <=max之间
-     * @param ith
-     * @param min
-     * @param max
-     * @return
-     */
     public boolean include(byte[] value, int ith, int min, int max){
         int[] fpValue = getAttributeFPValue(value);
         if(fpValue[ith] <= max && fpValue[ith] >= min){

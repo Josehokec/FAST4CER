@@ -9,7 +9,8 @@ import Condition.DependentConstraint;
 import java.util.*;
 
 /**
- * 根据桶的含有的事件数量排序，然后进行Join
+ * Greedy Join
+ * Select the bucket with the smallest number of events to join at each step
  */
 public class GreedyJoin extends AbstractJoinStrategy{
     @Override
@@ -18,10 +19,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
     }
 
     /**
-     * 新版的处理依赖谓词的函数，很快，超级快
-     * @param pattern   要查询的模型
-     * @param buckets   满足独立谓词约束的事件
-     * @return          满足元组的数量
+     * @param pattern   query pattern
+     * @param buckets   buckets, each bucket stores string records
+     * @return          number of matched tuples -> count(*)
      */
     @Override
     public int countUsingS2WithDC(EventPattern pattern, List<List<String>> buckets){
@@ -35,9 +35,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
     /**
      * bucket store byte record
-     * @param pattern 查询模式
-     * @param buckets 满足独立谓词的用
-     * @return count(*)
+     * @param pattern query pattern
+     * @param buckets buckets, each bucket stores byte records
+     * @return        number of matched tuples -> count(*)
      */
     @Override
     public int countUsingS2WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
@@ -114,17 +114,17 @@ public class GreedyJoin extends AbstractJoinStrategy{
     }
 
     /**
-     * @param pattern   要查询的模型
-     * @param buckets   满足独立谓词约束的事件
-     * @return          满足条件的元组
+     * @param pattern   query pattern
+     * @param buckets   buckets, each bucket stores byte records
+     * @return          matched tuples
      */
     @Override
     public List<Tuple> getTupleUsingS2WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
-        // 首先根据桶的元组数量进行排序
+        // First, sort based on the number of tuples in the bucket
         int patternLen = buckets.size();
         record Pair(int bucketSize, int index) { }
         List<Pair> pairs = new ArrayList<>(patternLen);
-        // 是否需要早停
+        // early stop flag
         boolean flag = false;
 
         StringBuilder output = new StringBuilder(64);
@@ -144,10 +144,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
-        // 把第一个事件加入进去
         int index0 = pairs.get(0).index();
         List<byte[]> bucket0 = buckets.get(index0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
@@ -165,7 +164,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
         marks.add(index0);
 
         List<Tuple> ans = new ArrayList<>();
-        // 开始进行join操作
+        // start joining
         for(int i = 1; i < patternLen; ++i){
             int curIndex = pairs.get(i).index();
             partialMatches = joinWithBytesRecord(pattern, partialMatches, marks, buckets.get(curIndex), curIndex);
@@ -205,11 +204,11 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
     @Override
     public int countUsingS3WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
-        // 首先根据桶的元组数量进行排序
+        // First, sort based on the number of tuples in the bucket
         int patternLen = buckets.size();
         record Pair(int bucketSize, int index) { }
         List<Pair> pairs = new ArrayList<>(patternLen);
-        // 是否需要早停
+        // early stop flag
         boolean flag = false;
         System.out.print("bucket sizes: [");
         for(int i = 0; i < patternLen; ++i){
@@ -227,10 +226,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
         String schemaName = pattern.getSchemaName();
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(schemaName);
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
-        // 把第一个事件加入进去
         int index0 = pairs.get(0).index();
         List<byte[]> bucket0 = buckets.get(index0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
@@ -246,14 +244,14 @@ public class GreedyJoin extends AbstractJoinStrategy{
         List<Integer> marks = new ArrayList<>(1);
         marks.add(index0);
 
-        // 开始进行join操作
+        // start joing
         for(int i = 1; i < patternLen; ++i){
             int curIndex = pairs.get(i).index();
             partialMatches = joinWithBytesRecord(pattern, partialMatches, marks, buckets.get(curIndex), curIndex);
             if(partialMatches.size() == 0){
                 return 0;
             }
-            // 更新marks,保证marks是有序的
+            // update marks
             marks.add(curIndex);
             Collections.sort(marks);
             if(partialMatches.size() == 0){
@@ -265,17 +263,16 @@ public class GreedyJoin extends AbstractJoinStrategy{
     }
 
     /**
-     * @param pattern 查询的模式
-     * @param buckets 记录类型是字节数组类型的
-     * @return 元组
+     * S3 = skip-till-any-match
+     * @param pattern   query pattern
+     * @param buckets   buckets, each bucket stores byte records
+     * @return          matched tuples
      */
     @Override
     public List<Tuple> getTupleUsingS3WithBytes(EventPattern pattern, List<List<byte[]>> buckets) {
-        // 首先根据桶的元组数量进行排序
         int patternLen = buckets.size();
         record Pair(int bucketSize, int index) { }
         List<Pair> pairs = new ArrayList<>(patternLen);
-        // 是否需要早停
         boolean flag = false;
         System.out.print("bucket sizes: [");
         for(int i = 0; i < patternLen; ++i){
@@ -292,10 +289,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         int timeIdx = schema.getTimestampIdx();
 
-        // 把第一个事件加入进去
         int index0 = pairs.get(0).index();
         List<byte[]> bucket0 = buckets.get(index0);
         List<PartialBytesResultWithTime> partialMatches = new ArrayList<>(bucket0.size());
@@ -312,7 +308,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
         marks.add(index0);
 
         List<Tuple> ans = new ArrayList<>();
-        // 开始进行join操作
+        // start joining
         for(int i = 1; i < patternLen; ++i){
 
             System.out.print("marks:");
@@ -326,7 +322,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
             if(partialMatches.size() == 0){
                 return ans;
             }
-            // 保证marks是有序的
+            // keep marks ordered
             marks.add(curIndex);
             Collections.sort(marks);
             if(partialMatches.size() == 0){
@@ -346,15 +342,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
         return ans;
     }
 
-    /**
-     * 新版的时间戳join策略
-     * @param partialMatches 以前的部分匹配
-     * @param marks 标记已经join的变量编号
-     * @param bucket 要被join的变量事件时间戳
-     * @param k 变量编号
-     * @param tau 时间窗口
-     * @return 部分匹配
-     */
+
     public final List<List<Long>> joinWithTimestamp(List<List<Long>> partialMatches, List<Integer> marks,
                                                    List<Long> bucket, int k, long tau){
         int pos = -1;
@@ -369,7 +357,6 @@ public class GreedyJoin extends AbstractJoinStrategy{
         }
 
         List<List<Long>> ans = new ArrayList<>();
-        // 到时候会用这个加速，之所以能加速是因为事件时间有序
         int curPtr = 0;
 
         // [0, pos) k [pos, len)
@@ -378,14 +365,14 @@ public class GreedyJoin extends AbstractJoinStrategy{
             for(int i = curPtr; i< bucket.size(); ++i) {
                 long curTime = bucket.get(i);
                 if (pos == 0) {
-                    // SEQ检查 说明要被join的元素是第一个 如果这个时间戳大于部分匹配第一个时间戳 直接break
+
                     if (curTime > partialMatch.get(0)) {
                         break;
                     } else if (partialMatch.get(0) - curTime > tau) {
-                        // 超过tau了， 更新指针位置，避免多次读取
+
                         curPtr++;
                     } else if (partialMatch.get(len - 1) - curTime <= tau) {
-                        // 满足了SEQ关系，接下来检查是不是满足Within关系，如果满足依赖谓词约束那就加进来
+
                         List<Long> timeList = new ArrayList<>(len + 1);
                         timeList.add(curTime);
                         timeList.addAll(partialMatch);
@@ -393,12 +380,10 @@ public class GreedyJoin extends AbstractJoinStrategy{
                     }
                 } else if (pos == len) {
                     if (curTime < partialMatch.get(0)) {
-                        // 更新指针位置
                         curPtr++;
                     } else if (curTime - partialMatch.get(0) > tau) {
                         break;
                     } else if (curTime >= partialMatch.get(len - 1)) {
-                        // 此时满足了Within和SEQ关系，开始进行依赖谓词约束检查 如果满足依赖谓词约束那就加进来
                         List<Long> timeList = new ArrayList<>(len + 1);
                         timeList.addAll(partialMatch);
                         timeList.add(curTime);
@@ -407,13 +392,12 @@ public class GreedyJoin extends AbstractJoinStrategy{
                 }else{
                     // [0, pos) k [pos, len)
                     if(curTime < partialMatch.get(0)){
-                        // 更新指针位置
+
                         curPtr++;
                     }else if(curTime > partialMatch.get(pos)){
-                        // 超过Pos的时间就要早停，因为后续的都会不满足SEQ条件
+
                         break;
                     }else if(curTime >= partialMatch.get(pos - 1) && curTime <= partialMatch.get(pos)){
-                        // 如果在这个中间，即满足了SEQ关系，WITHIN不需要检查
 
                         List<Long> timeList = new ArrayList<>(len + 1);
                         for(int j = 0; j < pos; ++j){
@@ -434,17 +418,15 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
 
     /**
-     * 新版的字符串类型的join，速度非常快，这是因为我们用了指针加速，还有用空间换时间的结果
-     * @param pattern           要查询的事件模式
-     * @param partialMatches    部分匹配元组
-     * @param marks             已经匹配的变量编号
-     * @param bucket            要被join的桶
-     * @param k                 要被join的变量编号
-     * @return                  新的部分匹配
+     * @param pattern           query pattern
+     * @param partialMatches    partial matches
+     * @param marks             variable number for completed join
+     * @param bucket            bucket that need to be joined
+     * @param k                 join position
+     * @return                  partial matched results
      */
     public final List<PartialResultWithTime> joinWithRecord(EventPattern pattern, List<PartialResultWithTime> partialMatches,
                                                       List<Integer> marks, List<String> bucket, int k){
-        // k所在的位置
         int pos = -1;
         int len = marks.size();
         for(int i = 0; i < len; ++i){
@@ -457,10 +439,10 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         String[] attrTypes = schema.getAttrTypes();
         int timeIdx = schema.getTimestampIdx();
-        // tau是查询模式的最大时间约束 单位是ms
+
         long tau = pattern.getTau();
 
         List<PartialResultWithTime> ans = new ArrayList<>();
@@ -468,7 +450,6 @@ public class GreedyJoin extends AbstractJoinStrategy{
         List<DependentConstraint> dcList = pattern.getDCListToJoin(marks, k);
 
         // [0, pos) k [pos, len)
-        // 到时候会用这个加速，之所以能加速是因为事件时间有序
         int curPtr = 0;
         for(PartialResultWithTime partialMatch : partialMatches) {
 
@@ -478,14 +459,14 @@ public class GreedyJoin extends AbstractJoinStrategy{
                 long curTime = Long.parseLong(attrValues[timeIdx]);
 
                 if(pos == 0){
-                    // SEQ检查 说明要被join的元素是第一个 如果这个时间戳大于部分匹配第一个时间戳 直接break
+
                     if(curTime > partialMatch.timeList().get(0)){
                         break;
                     }else if(partialMatch.timeList().get(0) - curTime > tau){
-                        // 超过tau了， 更新指针位置，避免多次读取
+
                         curPtr++;
                     }else if(partialMatch.timeList().get(len-1) - curTime <= tau){
-                        // 满足了SEQ关系，接下来检查是不是满足Within关系，满足的话那就检查依赖谓词约束
+
                         boolean satisfy = true;
                         if(dcList != null && dcList.size() != 0){
                             for(DependentConstraint dc : dcList) {
@@ -494,9 +475,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                 int varIndex1 = pattern.getVarNamePos(varName1);
                                 int varIndex2 = pattern.getVarNamePos(varName2);
                                 int cmpRecordPos = -1;
-                                // 要比较的属性名字
+
                                 String attrName = dc.getAttrName();
-                                // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                                 int idx = schema.getAttrNameIdx(attrName);
                                 boolean isVarName1 = (k == varIndex1);
 
@@ -536,7 +517,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                 }
                             }
                         }
-                        // 如果满足依赖谓词约束那就加进来
+
                         if(satisfy){
                             List<String> matchList = new ArrayList<>(len + 1);
                             matchList.add(curRecord);
@@ -549,12 +530,12 @@ public class GreedyJoin extends AbstractJoinStrategy{
                     }
                 }else if(pos == len){
                     if(curTime < partialMatch.timeList().get(0)){
-                        // 更新指针位置
+
                         curPtr++;
                     }else if(curTime - partialMatch.timeList().get(0) > tau){
                         break;
                     }else if(curTime >= partialMatch.timeList().get(len - 1)){
-                        // 此时满足了Within和SEQ关系，开始进行依赖谓词约束检查
+
                         boolean satisfy = true;
                         if(dcList != null && dcList.size() != 0){
                             for(DependentConstraint dc : dcList) {
@@ -563,9 +544,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                 int varIndex1 = pattern.getVarNamePos(varName1);
                                 int varIndex2 = pattern.getVarNamePos(varName2);
                                 int cmpRecordPos = -1;
-                                // 要比较的属性名字
+
                                 String attrName = dc.getAttrName();
-                                // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                                 int idx = schema.getAttrNameIdx(attrName);
                                 boolean isVarName1 = (k == varIndex1);
 
@@ -606,7 +587,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                 }
                             }
                         }
-                        // 如果满足依赖谓词约束那就加进来
+
                         if(satisfy){
                             List<String> matchList = new ArrayList<>(len + 1);
                             matchList.addAll(partialMatch.matchList());
@@ -620,13 +601,13 @@ public class GreedyJoin extends AbstractJoinStrategy{
                 }else{
                     // [0, pos) k [pos, len)
                     if(curTime < partialMatch.timeList().get(0)){
-                        // 更新指针位置
+
                         curPtr++;
                     }else if(curTime > partialMatch.timeList().get(pos)){
-                        // 超过Pos的时间就要早停，因为后续的都会不满足SEQ条件
+
                         break;
                     }else if(curTime >= partialMatch.timeList().get(pos - 1) && curTime <= partialMatch.timeList().get(pos)){
-                        // 如果在这个中间，即满足了SEQ关系，WITHIN不需要检查
+
                         boolean satisfy = true;
                         if(dcList != null && dcList.size() != 0){
                             for(DependentConstraint dc : dcList) {
@@ -635,9 +616,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                 int varIndex1 = pattern.getVarNamePos(varName1);
                                 int varIndex2 = pattern.getVarNamePos(varName2);
                                 int cmpRecordPos = -1;
-                                // 要比较的属性名字
+
                                 String attrName = dc.getAttrName();
-                                // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                                 int idx = schema.getAttrNameIdx(attrName);
                                 boolean isVarName1 = (k == varIndex1);
 
@@ -677,7 +658,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                 }
                             }
                         }
-                        // 如果满足依赖谓词约束那就加进来
+
                         if(satisfy){
                             List<String> matchList = new ArrayList<>(len + 1);
 
@@ -710,25 +691,24 @@ public class GreedyJoin extends AbstractJoinStrategy{
     }
 
     /**
-     * 传过来是byte[]类型的记录会好些 处理速度会更快
      * @param pattern           query pattern
      * @param partialMatches    partial matches
-     * @param marks             已经完成join的变量编号
-     * @param bucket            要被join的桶
-     * @param k                 要被join的位置
-     * @return                  返回部分匹配的结果
+     * @param marks             variable number for completed join
+     * @param bucket            bucket that need to be joined
+     * @param k                 join position
+     * @return                  partial matched results
      */
     public final List<PartialBytesResultWithTime> joinWithBytesRecord(EventPattern pattern, List<PartialBytesResultWithTime> partialMatches,
                                                                 List<Integer> marks, List<byte[]> bucket, int k){
 
 
-        // k所在的位置
+        // find k position
         int pos = -1;
         int len = marks.size();
         for(int i = 0; i < len; ++i){
             if(k < marks.get(i)){
                 pos = i;
-                break;//debug
+                break;
             }
         }
 
@@ -736,7 +716,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
 
         Metadata metadata = Metadata.getInstance();
         EventSchema schema = metadata.getEventSchema(pattern.getSchemaName());
-        // 加载属性类型数组和顺序变量数组已经时间戳对应的索引
+
         String[] attrTypes = schema.getAttrTypes();
         final int timeIdx = schema.getTimestampIdx();
         final long tau = pattern.getTau();
@@ -745,7 +725,6 @@ public class GreedyJoin extends AbstractJoinStrategy{
         List<DependentConstraint> dcList = pattern.getDCListToJoin(marks, k);
 
         // [0, pos) k [pos, len)
-        // 到时候会用这个加速，之所以能加速是因为事件时间有序
         int curPtr = 0;
         for(PartialBytesResultWithTime partialMatch : partialMatches) {
             long firstTime = partialMatch.timeList().get(0);
@@ -755,22 +734,20 @@ public class GreedyJoin extends AbstractJoinStrategy{
                 byte[] curRecord = bucket.get(i);
                 long curTime = Converter.bytesToLong(schema.getIthAttrBytes(curRecord, timeIdx));
 
-
                 if(pos == 0){
-                    // SEQ检查 说明要被join的元素是第一个 如果这个时间戳大于部分匹配第一个时间戳 直接break
+
                     if(curTime > partialMatch.timeList().get(0)){
                         break;
                     }else if(firstTime - curTime > tau){
-                        // 超过tau了， 更新指针位置，避免多次读取
+                        // Exceeding tau, update pointer position to avoid multiple reads
                         curPtr++;
                     }else if(lastTime - curTime <= tau){
-                        // 如果出现事件完全相同情况，那么跳过
+                        // If exist identical events, skip
                         byte[] firstRecord = partialMatch.matchList().get(0);
                         boolean isEqual = Arrays.equals(curRecord, firstRecord);
 
                         if(!isEqual){
-                            // 满足了SEQ关系，接下来检查是不是满足Within关系，满足的话那就检查依赖谓词约束
-                            // 注意这样操作导致最后一个不是时间戳有序
+
                             boolean satisfy = true;
                             if(dcList != null && dcList.size() != 0){
                                 for(DependentConstraint dc : dcList) {
@@ -779,9 +756,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                     int varIndex1 = pattern.getVarNamePos(varName1);
                                     int varIndex2 = pattern.getVarNamePos(varName2);
                                     int cmpRecordPos = -1;
-                                    // 要比较的属性名字
+
                                     String attrName = dc.getAttrName();
-                                    // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                                     int idx = schema.getAttrNameIdx(attrName);
                                     boolean isVarName1 = (k == varIndex1);
 
@@ -808,7 +785,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                         curValue = Converter.bytesToInt(schema.getIthAttrBytes(curRecord, idx));
                                         cmpValue = Converter.bytesToInt(schema.getIthAttrBytes(cmpRecord, idx));
                                     } else if (attrTypes[idx].contains("FLOAT") || attrTypes[idx].contains("DOUBLE")) {
-                                        // 因为存储的时候已经放大了倍数了 因此这里不需要放大倍数了
+
                                         curValue = Converter.bytesToLong(schema.getIthAttrBytes(curRecord, idx));
                                         cmpValue = Converter.bytesToLong(schema.getIthAttrBytes(cmpRecord, idx));
                                     } else {
@@ -820,7 +797,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                     }
                                 }
                             }
-                            // 如果满足依赖谓词约束那就加进来
+
                             if(satisfy){
                                 List<byte[]> matchList = new ArrayList<>(len + 1);
                                 matchList.add(curRecord);
@@ -834,7 +811,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                     }
                 }else if(pos == len){
                     if(curTime < firstTime){
-                        // 更新指针位置
+
                         curPtr++;
                     }else if(curTime - firstTime > tau){
                         break;
@@ -843,7 +820,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                         boolean isEqual = Arrays.equals(curRecord, lastRecord);
 
                         if(!isEqual){
-                            // 此时满足了Within和SEQ关系，开始进行依赖谓词约束检查
+
                             boolean satisfy = true;
                             if(dcList != null && dcList.size() != 0){
                                 for(DependentConstraint dc : dcList) {
@@ -852,9 +829,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                     int varIndex1 = pattern.getVarNamePos(varName1);
                                     int varIndex2 = pattern.getVarNamePos(varName2);
                                     int cmpRecordPos = -1;
-                                    // 要比较的属性名字
+
                                     String attrName = dc.getAttrName();
-                                    // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                                     int idx = schema.getAttrNameIdx(attrName);
                                     boolean isVarName1 = (k == varIndex1);
 
@@ -881,7 +858,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                         curValue = Converter.bytesToInt(schema.getIthAttrBytes(curRecord, idx));
                                         cmpValue = Converter.bytesToInt(schema.getIthAttrBytes(cmpRecord, idx));
                                     } else if (attrTypes[idx].contains("FLOAT") || attrTypes[idx].contains("DOUBLE")) {
-                                        // 因为存储的时候已经放大了倍数了 因此这里不需要放大倍数了
+
                                         curValue = Converter.bytesToLong(schema.getIthAttrBytes(curRecord, idx));
                                         cmpValue = Converter.bytesToLong(schema.getIthAttrBytes(cmpRecord, idx));
                                     } else {
@@ -894,7 +871,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                     }
                                 }
                             }
-                            // 如果满足依赖谓词约束那就加进来
+
                             if(satisfy){
                                 List<byte[]> matchList = new ArrayList<>(len + 1);
                                 matchList.addAll(partialMatch.matchList());
@@ -909,10 +886,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                 }else{
                     // [0, pos) k [pos, len)
                     if(curTime < firstTime){
-                        // 更新指针位置
+                        // Update pointer position
                         curPtr++;
                     }else if(curTime > partialMatch.timeList().get(pos)){
-                        // 超过Pos的时间就要早停，因为后续的都会不满足SEQ条件
                         break;
                     }else if(curTime >= partialMatch.timeList().get(pos - 1) && curTime <= partialMatch.timeList().get(pos)){
 
@@ -923,7 +899,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                         boolean isEqual2 = Arrays.equals(nextRecord, curRecord);
 
                         if(!isEqual1 && !isEqual2){
-                            // 如果在这个中间，即满足了SEQ关系，WITHIN不需要检查
+
                             boolean satisfy = true;
                             if(dcList != null && dcList.size() != 0){
                                 for(DependentConstraint dc : dcList) {
@@ -932,9 +908,9 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                     int varIndex1 = pattern.getVarNamePos(varName1);
                                     int varIndex2 = pattern.getVarNamePos(varName2);
                                     int cmpRecordPos = -1;
-                                    // 要比较的属性名字
+
                                     String attrName = dc.getAttrName();
-                                    // 找到属性名字对应的索引 然后判断类型 最后传入dc中比较是否满足条件
+
                                     int idx = schema.getAttrNameIdx(attrName);
                                     boolean isVarName1 = (k == varIndex1);
 
@@ -960,7 +936,7 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                         curValue = Converter.bytesToInt(schema.getIthAttrBytes(curRecord, idx));
                                         cmpValue = Converter.bytesToInt(schema.getIthAttrBytes(cmpRecord, idx));
                                     } else if (attrTypes[idx].contains("FLOAT") || attrTypes[idx].contains("DOUBLE")) {
-                                        // 因为存储的时候已经放大了倍数了 因此这里不需要放大倍数了
+
                                         curValue = Converter.bytesToLong(schema.getIthAttrBytes(curRecord, idx));
                                         cmpValue = Converter.bytesToLong(schema.getIthAttrBytes(cmpRecord, idx));
                                     } else {
@@ -972,7 +948,8 @@ public class GreedyJoin extends AbstractJoinStrategy{
                                     }
                                 }
                             }
-                            // 如果满足依赖谓词约束那就加进来
+                            // If the dependency predicate constraint is satisfied,
+                            // then add it to results
                             if(satisfy){
                                 List<byte[]> matchList = new ArrayList<>(len + 1);
 

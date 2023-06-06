@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 这里假设除事件类型外，存的全是数值类型的数据
+ * this class has been discarded
  */
+
 public class OldEventSchema {
     private String schemaName;
     private String[] attributeNames;
@@ -75,15 +76,7 @@ public class OldEventSchema {
     private static HashMap<String, Integer> eventTypeMap;
     private HashMap<String, Integer> indexMap;
 
-    /**
-     * 定义事件模式
-     * 处理之后能够保证第一个类型存储事件类型，最后一个属性存储时间戳
-     * 检查一个事件是否有事件类型和时间戳，如果没有的话则不是标准的事件
-     * TYPE实际上到时候会转换成整型，TIMESTAMP到时候会转换成Long
-     * 在这里会设置属性的最大最小值，还会标记哪些属性用作索引
-     * @param schemaString: 事件模式声明语句
-     * Example: CREATE SCHEMA stock (ticker TYPE, open FLOAT, volume INT, time TIMESTAMP)
-     */
+
     public OldEventSchema(){
 
     }
@@ -174,9 +167,6 @@ public class OldEventSchema {
         return indexMap;
     }
 
-
-
-    /* 得到事件类型编码，如果这个事件之前没有存储过则将其存储 */
     public int getEventTypeCode(String eventType){
         if(eventTypeMap.containsKey(eventType)){
             return eventTypeMap.get(eventType);
@@ -201,13 +191,11 @@ public class OldEventSchema {
     /* input: ticker,open,volume */
     public void setAttributeIndex(String indexVariables){
         String[] attrNames= indexVariables.split(",");
-        //用最笨的方法吧
         for(String attrName : attrNames){
             setIndex(attrName);
         }
     }
 
-    /* 统计属性中使用到的索引数量 */
     public int getSumIndexNum(){
         return indexMap.size();
     }
@@ -215,7 +203,6 @@ public class OldEventSchema {
         return attributeTypes;
     }
 
-    /* 类型到时候会放在map中转换成整数，我们需要知道类型要占用多少bit */
     public int getTypeBitLen(){
         if(eventTypeBitLen == 0){
             int maxTypeNum  = (int) attributeMaxValues[0];
@@ -231,17 +218,12 @@ public class OldEventSchema {
         }
     }
 
-    /*
-    Statement
-    ALTER TABLE stock ADD CONSTRAINT open IN RANGE [0,1000)
-    假设输入的都符合规范
-     */
+
     public boolean setAttributeValueRange(String statement){
         boolean flag = false;
         String[] words = statement.split(" ");
         String attrName = words[5];
 
-        // 去掉[]
         int l = words[8].length();
         String range = words[8].substring(1, l - 1);
         String[] values = range.split(",");
@@ -259,9 +241,6 @@ public class OldEventSchema {
         return flag;
     }
 
-
-
-    /* 根据属性名字去得到其id编号,如果不存在返回-1 */
     public int getAttributeId(String attrName){
         for(int i = 0; i < attributeNames.length; i++){
             if(attributeNames[i].equals(attrName)){
@@ -295,10 +274,7 @@ public class OldEventSchema {
         }
 
     }
-    /*
-    根据属性名字得到其属性类型，目前只定义了
-    FLOAT INT TYPE TIMESTAMP四种属性类型
-     */
+
     public String getAttributeType(String attrName){
         for(int i = 0; i < attributeNames.length; i++){
             if(attributeNames[i].equals(attrName)){

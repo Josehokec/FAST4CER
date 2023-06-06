@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * The attNameMap is used to find where the attribute name exists
  * For example: ticker TYPE, open FLOAT. 2, volume INT, time TIMESTAMP
@@ -15,7 +14,7 @@ import java.util.List;
  * Note that the maximum and minimum values are converted
  */
 public class EventSchema {
-    private int hasAssignedId;                          // event type is String, so we assign a integer id to a event type
+    private int hasAssignedId;                          // event type is String, so we assign an integer id to an event type
     private int maxEventTypeBitLen;                     // number of bits required for event types
     private int storeRecordSize;                        // number of bytes required to store a record
     private String schemaName;                          // schema name
@@ -25,7 +24,7 @@ public class EventSchema {
     private StorePos[] positions;                       // type store position
     private long[] attrMinValues;                       // minimum value for each attribute
     private long[] attrMaxValues;                       // maximum value for each attribute
-    private final List<String> allEventTypes;           // typeId  corresponding to event type
+    private final List<String> allEventTypes;           // typeId corresponding to an event type
     private EventStore store;                           // stored file
     private final HashMap<String, Integer> attrNameMap; // attNameMap is used to find where the attribute name exists
     private final HashMap<String, Integer> typeMap;     //event type map
@@ -74,10 +73,9 @@ public class EventSchema {
 
     public void setAttrTypes(String[] attrTypes) {
         this.attrTypes = attrTypes;
-        // 设置存储时候属性所占用的字节位置
         positions = new StorePos[attrTypes.length];
         int startPos = 0;
-        //int占4个字节，Type占4个字节，timestamp占八个字节，float和double占8个字节
+        //int occupies 4bytes，Type occupies 4 bytes，timestamp occupies 8 bytes，float and double occupy 8 bytes
         for(int i = 0; i < attrTypes.length; ++i){
             if(attrTypes[i].equals("INT") || attrTypes[i].equals("TYPE")){
                 positions[i] = new StorePos(startPos, 4);
@@ -323,7 +321,7 @@ public class EventSchema {
                 byte[] b = new byte[4];
                 System.arraycopy(record, ptr, b, 0, 4);
                 int v = Converter.bytesToInt(b);
-                // 转换为字符串类型的
+
                 String type = allEventTypes.get(v);
                 ans = (i == 0) ? (ans + type) : (ans + "," + type);
                 ptr += 4;
