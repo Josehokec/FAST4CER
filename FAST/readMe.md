@@ -2,9 +2,9 @@
 
 
 
-## Section 1 About running
+## Section 1 Running
 
-### Section 1.1 Run Method1: use shell script
+### Section 1.1 Run Method1: shell script
 
 We have written a shell script ```run.sh``` to let the program run automatically.
 
@@ -23,16 +23,16 @@ tail -f test.log
 **Result explainations**
 
 ```
-14-th query start...                      // 14-th query pattern
-filter cost: 8.602ms											// index filtering cost
-scan cost: 1.782ms	                      // disk accessing cost
-bucket sizes: [ 4 1441 39 ]								// each bucket size in bucket joining stage
-join cost: 0.374ms                        // bucket joining cost
-number of tuples: 3                       // number of matched tuples
-14-th query pattern time cost: 11.13ms    // sum cost
+14-th query start...                    // 14-th query pattern
+filter cost: 8.602ms                    // index filtering cost
+scan cost: 1.782ms                      // disk accessing cost
+bucket sizes: [ 4 1441 39 ]             // each bucket size in bucket joining stage
+join cost: 0.374ms                      // bucket joining cost
+number of tuples: 3                     // number of matched tuples
+14-th query pattern time cost: 11.13ms  // sum cost
 ```
 
-### Section 1.2 Run Method2: use IDEA or Esclipes
+### Section 1.2 Run Method2: IDEA or Esclipes 
 
 You can open ```FAST``` folder with IDEA or Eclipes. Notice that you need to delete part of pom.xml code lines to make it work.
 
@@ -48,10 +48,10 @@ Then you can run the target java file.
 **Example**. Suppose you want to run ```SyntheticDatasetExperiment.java```,then you will see the code in the main function.
 
 ```java
-    public class SyntheticDatasetExperiment {
+public class SyntheticDatasetExperiment {
     //....
     public static void main(String[] args){
-
+        
         SyntheticDatasetExperiment.printFlag = true;
         SyntheticDatasetExperiment e = new SyntheticDatasetExperiment();
         // create table and add constraints
@@ -88,15 +88,15 @@ Then you can run the target java file.
 
 The code first creates event schema, index structures, and constraint property value ranges based on the statement.
 
-Next, it loads the record file.
+Next, it loads the record file. 
 
-Then it loads the query statement json file.
+Then it loads the query statement json file. 
 
 Finally, it executes a specific method for querying.
 
 
 
-## Section 2 About Codes
+## Section 2 Program Code
 
 ### Section 2.1 Package
 
@@ -116,7 +116,7 @@ Finally, it executes a specific method for querying.
 | SkipList     | Skiplist structure we implemented                 |
 | Store        | Store records in a file                           |
 
-### Section 2.2 Key Class
+### Section 2.2 Key Class 
 
 | Package      | Name                       | Explanation                                  |
 | ------------ | -------------------------- | -------------------------------------------- |
@@ -124,18 +124,16 @@ Finally, it executes a specific method for querying.
 | Method       | FASTIndex                  | Our FAST index structure for CER             |
 | JoinStrategy | OrderJoin                  | order join for generating matched tuple      |
 
-Run tips:
-
 In our paper, *skip-till-any-match* strategy is referred to as S1, but in the code, we use S3 to refer to it, in order to follow the usual usage of other papers.
 
 
-## Section 3 About Base-2 Bit Sliced Range Encoded Bitmap
+## Section 3 Base-2 Bit Sliced Range Encoded Bitmap (Range Bitmap)
 
 blog url: https://richardstartin.github.io/posts/range-bitmap-index#implementing-a-range-index
 
 Chee Yong Chan, Yannis E. Ioannidis. Bitmap Index Design and Evaluation. SIGMOD. 1998, p355-366.
 
-## Section 4 About Datasets
+## Section 4 Datasets
 
 Our paper used both synthetic and real datasets.
 
@@ -151,7 +149,7 @@ We have written a synthetic data generator to automatically generate synthetic d
 
 Generator folder has SyntheticQueryGenerator.java file can generate synthetic dataset.
 
-Some details:
+Some details: 
 
 event schema:```String type, int attribute1, int attribute2, double.2 attribute3, double.2 attribute4, long timestamp```
 
