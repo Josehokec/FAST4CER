@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
-MetaInfo存储元信息，使用单例模式
-schemaMap：根据模式名字来得到模式信息
+this class has been discarded
  */
 public class MetaInfo {
     private static HashMap<String, OldEventSchema> schemaMap;

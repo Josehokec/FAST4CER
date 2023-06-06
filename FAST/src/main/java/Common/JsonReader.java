@@ -30,7 +30,7 @@ public class JsonReader {
         String filePath = dir + File.separator + "src" + File.separator + "main" + File.separator + "Query" + File.separator + "stock.json";
 
         JSONArray jsonarray;
-        //读取JSONArray，用下标索引获取
+
         String array= getJson(filePath);
         jsonarray = JSONArray.fromObject(array);
         System.out.println(jsonarray.getString(1));

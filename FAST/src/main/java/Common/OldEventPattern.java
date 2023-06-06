@@ -19,7 +19,6 @@ public class OldEventPattern<T> {
     private String[] seqVariables;
     private String schemaName;
     private HashMap<String, List<PredicateConstraint<T>>> theta;
-    // 默认单位都是毫秒
     private long tau;
     private QueryType queryType;
 
@@ -40,13 +39,6 @@ public class OldEventPattern<T> {
         }
         schemaName = words[1].split(" ")[1];
 
-        /*
-        把where去掉然后处理谓词约束,谓词约束规定只有以下两种情况
-        const op var.attrName op const (此时op只能为小于或者小于等于)
-        var.attrName op const
-        算法思路：
-        首先把变量名字、属性读、操作算子和值读取到，然后以变量名字作为key去存储这个变量的相关谓词约束
-         */
         String[] predicates = words[2].substring(6).split("AND");
 
         theta = new HashMap<>();
@@ -55,7 +47,6 @@ public class OldEventPattern<T> {
             String varName = null;
             String attrName = null;
 
-            //如果这个字符串有两个小于号，则是第一种情况,否则说明他是单侧的
             int cnt = 0;
             for(int idx = 0; idx < curPredicate.length(); idx++){
                 if(curPredicate.charAt(idx) == '<'){
@@ -64,7 +55,6 @@ public class OldEventPattern<T> {
             }
 
             if(cnt == 2){
-                //谓词约束形式是：const op var.attrName op const (此时op只能为小于或者小于等于)
                 int op1Pos = -1;
                 int op2Pos = -1;
                 int dotPos = -1;
@@ -135,11 +125,11 @@ public class OldEventPattern<T> {
             }else{
                 String value = null;
                 ComparedOperator op = null;
-                //否则是varName.attrName op const这种格式
+
                 int dotPos = -1;
                 int valBeginPos = -1;
                 int opPos = -1;
-                //使用for循环去找到.的位置和不等式位置去提取属性名字和操作符号，以及值
+
                 for(int idx = 0; idx < curPredicate.length(); ++idx){
                     if(curPredicate.charAt(idx) == '.'){
                         varName = curPredicate.substring(0, idx).trim();
@@ -167,7 +157,6 @@ public class OldEventPattern<T> {
                 attrName = curPredicate.substring(dotPos, opPos).trim();
                 value = curPredicate.substring(valBeginPos).trim();
 
-                // 根据读取到的谓词约束，生成谓词约束类，然后传到map中
                 MetaInfo meta = MetaInfo.getInstance();
                 OldEventSchema s = meta.getEventSchema(schemaName);
                 String attrType = s.getAttributeType(attrName);
@@ -181,7 +170,7 @@ public class OldEventPattern<T> {
                 }else{
                     System.out.println("attrType: \'" + attrType + "\'" + " is not defined!");
                 }
-                //将谓词约束存储到到map中
+
                 if(p != null){
                     if(theta.containsKey(varName)){
                         theta.get(varName).add(p);
@@ -194,7 +183,7 @@ public class OldEventPattern<T> {
             }
         }
 
-        // 处理WITHIN语句
+
         String[] withinStatement = words[3].split(" ");
         assert withinStatement[0].equals("WITHIN"): "Pattern query statement encounter error";
         if(withinStatement[2].equals("hours") || withinStatement[2].equals("hour")){
@@ -249,9 +238,7 @@ public class OldEventPattern<T> {
     public String getFirstEventType(){
         return seqEventTypes[0];
     }
-    /*
-    根据变量名，得到其谓词约束列表
-     */
+
     public List<PredicateConstraint<T>> getVarConstraints(String varName){
         return theta.get(varName);
     }

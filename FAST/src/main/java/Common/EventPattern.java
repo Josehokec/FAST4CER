@@ -77,7 +77,7 @@ public class EventPattern {
     }
 
     /**
-     * 是否含有依赖谓词
+     * judge whether pattern contains a dependent predicate
      * @return if pattern has dependent predicate constraints, then we return true; otherwise, return false
      */
     public boolean existDC(){

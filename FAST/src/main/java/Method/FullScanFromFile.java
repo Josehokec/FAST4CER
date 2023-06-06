@@ -89,13 +89,10 @@ public class FullScanFromFile {
         int typeColNum = schema.getTypeIdx();
         int timeColNum = schema.getTimestampIdx();
 
-
-
         try {
             FileReader f = new FileReader(filePath);
             BufferedReader b = new BufferedReader(f);
             String line;
-
 
             while ((line = b.readLine()) != null) {
 
@@ -156,8 +153,6 @@ public class FullScanFromFile {
         long end = System.currentTimeMillis();
         System.out.println("filter time: " + (end - start) + "ms");
 
-
-
         return buckets;
     }
 
@@ -187,11 +182,8 @@ public class FullScanFromFile {
             BufferedReader b = new BufferedReader(f);
             String line;
 
-
             while ((line = b.readLine()) != null) {
-                // 读取每一条记录
                 String[] record = line.split(",");
-
 
                 String curType = record[typeColNum];
                 map.put(curType,map.getOrDefault(curType,0)+1);

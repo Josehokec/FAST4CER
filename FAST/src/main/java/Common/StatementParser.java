@@ -20,25 +20,26 @@ import java.util.regex.Pattern;
 public class StatementParser {
 
     /**
-     * 把语句变成大写，并且删掉前后空格，把连续两个空格变成一个空格
-     * @param statement 输入的语句
-     * @return 返回转换大写后的字符串
+     * Capitalize the statement and remove the leading and trailing spaces,
+     * turning two consecutive spaces into one space
+     * @param statement input statement
+     * @return          returns a string converted to uppercase
      */
     public static String convert(String statement){
         return statement.toUpperCase().trim().replaceAll("\\s+", " ");
     }
 
     /**
-     * 根据创建表语句new Schema和Store
+     * create a schema and a store
      * CREATE TABLE stock (ticker TYPE, open FLOAT.2, volume INT, time TIMESTAMP)
-     * 假设只支持float+int+double类型的数据
+     * Currently, only float, int, and double type data is supported
      * When the types are float and double, it is necessary to specify the number of decimal places to be retained
      * @param statement create table statement
      */
     public static void createTable(String statement){
         EventSchema schema = new EventSchema();
 
-        // 根据括号把字符串分成两个部分
+        // Divide a string into two parts based on parentheses
         String[] parts = statement.split("[()]");
         String schemaName = parts[0].split(" ")[2].trim();
         schema.setSchemaName(schemaName);
@@ -52,9 +53,9 @@ public class StatementParser {
         long[] attrMaxValues = new long[attributes.length];
         int[] decimalLens = new int[attributes.length];
 
-        // 注意RangeBitmap目前只能支持插入大于等于0的整数
-        // 创建索引之前一定会规定值范围
-        // 只能在INT、FLOAT和DOUBLE上创建索引
+        // Note that RangeBitmap currently only supports inserting integers greater than or equal to 0
+        // Before creating an index, a value range must be specified
+        // Index can only be created on INT, FLOAT, and DOUBLE
         //String[] supportValueType = {"TYPE", "INT", "FLOAT", "DOUBLE", "TIMESTAMP"};
 
         for(int i = 0; i < attributes.length; ++i){
@@ -79,7 +80,7 @@ public class StatementParser {
         }
 
         schema.setAttrNames(attrNames);
-        // 这里会计算出recordSize
+        // Calculate the recordSize here
         schema.setAttrTypes(attrTypes);
         schema.setAttrMaxValues(attrMaxValues);
         schema.setAttrMinValues(attrMinValues);
@@ -99,9 +100,9 @@ public class StatementParser {
     }
 
     /**
-     * 没有实现插入约束性检查
+     * Insertion constraint check not implemented
      * ALTER TABLE STOCK ADD CONSTRAINT OPEN IN RANGE [0,1000]
-     * @param statement 设置属性范围的语句
+     * @param statement Statement to set attribute range
      */
     public static void setAttrValueRange(String statement){
         String[] splits = statement.split(" ");
@@ -141,8 +142,8 @@ public class StatementParser {
 
     /**
      * CREATE INDEX index_name1 USING FAST ON stock(open, volume)
-     * @param statement 创建索引语句
-     * @return 返回要创建的索引
+     * @param statement create an index statement
+     * @return return the index to be created
      */
     public static Index createIndex(String statement){
         String[] parts = statement.split("[()]");
@@ -151,7 +152,7 @@ public class StatementParser {
         String indexName = splits[2];
         String indexType = splits[4];
         String schemaName = splits[6].trim();
-        // 注意这里可能有空格
+
         String[] indexAttrNames = parts[1].split(",");
 
         Index index;
@@ -176,7 +177,7 @@ public class StatementParser {
         for(String name : indexAttrNames){
             index.addIndexAttrNameMap(name.trim());
         }
-        // 绑定之前创建的schema
+        // bind the previously created schema
         Metadata metadata = Metadata.getInstance();
         index.setSchema(metadata.getEventSchema(schemaName));
         if(metadata.bindIndex(schemaName, index)){
@@ -253,8 +254,9 @@ public class StatementParser {
 
     /**
      * where + predicate constraints<br>
-     * 谓词约束支持三种格式的regex1和regex2和regex3<br>
-     * 把变量名字、属性名字、操作算子和值读取到，然后以变量名字作为key去存储这个变量的相关谓词约束
+     * Predicate constraints support three formats: regex1, regex2, and regex3<br>
+     * Read variable names, attribute names, operators, and values,
+     * and then use variable names as keys to store the related predicate constraints of this variable
      * @param p pattern
      * @param thirdSentence string
      * @param schemaName schemaName
